@@ -8,6 +8,16 @@
 
 ## 已修复问题
 
+### 2026-05-18 商店与运行时翻译重做
+
+| # | 位置 | 原文/问题 | 修复后 | 原因 |
+|---|------|-----------|--------|------|
+| 18 | `src/core/secret-formula/tabs.js` | 商店 tab 依赖 `Cloud.isAvailable`，离线构建中不可见 | 商店 tab 始终可见，名称改为“商店” | 中文版目标是离线/本地可用，商店入口不应依赖 Google/Firebase |
+| 19 | `src/components/tabs/shop/ShopTab.vue` | 原版商店展示 Google 登录、Buy More、IAP 开关和支付状态 | 改为中文离线说明与原版商店项目预览 | 避免误触支付，明确中文版不提供购买入口且不改变游戏平衡 |
+| 20 | `src/components/tabs/shop/ShopButton.vue` | 商店项目说明仍为英文，按钮可尝试购买 | 项目说明中文化，购买按钮永久禁用 | 保留存档兼容展示，但阻断支付后端调用 |
+| 21 | `i18n/inject.js` | 构建时会加载 `shop-hack.js` 自动发放 STD | 不再加载任何商店货币注入脚本 | 自动发放 STD 会污染平衡和测试结果 |
+| 22 | `i18n/translation-engine.js` | Vue 首次渲染前启动可能漏扫，空白 trim 后格式易丢 | 等待 `#ui` mount，保留前后空白，周期重扫 | 提升动态 UI 文本覆盖率 |
+
 ### 高优先级
 
 | # | 位置 | 原文 | 修复前 | 修复后 | 原因 |

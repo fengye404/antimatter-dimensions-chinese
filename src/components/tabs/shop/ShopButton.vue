@@ -1,4 +1,26 @@
 <script>
+const SHOP_TEXT = {
+  dimPurchases: "永久使所有反物质维度倍率翻倍。",
+  allDimPurchases: "永久使所有已解锁维度倍率翻倍。达到 32 倍前为乘算，之后线性增加。",
+  IPPurchases: "所有来源的无限点获取翻倍。（叠加）",
+  replicantiPurchases: "复制品增长提高 50%。（叠加）",
+  EPPurchases: "所有来源的永恒点获取变为 3 倍。（叠加）",
+  dilatedTimePurchases: "膨胀时间获取提高 50%。（叠加）",
+  RMPurchases: "现实机器获取提高 100%。（叠加）",
+  smallTimeSkip: "获得 6 小时离线产量。（自动购买器不会以完整速度运行）",
+  bigTimeSkip: "获得 24 小时离线产量。（自动购买器不会以完整速度运行）",
+  singleCosmeticSet: "解锁一个自选符文外观套装。",
+  allCosmeticSets: "一次性解锁所有剩余符文外观套装。",
+};
+
+const LOCK_TEXT = {
+  Infinity: "无限",
+  Replicanti: "复制品",
+  Eternity: "永恒",
+  Dilation: "时间膨胀",
+  Reality: "现实",
+};
+
 export default {
   name: "ShopButton",
   props: {
@@ -11,53 +33,37 @@ export default {
     return {
       currentMult: 0,
       nextMult: 0,
-      canAfford: false,
-      iapDisabled: false,
       cost: 0,
-      hasChosen: false,
-      chosenSet: "",
       lockedCount: 0,
     };
   },
   computed: {
-    isSingleCosmeticSet() {
-      return this.purchase.config.key === "singleCosmeticSet";
-    },
     isAllCosmeticSets() {
       return this.purchase.config.key === "allCosmeticSets";
     },
-    // Note: This will always be false on non-cosmetic buttons and thus will never disable them in purchaseButtonObject
     allSetsUnlocked() {
-      return (this.isSingleCosmeticSet || this.isAllCosmeticSets) && !this.lockedCount;
-    }
+      return this.isAllCosmeticSets && !this.lockedCount;
+    },
+    description() {
+      return SHOP_TEXT[this.purchase.config.key] ?? this.purchase.description;
+    },
+    lockText() {
+      return LOCK_TEXT[this.purchase.lockText] ?? this.purchase.lockText;
+    },
+    purchaseUnavailableText() {
+      return "中文版已禁用购买";
+    },
   },
   methods: {
     update() {
       this.currentMult = this.purchase.currentMultForDisplay;
       this.nextMult = this.purchase.nextMultForDisplay;
-      this.canAfford = this.purchase.canBeBought;
-      this.iapDisabled = !ShopPurchaseData.isIAPEnabled;
       this.cost = Math.clampMin(this.purchase.cost, 0);
-      this.hasChosen = GlyphAppearanceHandler.chosenFromModal !== null;
-      this.chosenSet = GlyphAppearanceHandler.chosenFromModal?.name ?? "Not Selected";
       this.lockedCount = GlyphAppearanceHandler.lockedSets.length;
     },
-    openSelectionModal() {
-      Modal.cosmeticSetChoice.show();
+    formatSetCount() {
+      return `${this.lockedCount} 个套装`;
     },
-    performPurchase() {
-      if (this.isSingleCosmeticSet && !this.hasChosen) {
-        return;
-      }
-      this.purchase.purchase();
-    },
-    purchaseButtonObject() {
-      const lockCosmetics = (this.isSingleCosmeticSet && !this.hasChosen) || this.allSetsUnlocked;
-      return {
-        "o-shop-button-button": true,
-        "o-shop-button-button--disabled": !this.canAfford || lockCosmetics
-      };
-    }
   },
 };
 </script>
@@ -65,51 +71,27 @@ export default {
 <template>
   <div class="c-shop-button-container">
     <div class="o-shop-button-description">
-      {{ purchase.description }}
+      {{ description }}
       <br>
       <span
         v-if="purchase.shouldDisplayMult"
         class="o-shop-button-multiplier"
-        :class="{ 'o-shop-button-multiplier--disabled': iapDisabled }"
       >
-        Currently {{ purchase.formatEffect(currentMult) }}, next: {{ purchase.formatEffect(nextMult) }}
+        当前 {{ purchase.formatEffect(currentMult) }}，下一级 {{ purchase.formatEffect(nextMult) }}
       </span>
     </div>
-    <div>
-      <div v-if="isSingleCosmeticSet">
-        <div
-          v-if="allSetsUnlocked"
-          class="o-shop-button-multiplier"
-        >
-          All Sets unlocked!
-        </div>
-        <div v-else>
-          <button
-            class="o-shop-button-button"
-            @click="openSelectionModal"
-          >
-            Choose Set
-          </button>
-          Chosen Set: {{ chosenSet }}
-        </div>
-      </div>
-      <div
-        v-if="isAllCosmeticSets"
-        class="o-shop-button-multiplier"
-      >
-        <div v-if="allSetsUnlocked">
-          All Sets unlocked!
-        </div>
-        <div v-else>
-          Will unlock {{ quantify("set", lockedCount) }}
-        </div>
-      </div>
+    <div
+      v-if="isAllCosmeticSets"
+      class="o-shop-button-multiplier"
+    >
+      <span v-if="allSetsUnlocked">所有套装均已解锁</span>
+      <span v-else>将解锁 {{ formatSetCount() }}</span>
     </div>
     <button
-      :class="purchaseButtonObject()"
-      @click="performPurchase"
+      class="o-shop-button-button o-shop-button-button--disabled"
+      disabled
     >
-      Cost: {{ cost }}
+      {{ purchaseUnavailableText }}（原价：{{ cost }} STD）
       <img
         src="images/std_coin.png"
         class="o-shop-button-button__img"
@@ -119,7 +101,7 @@ export default {
       v-if="!purchase.isUnlocked()"
       class="o-shop-button-locked-text"
     >
-      This affects a feature you have not unlocked yet ({{ purchase.lockText }})
+      此项目影响尚未解锁的功能（{{ lockText }}）
     </div>
   </div>
 </template>
@@ -129,7 +111,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 30rem;
-  height: 18rem;
+  min-height: 18rem;
   justify-content: space-between;
   color: white;
   background: #3c3c3c;
@@ -142,16 +124,17 @@ export default {
 .o-shop-button-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: Typewriter;
   background: turquoise;
   border: none;
   border-radius: var(--var-border-radius, 0.5rem);
   margin: 0 auto;
-  padding: 0.5rem 2rem;
-  cursor: pointer;
+  padding: 0.5rem 1.2rem;
 }
 
 .o-shop-button-button--disabled {
+  color: black;
   background: rgb(150, 150, 150);
   cursor: default;
 }
@@ -166,11 +149,6 @@ export default {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.5rem 0;
-}
-
-.o-shop-button-multiplier--disabled {
-  color: red;
-  text-decoration: line-through;
 }
 
 .o-shop-button-locked-text {

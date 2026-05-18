@@ -78,7 +78,17 @@
   function cnItem(text, node) {
     if (typeof text !== 'string') return text;
     
-    let textori = text;
+    const textori = text;
+
+    // 提取前后空白，保持原始格式
+    const leadingMatch = text.match(/^\s*/);
+    const trailingMatch = text.match(/\s*$/);
+    const leadingWS = leadingMatch ? leadingMatch[0] : '';
+    const trailingWS = trailingMatch ? trailingMatch[0] : '';
+
+    // trim 后的文本用于字典/正则匹配
+    text = text.trim();
+    if (!text) return textori; // 空文本直接返回原始值
 
     // 处理前缀（当前无前缀规则）
     let text_prefix = '';
@@ -95,14 +105,14 @@
     // 排除检查
     for (let reg of cnExcludeWhole) {
       if (reg.test(text)) {
-        return text_prefix + text + text_postfix;
+        return textori;
       }
     }
 
     // 正则替换
     for (let [pattern, replacement] of cnRegReplace) {
       if (pattern.test(text)) {
-        return text_prefix + text.replace(pattern, replacement) + text_postfix;
+        return leadingWS + text_prefix + text.replace(pattern, replacement) + text_postfix + trailingWS;
       }
     }
 
@@ -110,16 +120,17 @@
     if (translationMap.has(text)) {
       const value = translationMap.get(text);
       if (typeof value === 'string') {
-        return text_prefix + value + text_postfix;
+        return leadingWS + text_prefix + value + text_postfix + trailingWS;
       } else if (typeof value === 'object') {
         const result = cnItemByTag(text, value, node, textori);
         if (result != null) {
-          return text_prefix + result + text_postfix;
+          return leadingWS + text_prefix + result + text_postfix + trailingWS;
         }
       }
     }
 
-    return text_prefix + text + text_postfix;
+    // 未命中翻译，返回原始字符串
+    return textori;
   }
 
   /**
@@ -264,14 +275,54 @@
     console.log('[AD-i18n] 翻译引擎已启动');
   }
 
-  // 延迟启动，等 Vue 完全 mount 后再初始化
-  function startEngine() {
-    // 给 Vue 200ms mount 时间
-    setTimeout(init, 200);
+  // 启动守卫：避免重复初始化
+  let __engineStarted = false;
+  function safeInit() {
+    if (__engineStarted) return;
+    __engineStarted = true;
+    init();
   }
+
+  // 用 MutationObserver 等待 #ui 渲染后再启动翻译引擎
+  function waitForVueMount() {
+    const ui = document.getElementById('ui');
+    if (ui && ui.children.length > 0) {
+      console.log('[AD-i18n] #ui 已就绪，立即启动翻译引擎');
+      safeInit();
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      const cur = document.getElementById('ui');
+      if (cur && cur.children.length > 0) {
+        observer.disconnect();
+        console.log('[AD-i18n] Vue 已渲染，启动翻译引擎');
+        safeInit();
+      }
+    });
+
+    // 优先观察 #ui，否则降级观察 body 等待 #ui 出现
+    if (ui) {
+      observer.observe(ui, { childList: true, subtree: true });
+    } else {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // 超时保护：5 秒后强制启动，避免极端情况永远不启动
+    setTimeout(() => {
+      if (!__engineStarted) {
+        observer.disconnect();
+        console.log('[AD-i18n] 等待 Vue 渲染超时，强制启动翻译引擎');
+        safeInit();
+      }
+    }, 5000);
+  }
+
+  function startEngine() {
+    waitForVueMount();
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startEngine);
-  } else if (document.readyState === 'interactive') {
     document.addEventListener('DOMContentLoaded', startEngine);
   } else {
     startEngine();

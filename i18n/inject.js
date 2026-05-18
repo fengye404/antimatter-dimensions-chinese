@@ -112,14 +112,6 @@ const i18nDataJson = JSON.stringify(i18nDataObject);
 const enginePath = path.join(I18N_DIR, 'translation-engine.js');
 const engineCode = fs.readFileSync(enginePath, 'utf-8');
 
-// 5.5 读取商店货币脚本
-const shopHackPath = path.join(I18N_DIR, 'shop-hack.js');
-let shopHackCode = '';
-if (fs.existsSync(shopHackPath)) {
-  shopHackCode = fs.readFileSync(shopHackPath, 'utf-8');
-  console.log('[inject] 加载 shop-hack.js');
-}
-
 // 6. 构造注入的 script 块
 const injectionScript = `
 <script>
@@ -130,10 +122,6 @@ window.__AD_I18N__ = ${i18nDataJson};
 // 翻译引擎
 ${engineCode}
 </script>
-${shopHackCode ? `<script>
-// 商店货币解锁
-${shopHackCode}
-</script>` : ''}
 `;
 
 // 7. 注入到 index.html 的 </body> 前

@@ -480,16 +480,16 @@ export const tabs = [
   },
   {
     key: "shop",
-    name: "Shop",
+    name: "商店",
     newUIClass: "shop",
     hideAt: 1.5,
-    condition: () => Cloud.isAvailable,
+    condition: () => true,
     id: 10,
     hidable: true,
     subtabs: [
       {
         key: "shop",
-        name: "Shop",
+        name: "商店",
         symbol: "$",
         component: "ShopTab",
         id: 0,
