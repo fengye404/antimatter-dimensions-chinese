@@ -187,8 +187,8 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 
 ### 设计
 
-1. 新增 1920 宽的 `loading.webp` 作为首屏加载背景，保留原 PNG 资源不删除，以免破坏上游资源引用。
+1. 首屏加载遮罩不再使用装饰图片，直接使用纯黑 CSS 背景，避免进入游戏时请求 `loading.png` 或 `loading.webp`。
 2. 星空背景视频改为 `preload="none"`，初始进入游戏时不再请求静态星空图或 10MB 视频。
 3. 现实动画视频也改为 `preload="none"`，只在真正触发现实动画时由现有逻辑播放。
 4. `Theme.set()` 只在启用 S6/S10 且背景动画开启时播放星空视频；其他主题暂停视频，避免后台解码。
-5. Playwright 回归新增首屏资源断言：初始进入游戏必须请求 `loading.webp`，且不得请求 `stars-bg.webm` 或 `realityanimbg.webm`。
+5. Playwright 回归新增首屏资源断言：初始进入游戏不得请求 `loading.webp`、`loading.png`、`stars-bg.webm` 或 `realityanimbg.webm`。

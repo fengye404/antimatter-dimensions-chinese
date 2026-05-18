@@ -84,14 +84,15 @@ test.describe("Chinese localization regression", () => {
     }
   });
 
-  test("defers heavy animated background videos on initial load", async({ page }) => {
+  test("does not request decorative loading or animated background media on initial load", async({ page }) => {
     const requestedPaths = [];
     page.on("request", request => requestedPaths.push(new URL(request.url()).pathname));
 
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    expect(requestedPaths).toContain("/images/loading.webp");
+    expect(requestedPaths).not.toContain("/images/loading.webp");
+    expect(requestedPaths).not.toContain("/images/loading.png");
     expect(requestedPaths).not.toContain("/images/stars-bg.png");
     expect(requestedPaths).not.toContain("/images/stars-bg.webm");
     expect(requestedPaths).not.toContain("/images/realityanimbg.webm");

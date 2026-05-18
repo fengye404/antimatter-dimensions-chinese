@@ -761,11 +761,7 @@ button:focus {
   height: 100%;
   position: absolute;
   z-index: 999;
-  background: url("../images/loading.webp") no-repeat;
-  background-color: black;
-  background-position-x: 50%;
-  background-position-y: 50%;
-  background-size: cover;
+  background: black;
 }
 
 #browser-warning {
