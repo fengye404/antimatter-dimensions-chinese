@@ -157,3 +157,20 @@
 3. 中文版常规 UI 使用系统中文 UI 字体栈，优先 `PingFang SC`、`Microsoft YaHei`、`Noto Sans CJK SC`、`Source Han Sans SC`。
 4. 图标字体、CodeMirror、自动机代码块和符文/特殊视觉仍保留各自专用字体，避免破坏原版机制表达。
 5. Playwright 回归新增字体栈检查，防止 `body`、`#page`、主按钮和 Tab 按钮继续落回 `Typewriter`。
+
+## 2026-05-19 首屏性能补充
+
+### 问题
+
+进入游戏时会出现明显卡顿。首屏资源检查发现两个高风险点：
+
+1. `public/images/loading.png` 是 3840×2160 PNG，体积约 1.2MB，作为加载遮罩背景会在首屏立即请求。
+2. `public/images/stars-bg.webm` 体积约 10MB，原先在 `index.html` 中带 `autoplay`，即使默认主题不显示星空动画，也会在进入页面时开始下载和解码。
+
+### 设计
+
+1. 新增 1920 宽的 `loading.webp` 作为首屏加载背景，保留原 PNG 资源不删除，以免破坏上游资源引用。
+2. 星空背景视频改为 `preload="none"`，初始进入游戏时不再请求静态星空图或 10MB 视频。
+3. 现实动画视频也改为 `preload="none"`，只在真正触发现实动画时由现有逻辑播放。
+4. `Theme.set()` 只在启用 S6/S10 且背景动画开启时播放星空视频；其他主题暂停视频，避免后台解码。
+5. Playwright 回归新增首屏资源断言：初始进入游戏必须请求 `loading.webp`，且不得请求 `stars-bg.webm` 或 `realityanimbg.webm`。

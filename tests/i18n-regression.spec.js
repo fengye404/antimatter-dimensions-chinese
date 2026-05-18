@@ -84,6 +84,19 @@ test.describe("Chinese localization regression", () => {
     }
   });
 
+  test("defers heavy animated background videos on initial load", async({ page }) => {
+    const requestedPaths = [];
+    page.on("request", request => requestedPaths.push(new URL(request.url()).pathname));
+
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    expect(requestedPaths).toContain("/images/loading.webp");
+    expect(requestedPaths).not.toContain("/images/stars-bg.png");
+    expect(requestedPaths).not.toContain("/images/stars-bg.webm");
+    expect(requestedPaths).not.toContain("/images/realityanimbg.webm");
+  });
+
   test("localizes the How to Play modal body instead of leaving large English paragraphs", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.GameDatabase && window.Modal && window.ui);

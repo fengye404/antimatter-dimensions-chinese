@@ -39,10 +39,17 @@ export const Theme = function Theme(name, config) {
     if (this.isMetro) document.body.classList.add("s-base--metro");
     if (this.isDark()) document.body.classList.add("s-base--dark");
 
-    if (this.isAnimated && player.options.animations.background) {
+    const backgroundAnimationsEnabled = this.isAnimated && player.options.animations.background;
+    const stars = document.getElementById("stars");
+    if (backgroundAnimationsEnabled) {
       document.getElementById("background-animations").style.display = "block";
     } else {
       document.getElementById("background-animations").style.display = "none";
+    }
+    if (stars) {
+      const usesStarVideo = backgroundAnimationsEnabled && ["S6", "S10"].includes(name);
+      if (usesStarVideo) stars.play().catch(() => undefined);
+      else stars.pause();
     }
     if (player.options.newUI) {
       player.options.themeModern = name;
