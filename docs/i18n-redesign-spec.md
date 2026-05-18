@@ -117,6 +117,12 @@
 
 `gh-pages` 必须发布注入过中文词典和翻译引擎的 `dist/`。`master` 分支的 Pages 工作流使用 `npm run build:chinese`，该脚本先执行原版构建，再执行 `i18n/inject.js`。如果只运行 `npm run build:master`，线上会缺少大量运行时翻译，并可能继续展示旧的商店/新闻脚本残留。
 
+### 发布缓存策略
+
+GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`js/chunk-vendors.js` 和样式文件。由于选项弹窗、快捷键列表等翻译已经进入 Vue bundle，如果用户继续执行旧 `app.js`，就会出现“源码已中文化但线上仍是一堆英文”的现象。
+
+`i18n/inject.js` 在注入中文翻译后读取 `dist/commit.json`，并为本地 JS/CSS 追加 `?v=<commit>` 版本参数。每次提交后重新构建都会生成新的资源 URL，确保 GitHub Pages 发布和用户浏览器都能拿到最新中文 bundle。
+
 ### 审计口径
 
 新闻滚动条包含数千条随机消息，会让可见英文审计结果随抽样波动。主审计报告不统计 `.c-news-ticker` 文本，新闻翻译路径由 Playwright 专项用例固定消息 `a294` 覆盖。报告中剩余的 `AMOLED`、`Blob`、`Emoji`、`STD`、`Kms` 等候选项属于主题名、商店货币缩写或数值单位，默认允许保留；后续若要做完全中文化，可单独开术语决策。

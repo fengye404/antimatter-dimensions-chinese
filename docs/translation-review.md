@@ -28,6 +28,7 @@
 | 36 | `.github/workflows/deploy-master.yml` | Pages 工作流只跑 `build:master`，可能发布未注入中文词典的产物 | 改为 `npm run build:chinese`，保证构建后执行 `i18n/inject.js` | 修复线上 GitHub Pages 与本地中文构建不一致 |
 | 37 | `src/components/modals/options/*` | 点击选项页按钮后出现的指数记数法、快捷键、新闻、信息显示、确认、离线进度、动画、隐藏标签、备份弹窗仍有整段英文 | 将高频选项弹窗标题、说明、开关、滑块和运行期名称源头中文化，并纳入 Playwright 与审计脚本 | 修复人工抽查一点击就看到英文的问题，避免只审计默认可见页面 |
 | 38 | `src/core/secret-formula/challenges/infinity-challenges.js` 与 `InfinityChallengeBox.vue` | 无限挑战规则、目标和奖励说明仍混有 `Reward`、`Goal`、长段英文 | 无限挑战 1-8 的规则和奖励说明源头中文化 | 审计进入无限阶段后能直接看到这些文本，属于影响机制理解的高优先级内容 |
+| 39 | `i18n/inject.js` 与 `tests/i18n-regression.spec.js` | GitHub Pages 上 `js/app.js`、`js/chunk-vendors.js`、CSS 使用固定 URL，浏览器可能继续执行旧 bundle，导致已修复弹窗仍显示英文 | 构建注入阶段为本地 JS/CSS 追加提交号版本参数，并新增 Playwright 断言 | 确保线上发布后用户拿到最新中文化 bundle，而不是缓存中的旧英文界面 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

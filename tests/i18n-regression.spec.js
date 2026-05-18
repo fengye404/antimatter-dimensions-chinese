@@ -97,6 +97,19 @@ test.describe("Chinese localization regression", () => {
     expect(requestedPaths).not.toContain("/images/realityanimbg.webm");
   });
 
+  test("serves commit-versioned JS and CSS assets", async({ page }) => {
+    await page.goto("/");
+
+    const assets = await page.evaluate(() => [
+      ...Array.from(document.querySelectorAll("script[src]"), script => script.src),
+      ...Array.from(document.querySelectorAll("link[rel='stylesheet'][href]"), link => link.href),
+    ]);
+
+    expect(assets.some(url => /\/js\/app\.js\?v=[a-f0-9]+/u.test(url))).toBe(true);
+    expect(assets.some(url => /\/js\/chunk-vendors\.js\?v=[a-f0-9]+/u.test(url))).toBe(true);
+    expect(assets.some(url => /\/stylesheets\/styles\.css\?v=[a-f0-9]+/u.test(url))).toBe(true);
+  });
+
   test("localizes the How to Play modal body instead of leaving large English paragraphs", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.GameDatabase && window.Modal && window.ui);
