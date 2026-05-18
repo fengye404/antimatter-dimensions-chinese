@@ -74,16 +74,14 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Exponent Notation Settings
+      指数记数法设置
     </template>
-    You can adjust what your numbers look like when very large. With small values, the exponent will
-    be directly displayed with no additional formatting. Larger values will have commas inserted into the exponent
-    for clarity, and the largest values will apply notation formatting to the exponent in order to shorten it. You can
-    adjust the two thresholds between these regions below:
+    你可以调整超大数字的指数显示方式。指数较小时会直接显示，不做额外格式化；更大的指数会插入逗号，
+    便于阅读；最大的指数会继续套用当前记数法来缩短显示长度。下面两个阈值用于划分这些显示区域：
     <br>
     <br>
     <div class="c-single-slider">
-      <b class="o-digit-text">Minimum for commas in exponent: {{ formatInt(commaDigits) }} digits</b>
+      <b class="o-digit-text">指数加逗号的最小位数：{{ formatInt(commaDigits) }} 位</b>
       <SliderComponent
         class="o-primary-btn--slider__slider o-slider"
         v-bind="sliderProps"
@@ -92,7 +90,7 @@ export default {
       />
     </div>
     <div class="c-single-slider">
-      <b class="o-digit-text">Minimum for notation in exponent: {{ formatInt(notationDigits) }} digits</b>
+      <b class="o-digit-text">指数套用记数法的最小位数：{{ formatInt(notationDigits) }} 位</b>
       <SliderComponent
         class="o-primary-btn--slider__slider o-slider"
         v-bind="sliderProps"
@@ -101,7 +99,7 @@ export default {
       />
     </div>
     <br>
-    Sample numbers for exponent formatting:
+    指数格式化示例：
     <div class="c-sample-numbers">
       <span
         v-for="(num, id) in sampleNums"
@@ -112,10 +110,8 @@ export default {
       </span>
     </div>
     <br>
-    Note: The interface is generally optimized for Scientific notation with settings of {{ formatInt(5) }}
-    and {{ formatInt(9) }} digits. Some text may look odd or overflow out of boxes if you
-    differ significantly from these values. Additionally, these settings might not cause any visual changes
-    when using certain notations.
+    注意：界面通常按科学记数法下 {{ formatInt(5) }} 位和 {{ formatInt(9) }} 位的设置优化。
+    如果设置和默认值相差太大，部分文本可能看起来不自然，或者溢出按钮/文本框。另外，某些记数法下这些设置可能不会带来明显视觉变化。
   </ModalWrapper>
 </template>
 

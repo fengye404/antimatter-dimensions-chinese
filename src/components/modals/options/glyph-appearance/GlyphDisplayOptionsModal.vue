@@ -35,11 +35,11 @@ export default {
     glyphBGStr() {
       switch (this.glyphBG) {
         case GLYPH_BG_SETTING.AUTO:
-          return "Auto";
+          return "自动";
         case GLYPH_BG_SETTING.LIGHT:
-          return "Light";
+          return "浅色";
         case GLYPH_BG_SETTING.DARK:
-          return "Dark";
+          return "深色";
         default:
           throw new Error("Unrecognized Glyph BG setting");
       }
@@ -105,51 +105,51 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__glyph">
     <template #header>
-      Glyph Display Options
+      符文显示选项
     </template>
     <div class="c-glyph-visual-options c-modal--short">
       <div class="c-modal-options__button-container">
         <ModalOptionsToggleButton
           v-model="newGlyphs"
-          text="New Glyph identifier:"
+          text="新符文标记："
         />
         <ModalOptionsToggleButton
           v-model="showUnequippedGlyphIcon"
-          text="Unequipped Glyph identifier:"
+          text="未装备符文标记："
         />
         <ModalOptionsToggleButton
           v-model="glyphEffectDots"
-          text="Always show Glyph effect dots:"
+          text="始终显示符文效果圆点："
         />
         <ModalOptionsToggleButton
           v-model="glyphBorders"
-          text="Fancy Glyph borders:"
+          text="花式符文边框："
         />
         <button
           class="o-primary-btn o-primary-btn--modal-option"
           @click="cycleBG()"
         >
-          Glyph BG color: {{ glyphBGStr }}
+          符文背景色：{{ glyphBGStr }}
         </button>
         <ModalOptionsToggleButton
           v-model="showGlyphInfoByDefault"
           :style="noEffectStyle()"
-          text="Always show Glyph Info:"
+          text="始终显示符文信息："
         />
         <ModalOptionsToggleButton
           v-model="highContrastRarity"
-          text="High-contrast rarity colors:"
+          text="高对比度稀有度颜色："
         />
         <ModalOptionsToggleButton
           v-model="swapGlyphColors"
-          text="Swap border and symbol colors:"
+          text="交换边框和符号颜色："
         />
         <ExpandingControlBox
           class="o-primary-btn c-dropdown-btn"
         >
           <template #header>
             <div class="c-dropdown-header">
-              ▼ Additional Glyph Info: ▼
+              ▼ 额外符文信息 ▼
               <br>
               {{ infoLabel }}
             </div>

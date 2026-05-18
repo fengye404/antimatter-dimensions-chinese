@@ -56,9 +56,9 @@ export default {
       };
     },
     rowVisibleIndicatorTooltip() {
-      if (this.isHidden) return "Click to unhide tab";
-      if (!this.alwaysVisible) return "Click to hide tab";
-      return "This tab cannot be hidden";
+      if (this.isHidden) return "点击显示标签页";
+      if (!this.alwaysVisible) return "点击隐藏标签页";
+      return "此标签页不能隐藏";
     },
   },
   methods: {

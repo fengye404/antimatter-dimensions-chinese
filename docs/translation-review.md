@@ -26,6 +26,8 @@
 | 34 | `src/components/tabs/antimatter-dimensions/*` | 首屏购买按钮、Tickspeed 按钮仍显示 `Until 10`、`Tickspeed Cost`、`Buy Max` | 反物质维度行和时间间隔行源头中文化 | 首屏核心玩法文本必须稳定中文，不应依赖 DOM 竞态替换 |
 | 35 | `src/components/ui-modes/NewsTicker.vue` | 新闻滚动条通过 `innerHTML` 命令式写入，部分新闻绕过翻译 | 写入前按规范化文本匹配翻译词典，并补充截图命中的新闻译文 | 修复可见新闻条仍显示整句英文的问题 |
 | 36 | `.github/workflows/deploy-master.yml` | Pages 工作流只跑 `build:master`，可能发布未注入中文词典的产物 | 改为 `npm run build:chinese`，保证构建后执行 `i18n/inject.js` | 修复线上 GitHub Pages 与本地中文构建不一致 |
+| 37 | `src/components/modals/options/*` | 点击选项页按钮后出现的指数记数法、快捷键、新闻、信息显示、确认、离线进度、动画、隐藏标签、备份弹窗仍有整段英文 | 将高频选项弹窗标题、说明、开关、滑块和运行期名称源头中文化，并纳入 Playwright 与审计脚本 | 修复人工抽查一点击就看到英文的问题，避免只审计默认可见页面 |
+| 38 | `src/core/secret-formula/challenges/infinity-challenges.js` 与 `InfinityChallengeBox.vue` | 无限挑战规则、目标和奖励说明仍混有 `Reward`、`Goal`、长段英文 | 无限挑战 1-8 的规则和奖励说明源头中文化 | 审计进入无限阶段后能直接看到这些文本，属于影响机制理解的高优先级内容 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

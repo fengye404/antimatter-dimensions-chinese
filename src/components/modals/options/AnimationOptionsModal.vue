@@ -106,45 +106,45 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Animation Options
+      动画选项
     </template>
     <div class="c-modal-options__button-container">
       <ModalOptionsToggleButton
         v-if="infinityUnlocked"
         v-model="bigCrunch"
-        text="Big Crunch:"
+        text="大坍缩："
       />
       <ModalOptionsToggleButton
         v-if="eternityUnlocked"
         v-model="eternity"
-        text="Eternity:"
+        text="永恒："
       />
       <ModalOptionsToggleButton
         v-if="dilationUnlocked"
         v-model="dilation"
-        text="Dilation:"
+        text="时间膨胀："
       />
       <ModalOptionsToggleButton
         v-if="tachyonsUnlocked"
         v-model="tachyonParticles"
-        text="Tachyon particles:"
+        text="快子粒子："
       />
       <ModalOptionsToggleButton
         v-if="realityUnlocked"
         v-model="reality"
-        text="Reality:"
+        text="现实："
       />
       <ModalOptionsToggleButton
         v-if="isS11Unlocked && isBlackHoleUnlocked"
         v-model="blobHole"
-        text="Always use Blobhole:"
+        text="始终使用 Blob 黑洞："
       />
       <div v-if="!isS11Active">
         <ModalOptionsToggleButton
           v-if="animatedThemeUnlocked"
           v-model="background"
           onclick="Themes.find(Theme.currentName()).set();"
-          text="Background:"
+          text="背景："
         />
       </div>
       <div v-else>
@@ -152,14 +152,14 @@ export default {
           v-if="animatedThemeUnlocked"
           v-model="background"
           onclick="Themes.find(Theme.currentName()).set();"
-          text="Blobsnow:"
+          text="Blob 雪："
         />
       </div>
       <div
         v-if="isS11Active"
         class="c-blobflake-slider o-primary-btn o-primary-btn--modal-option o-primary-btn--slider"
       >
-        <b>{{ quantifyInt("Blobflake", parseInt(blobSnowflakes)) }}</b>
+        <b>Blob 雪花：{{ formatInt(parseInt(blobSnowflakes)) }}</b>
         <SliderComponent
           class="o-primary-btn--slider__slider"
           v-bind="sliderProps"

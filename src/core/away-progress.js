@@ -33,6 +33,39 @@ class AwayProgress {
   }
 
   get formatName() {
+    const names = {
+      antimatter: "反物质",
+      dimensionBoosts: "维度提升",
+      antimatterGalaxies: "反物质星系",
+      infinities: "无限次数",
+      infinityPoints: "无限点数",
+      replicanti: "复制品",
+      replicantiGalaxies: "复制品星系",
+      eternities: "永恒次数",
+      eternityPoints: "永恒点数",
+      tachyonParticles: "快子粒子",
+      dilatedTime: "膨胀时间",
+      timeTheorems: "时间定理",
+      tachyonGalaxies: "快子星系",
+      achievementAmount: "成就数量",
+      realities: "现实次数",
+      realityMachines: "现实机器",
+      blackHole: "黑洞",
+      firstBlackHole: "第一黑洞",
+      secondBlackHole: "第二黑洞",
+      relicShards: "遗物碎片",
+      celestialMemories: "天体记忆",
+      teresaMemories: "Teresa 记忆",
+      effarigMemories: "Effarig 记忆",
+      enslavedMemories: "无名氏记忆",
+      vMemories: "V 记忆",
+      imaginaryMachines: "虚幻机器",
+      darkMatter: "暗物质",
+      darkEnergy: "暗能量",
+      singularities: "奇点",
+      realityShards: "现实碎片"
+    };
+    if (names[this.name]) return names[this.name];
     if (this.forcedName) return this.forcedName;
     // Format the camelCase name to Title Case, with spaces added before the capital letters
     return this.name

@@ -24,7 +24,7 @@ export default {
       return GameStorage.loadFromBackup(this.slotData.id);
     },
     progressStr() {
-      if (!this.save) return "(Empty)";
+      if (!this.save) return "（空）";
 
       // These will be checked in order; the first nonzero resource will be returned
       const resources = [this.save.celestials.pelle.realityShards,
@@ -34,12 +34,12 @@ export default {
         this.save.infinityPoints,
         this.save.antimatter
       ];
-      const names = ["Reality Shards",
-        "Imaginary Machine Cap",
-        "Reality Machines",
-        "Eternity Points",
-        "Infinity Points",
-        "Antimatter"];
+      const names = ["现实碎片",
+        "虚幻机器上限",
+        "现实机器",
+        "永恒点数",
+        "无限点数",
+        "反物质"];
 
       for (let index = 0; index < resources.length; index++) {
         const val = new Decimal(resources[index]);
@@ -47,17 +47,17 @@ export default {
       }
 
       // In practice this should never happen, unless a save triggers on the same tick the very first AD1 is bought
-      return "No resources";
+      return "无资源";
     },
     slotType() {
-      const formattedTime = this.slotData.intervalStr?.();
+      const formattedTime = this.localizeInterval(this.slotData.intervalStr?.());
       switch (this.slotData.type) {
         case BACKUP_SLOT_TYPE.ONLINE:
-          return `Saves every ${formattedTime} online`;
+          return `在线每 ${formattedTime} 保存一次`;
         case BACKUP_SLOT_TYPE.OFFLINE:
-          return `Saves after ${formattedTime} offline`;
+          return `离线 ${formattedTime} 后保存`;
         case BACKUP_SLOT_TYPE.RESERVE:
-          return "Pre-loading save";
+          return "读取前保留槽";
         default:
           throw new Error("Unrecognized backup save type");
       }
@@ -65,13 +65,20 @@ export default {
     lastSaved() {
       const lastSave = GameStorage.lastBackupTimes[this.slotData.id]?.date ?? 0;
       return lastSave
-        ? `Last saved: ${TimeSpan.fromMilliseconds(this.currTime - lastSave)} ago`
-        : "Slot not currently in use";
+        ? `上次保存：${TimeSpan.fromMilliseconds(this.currTime - lastSave)}前`
+        : "当前未使用";
     },
   },
   methods: {
     update() {
       this.currTime = Date.now();
+    },
+    localizeInterval(value) {
+      return value
+        ?.replace("minutes", "分钟")
+        .replace("minute", "分钟")
+        .replace("hours", "小时")
+        .replace("hour", "小时");
     },
     load() {
       if (!this.save) return;
@@ -88,7 +95,7 @@ export default {
       GameStorage.offlineEnabled = player.options.loadBackupWithoutOffline ? false : undefined;
       GameStorage.oldBackupTimer = player.backupTimer;
       GameStorage.loadPlayerObject(toLoad);
-      GameUI.notify.info(`Game loaded from backup slot #${this.slotData.id}`);
+      GameUI.notify.info(`已从备份槽 #${this.slotData.id} 读取存档`);
       GameStorage.loadBackupTimes();
       GameStorage.ignoreBackupTimer = false;
       GameStorage.offlineEnabled = undefined;
@@ -101,7 +108,7 @@ export default {
 
 <template>
   <div class="c-bordered-entry">
-    <h3>Slot #{{ slotData.id }}:</h3>
+    <h3>槽位 #{{ slotData.id }}：</h3>
     <span>{{ progressStr }}</span>
     <span>
       {{ slotType }}
@@ -112,7 +119,7 @@ export default {
       :class="{ 'o-primary-btn--disabled' : !save }"
       @click="load()"
     >
-      Load
+      读取
     </PrimaryButton>
   </div>
 </template>

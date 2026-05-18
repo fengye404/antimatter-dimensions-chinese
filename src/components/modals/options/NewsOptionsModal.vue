@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     newsOnOffLabel() {
-      return `News: ${this.enabled ? "On" : "Off"}`;
+      return `新闻：${this.enabled ? "开启" : "关闭"}`;
     },
     sliderPropsRepeatBuffer() {
       return {
@@ -98,7 +98,7 @@ export default {
 <template>
   <ModalWrapperOptions>
     <template #header>
-      News Options
+      新闻选项
     </template>
     <PrimaryButton
       class="o-primary-btn o-primary-btn--option-wide"
@@ -107,7 +107,7 @@ export default {
       {{ newsOnOffLabel }}
     </PrimaryButton>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatInt(parseInt(repeatBuffer)) }} message repeat buffer</b>
+      <b>重复缓冲区：{{ formatInt(parseInt(repeatBuffer)) }} 条消息</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsRepeatBuffer"
@@ -116,7 +116,7 @@ export default {
       />
     </div>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatPercents(parseFloat(AIChance)) }} AI messages</b>
+      <b>AI 消息比例：{{ formatPercents(parseFloat(AIChance)) }}</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsAIChance"
@@ -125,7 +125,7 @@ export default {
       />
     </div>
     <div class="o-primary-btn o-primary-btn--option-wide o-primary-btn--slider">
-      <b>{{ formatPercents(parseFloat(speed)) }} scroll speed</b>
+      <b>滚动速度：{{ formatPercents(parseFloat(speed)) }}</b>
       <SliderComponent
         class="o-primary-btn--slider__slider"
         v-bind="sliderPropsSpeed"
@@ -136,7 +136,7 @@ export default {
     <ModalOptionsToggleButton
       v-model="includeAnimated"
       class="o-primary-btn o-primary-btn--option-wide"
-      text="Animation Effects:"
+      text="动画效果："
     />
   </ModalWrapperOptions>
 </template>

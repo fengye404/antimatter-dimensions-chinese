@@ -83,14 +83,29 @@ const STAGES = [
   }
 ];
 
+const OPTION_MODALS = [
+  { key: "notation", title: "指数记数法设置" },
+  { key: "hotkeys", title: "快捷键列表" },
+  { key: "newsOptions", title: "新闻选项" },
+  { key: "infoDisplayOptions", title: "信息显示选项" },
+  { key: "confirmationOptions", title: "确认选项" },
+  { key: "awayProgressOptions", title: "离线进度选项" },
+  { key: "animationOptions", title: "动画选项" },
+  { key: "hiddenTabs", title: "修改可见标签页" },
+  { key: "backupWindows", title: "自动备份存档" }
+];
+
 const TEXT_ALLOWLIST = [
   /^AD$/u,
   /^AM$/u,
+  /^AMOLED$/u,
+  /^AMOLED 都市$/u,
   /^EP$/u,
   /^IP$/u,
   /^RM$/u,
   /^STD$/u,
   /^TT$/u,
+  /^Emoji$/u,
   /^e\d+/iu,
   /^OAuth$/u,
   /^Steam$/u,
@@ -109,7 +124,28 @@ const TEXT_ALLOWLIST = [
   /^Firefox$/u,
   /^Safari$/u,
   /^Edge$/u,
+  /^SHIFT$/u,
+  /^Shift$/u,
+  /^ALT$/u,
+  /^Alt$/u,
+  /^CTRL$/u,
+  /^ON$/u,
+  /^OFF$/u,
+  /^ENTER$/u,
+  /^ESC$/u,
+  /^TAB$/u,
+  /^Blob$/u,
+  /^Blob.+$/u,
+  /^AI$/u,
+  /^Kms$/u,
   /^https?:\/\/\S+$/u
+];
+
+const ALLOWED_ENGLISH_TOKENS = [
+  "AD", "AM", "AMOLED", "EP", "IP", "RM", "STD", "TT", "Emoji", "OAuth", "Steam", "Google", "Discord",
+  "GitHub", "PlayFab",
+  "Antimatter Dimensions", "Teresa", "Effarig", "Ra", "Pelle", "Chrome", "Firefox", "Safari", "Edge",
+  "SHIFT", "Shift", "ALT", "Alt", "CTRL", "ENTER", "ESC", "TAB", "ON", "OFF", "Blob", "AI", "Kms", "Cookie"
 ];
 
 function contentType(filePath) {
@@ -157,15 +193,25 @@ function normalizeText(value) {
 
 function shouldKeepCandidate(text) {
   if (text.length < 3) return false;
-  if (!/[A-Za-z]{3,}/u.test(text)) return false;
   if (TEXT_ALLOWLIST.some(pattern => pattern.test(text))) return false;
   if (/^[\d\s.,:+\-*/^%()[\]{}<>=$∞ΩΔΨ×]+$/u.test(text)) return false;
+  const stripped = ALLOWED_ENGLISH_TOKENS
+    .reduce((value, token) => value.replaceAll(token, ""), text);
+  if (!/[A-Za-z]{3,}/u.test(stripped)) return false;
   return true;
 }
 
-async function collectVisibleEnglish(page, stage, tab, subtab) {
-  const lines = await page.evaluate(() => [...document.body.querySelectorAll("script, style, .c-news-ticker")]
-    .forEach(node => node.remove()) || document.body.innerText.split(/\n+/u));
+async function collectVisibleEnglish(page, stage, tab, subtab, rootSelector = "body") {
+  const lines = await page.evaluate(selector => {
+    const root = document.querySelector(selector);
+    if (!root) return [];
+    const ignored = [...root.querySelectorAll(".c-news-ticker")]
+      .map(node => node.innerText.trim())
+      .filter(Boolean);
+    return root.innerText
+      .split(/\n+/u)
+      .filter(line => !ignored.includes(line.trim()));
+  }, rootSelector);
 
   return lines
     .map(normalizeText)
@@ -234,6 +280,15 @@ async function showSubtab(page, entry) {
   await page.waitForTimeout(350);
 }
 
+async function showOptionModal(page, modal) {
+  await page.evaluate(key => {
+    Modal.hide();
+    Modal[key].show();
+    GameUI.update();
+  }, modal.key);
+  await page.waitForTimeout(250);
+}
+
 function renderReport(results) {
   const generatedAt = new Date().toISOString();
   const grouped = new Map();
@@ -250,6 +305,7 @@ function renderReport(results) {
     `生成时间：${generatedAt}`,
     "",
     "本报告由 `npm run audit:i18n` 生成，用真实浏览器遍历主要游戏阶段和可见 Tab/Subtab。",
+    "报告还会主动打开一组高频选项弹窗，以覆盖点击后才出现的设置说明。",
     "为避免随机新闻污染审计结果，新闻滚动条由专门 E2E 覆盖，本报告不统计新闻文本。",
     "命中项不是自动判错清单，专有名词、缩写和浏览器品牌可能允许保留英文；其余应进入翻译修复队列。",
     "",
@@ -305,6 +361,12 @@ async function main() {
       for (const entry of await visibleSubtabs(page)) {
         await showSubtab(page, entry);
         const visible = await collectVisibleEnglish(page, stage.title, entry.tabName, entry.subtabName);
+        results.push(...visible);
+      }
+
+      for (const modal of OPTION_MODALS) {
+        await showOptionModal(page, modal);
+        const visible = await collectVisibleEnglish(page, stage.title, "选项弹窗", modal.title, ".c-modal.l-modal");
         results.push(...visible);
       }
     }

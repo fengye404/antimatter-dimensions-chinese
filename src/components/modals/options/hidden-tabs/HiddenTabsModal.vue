@@ -38,29 +38,29 @@ export default {
 <template>
   <ModalWrapperOptions class="l-wrapper">
     <template #header>
-      Modify Visible Tabs
+      修改可见标签页
     </template>
     <div class="c-modal--short">
-      Click a button to toggle showing a tab on/off.
+      点击按钮可切换标签页显示或隐藏。
       <br>
-      Some tabs cannot be hidden, and you cannot hide your current tab.
+      部分标签页不能隐藏，当前所在标签页也不能隐藏。
       <br>
-      Unhiding a tab in which all subtabs are hidden will also unhide all subtabs,
-      and hiding all subtabs will also hide the tab.
+      如果某个标签页的所有子标签都已隐藏，重新显示该标签页时也会显示全部子标签；
+      隐藏全部子标签也会隐藏对应主标签页。
       <br>
       <div v-if="isAlmostEnd">
-        You cannot hide your tabs after unlocking the Galaxy Generator.
+        解锁星系发生器后不能再隐藏标签页。
       </div>
       <div v-if="isEnslaved">
         <br>
-        <i>You must... see everywhere...</i>
+        <i>你必须……看见一切……</i>
         <br>
-        (You cannot hide your tabs within this Reality)
+        （本次现实中不能隐藏标签页）
       </div>
       <PrimaryButton
         @click="showAllTabs"
       >
-        Show all tabs
+        显示全部标签页
       </PrimaryButton>
       <HiddenTabGroup
         v-for="(tab, index) in tabs"

@@ -86,52 +86,52 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Info Display Options
+      信息显示选项
     </template>
     <div class="c-modal-options__button-container">
       <ModalOptionsToggleButton
         v-model="showPercentage"
-        text="Show % gain:"
+        text="显示百分比收益："
       />
       <ModalOptionsToggleButton
         v-model="achievements"
-        text="Achievement IDs:"
+        text="成就 ID："
       />
       <ModalOptionsToggleButton
         v-model="achievementUnlockStates"
-        text="Achievement unlock state indicators:"
+        text="成就解锁状态标记："
       />
       <ModalOptionsToggleButton
         v-if="infinityUnlocked"
         v-model="challenges"
-        text="Challenge IDs:"
+        text="挑战 ID："
       />
       <ModalOptionsToggleButton
         v-if="eternityUnlocked"
         v-model="studies"
-        text="Time Study IDs:"
+        text="时间研究 ID："
       />
       <ModalOptionsToggleButton
         v-if="realityUnlocked"
         v-model="glyphEffectDots"
-        text="Glyph effect dots:"
+        text="符文效果圆点："
       />
       <ModalOptionsToggleButton
         v-if="realityUnlocked"
         v-model="realityUpgrades"
-        text="Reality Upgrade names:"
+        text="现实升级名称："
       />
       <ModalOptionsToggleButton
         v-if="realityUnlocked"
         v-model="perks"
-        text="Perk IDs:"
+        text="特权 ID："
       />
       <ModalOptionsToggleButton
         v-if="alchemyUnlocked"
         v-model="alchemy"
-        text="Alchemy resource amounts:"
+        text="炼金资源数量："
       />
     </div>
-    Note: All types of additional info above will always display when holding shift.
+    注意：按住 Shift 时，上述所有额外信息都会显示。
   </ModalWrapperOptions>
 </template>

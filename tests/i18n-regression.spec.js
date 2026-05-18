@@ -4,6 +4,13 @@ function visibleText(page) {
   return page.locator("body").innerText({ timeout: 10000 });
 }
 
+async function openModal(page, modalName) {
+  await page.evaluate(name => {
+    Modal.hide();
+    Modal[name].show();
+  }, modalName);
+}
+
 test.describe("Chinese localization regression", () => {
   test("renders the early game UI in Chinese", async({ page }) => {
     await page.goto("/");
@@ -93,6 +100,52 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("#h2p-body")).toContainText("混合科学记数法");
     await expect(page.locator("#h2p-body")).not.toContainText("The game has two different UI layouts");
     await expect(page.locator("#h2p-body")).not.toContainText("The notation used to display numbers");
+  });
+
+  test("localizes high-frequency options modals", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Modal);
+
+    await openModal(page, "notation");
+    await expect(page.locator("body")).toContainText("指数记数法设置");
+    await expect(page.locator("body")).toContainText("指数加逗号的最小位数");
+    await expect(page.locator("body")).toContainText("指数格式化示例");
+    await expect(page.locator("body")).not.toContainText("Exponent Notation Settings");
+    await expect(page.locator("body")).not.toContainText("Minimum for commas in exponent");
+
+    await openModal(page, "hotkeys");
+    await expect(page.locator("body")).toContainText("快捷键列表");
+    await expect(page.locator("body")).toContainText("购买 1 个维度");
+    await expect(page.locator("body")).toContainText("自动购买器控制");
+    await expect(page.locator("body")).not.toContainText("Hotkey List");
+    await expect(page.locator("body")).not.toContainText("Buy 1 Dimension");
+
+    await openModal(page, "newsOptions");
+    await expect(page.locator("body")).toContainText("新闻选项");
+    await expect(page.locator("body")).toContainText("重复缓冲区");
+    await expect(page.locator("body")).not.toContainText("News Options");
+    await expect(page.locator("body")).not.toContainText("message repeat buffer");
+
+    await openModal(page, "infoDisplayOptions");
+    await expect(page.locator("body")).toContainText("信息显示选项");
+    await expect(page.locator("body")).toContainText("显示百分比收益");
+    await expect(page.locator("body")).not.toContainText("Info Display Options");
+
+    await openModal(page, "confirmationOptions");
+    await expect(page.locator("body")).toContainText("确认选项");
+    await expect(page.locator("body")).not.toContainText("Confirmation Options");
+
+    await openModal(page, "awayProgressOptions");
+    await expect(page.locator("body")).toContainText("离线进度选项");
+    await expect(page.locator("body")).not.toContainText("Away Progress Options");
+
+    await openModal(page, "animationOptions");
+    await expect(page.locator("body")).toContainText("动画选项");
+    await expect(page.locator("body")).not.toContainText("Animation Options");
+
+    await openModal(page, "hiddenTabs");
+    await expect(page.locator("body")).toContainText("修改可见标签页");
+    await expect(page.locator("body")).not.toContainText("Modify Visible Tabs");
   });
 
   test("localizes imperative news ticker messages", async({ page }) => {

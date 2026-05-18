@@ -105,35 +105,35 @@ export default {
 
 <template>
   <div class="c-glyph-customization-group">
-    <b>Custom Glyph Appearance</b>
+    <b>自定义符文外观</b>
     <PrimaryToggleButton
       v-model="enabled"
       class="o-primary-btn--subtab-option"
-      on="Enabled"
-      off="Disabled"
+      on="启用"
+      off="禁用"
     />
     <br>
     <div v-if="hasCustomSets">
-      Reset Appearances to Default:
+      将外观重置为默认：
       <PrimaryButton
         class="o-primary-btn--subtab-option"
         :class="{ 'o-primary-btn--disabled' : !enabled }"
         @click="resetAll"
       >
-        All Types
+        全部类型
       </PrimaryButton>
       <PrimaryButton
         class="o-primary-btn--subtab-option"
         :class="{ 'o-primary-btn--disabled' : !enabled }"
         @click="resetSingle"
       >
-        This Type
+        当前类型
       </PrimaryButton>
       <br>
-      <i>This will not reset any individually-modified Glyphs.</i>
+      <i>这不会重置单独修改过的符文。</i>
       <br>
       <br>
-      Glyph Type:
+      符文类型：
       <br>
       <div class="c-type-selection">
         <div

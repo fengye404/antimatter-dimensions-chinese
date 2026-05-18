@@ -22,12 +22,11 @@ export default {
 <template>
   <ModalWrapperOptions class="c-modal-options__large">
     <template #header>
-      Confirmation Options
+      确认选项
     </template>
     <div class="c-modal-options__button-container">
       <span v-if="noConfirmations">
-        You do not have anything that requires confirmation,
-        but if you did it would appear here.
+        你当前没有任何需要确认的操作；以后解锁后会显示在这里。
       </span>
       <ConfirmationOptionsEntry
         v-for="entryNumber in count"

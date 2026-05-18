@@ -19,7 +19,7 @@ export default {
 <template>
   <ModalWrapperOptions class="l-wrapper">
     <template #header>
-      Away Progress Options
+      离线进度选项
     </template>
     <div class="c-modal-options__button-container">
       <AwayProgressOptionsEntry
@@ -28,7 +28,7 @@ export default {
         :name="name"
       />
     </div>
-    Note: Selected resources will only show if they've increased.
+    注意：选中的资源只有在数量增加时才会显示。
   </ModalWrapperOptions>
 </template>
 

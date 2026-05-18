@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     backupSlots: () => AutoBackupSlots,
-    deleteText: () => (STEAM ? "fully uninstalling the game" : "clearing your browser cookies"),
+    deleteText: () => (STEAM ? "完全卸载游戏" : "清除浏览器 Cookie"),
   },
   watch: {
     ignoreOffline(newValue) {
@@ -60,13 +60,11 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Automatic Backup Saves
+      自动备份存档
     </template>
     <div class="c-info c-modal--short">
-      The game makes automatic backups based on time you have spent online or offline.
-      Timers for online backups only run when the game is open, and offline backups only save to the slot
-      with the longest applicable timer.
-      Additionally, your current save is saved into the last slot any time a backup from here is loaded.
+      游戏会根据你在线或离线经过的时间自动创建备份。在线备份计时器只会在游戏打开时运行；
+      离线备份只会保存到当前适用计时最长的槽位。此外，每次从这里读取备份时，当前存档都会先保存到最后一个槽位。
       <div
         class="c-modal__confirmation-toggle"
         @click="toggleOffline"
@@ -78,7 +76,7 @@ export default {
           />
         </div>
         <span class="c-modal__confirmation-toggle__text">
-          Load with offline progress disabled
+          读取时禁用离线进度
         </span>
       </div>
       <div class="c-entry-container">
@@ -89,15 +87,14 @@ export default {
           :slot-data="slot"
         />
       </div>
-      These backups are still stored in the same place as your game save and can still be lost if you do anything
-      external to the game which would delete your save itself, such as {{ deleteText }}. You can import/export
-      all backups at once as files, using these buttons:
+      这些备份仍然和游戏存档保存在同一位置；如果你在游戏外执行会删除存档的操作，例如{{ deleteText }}，
+      备份也可能一起丢失。你可以用下面的按钮一次性导入或导出所有备份文件：
       <div class="c-backup-file-ops">
         <PrimaryButton
           class="o-btn-file-ops"
           onclick="GameStorage.exportBackupsAsFile()"
         >
-          Export as file
+          导出为文件
         </PrimaryButton>
         <PrimaryButton class="o-btn-file-ops">
           <input
@@ -106,10 +103,10 @@ export default {
             accept=".txt"
             @change="importAsFile"
           >
-          <label for="file">Import from file</label>
+          <label for="file">从文件导入</label>
         </PrimaryButton>
       </div>
-      Each of your three save slots has its own separate set of backups.
+      三个存档槽各自拥有独立的备份集合。
     </div>
   </ModalWrapper>
 </template>
