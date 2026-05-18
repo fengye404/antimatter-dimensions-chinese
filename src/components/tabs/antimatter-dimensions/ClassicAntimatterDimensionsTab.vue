@@ -38,9 +38,9 @@ export default {
       this.currentSacrifice.copyFrom(Sacrifice.totalBoost);
       this.hasRealityButton = PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought;
       const sacText = this.isSacrificeUnlocked
-        ? ` | Dimensional Sacrifice multiplier: ${formatX(this.currentSacrifice, 2, 2)}`
+        ? ` | 维度牺牲倍率：${formatX(this.currentSacrifice, 2, 2)}`
         : "";
-      this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}${sacText}`;
+      this.multiplierText = `购买 10 个维度的倍率：${formatX(this.buy10Mult, 2, 2)}${sacText}`;
     },
     quickReset() {
       softReset(-1, true, true);

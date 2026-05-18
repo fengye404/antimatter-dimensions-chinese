@@ -49,7 +49,7 @@ export default {
         this.dimMultiplier.copyFrom(this.infinityPower.pow(this.conversionRate).max(1));
       }
       this.powerPerSecond.copyFrom(InfinityDimension(1).productionPerSecond);
-      this.incomeType = EternityChallenge(7).isRunning ? "Seventh Dimensions" : "Infinity Power";
+      this.incomeType = EternityChallenge(7).isRunning ? "第七维度" : "无限之力";
       this.isEC8Running = EternityChallenge(8).isRunning;
       if (this.isEC8Running) {
         this.EC8PurchasesLeft = player.eterc8ids;
@@ -86,34 +86,35 @@ export default {
         class="o-primary-btn--subtab-option"
         @click="maxAll"
       >
-        Max all
+        全部最大
       </PrimaryButton>
       <PrimaryButton
         v-if="isAnyAutobuyerUnlocked && !isEC8Running"
         class="o-primary-btn--subtab-option"
         @click="toggleAllAutobuyers"
       >
-        Toggle all autobuyers
+        切换全部自动购买器
       </PrimaryButton>
     </div>
     <div>
       <p>
-        You have
+        你有
         <span class="c-infinity-dim-description__accent">{{ format(infinityPower, 2, 1) }}</span>
-        Infinity Power,
+        无限之力，
         <br>
         <span v-if="!isEC9Running">
-          increased by
+          以
           <span class="c-infinity-dim-description__accent">{{ formatPow(conversionRate, 2, 3) }}</span>
+          提升
         </span>
         <span v-else>
-          translated
+          转化
         </span>
-        to a
+        为
         <span class="c-infinity-dim-description__accent">{{ formatX(dimMultiplier, 2, 1) }}</span>
-        multiplier on all
-        <span v-if="!isEC9Running">Antimatter Dimensions.</span>
-        <span v-else>Time Dimensions due to Eternity Challenge 9.</span>
+        倍率，作用于全部
+        <span v-if="!isEC9Running">反物质维度。</span>
+        <span v-else>时间维度（来自永恒挑战 9）。</span>
       </p>
     </div>
     <div
@@ -129,25 +130,24 @@ export default {
         @click="buyTesseract"
       >
         <p>
-          Buy a Tesseract ({{ tesseractCountString }})
+          购买超正方体（{{ tesseractCountString }}）
         </p>
-        <p>Increase dimension caps by {{ format(nextDimCapIncrease, 2) }}</p>
-        <p><b>Costs: {{ format(tesseractCost) }} IP</b></p>
+        <p>将维度上限提高 {{ format(nextDimCapIncrease, 2) }}</p>
+        <p><b>花费：{{ format(tesseractCost) }} IP</b></p>
       </button>
     </div>
     <div v-if="isEnslavedRunning">
-      All Infinity Dimensions are limited to a single purchase.
+      所有无限维度都只能购买一次。
     </div>
     <div v-else>
-      All Infinity Dimensions except for the 8th are limited to a maximum of {{ format(totalDimCap, 2) }}
-      purchases each.
+      除第 8 无限维度外，所有无限维度最多各可购买 {{ format(totalDimCap, 2) }} 次。
     </div>
-    <div>You are getting {{ format(powerPerSecond, 2, 0) }} {{ incomeType }} per second.</div>
+    <div>你每秒获得 {{ format(powerPerSecond, 2, 0) }} {{ incomeType }}。</div>
     <b
       v-if="isEC8Running"
       class="l-infinity-dim-tab__ec8-purchases"
     >
-      You have {{ quantifyInt("purchase", EC8PurchasesLeft) }} left within Eternity Challenge 8.
+      永恒挑战 8 中还剩 {{ formatInt(EC8PurchasesLeft) }} 次购买。
     </b>
     <div class="l-dimensions-container">
       <InfinityDimensionRow

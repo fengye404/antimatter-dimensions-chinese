@@ -59,8 +59,7 @@ export default {
 <template>
   <div class="l-break-infinity-tab">
     <div v-if="!isUnlocked">
-      Reduce the interval of Automatic Big Crunch Autobuyer to
-      {{ format(0.1, 1, 1) }} seconds to unlock Break Infinity.
+      将自动大坍缩购买器的间隔降至 {{ format(0.1, 1, 1) }} 秒即可解锁突破无限。
     </div>
     <BreakInfinityButton class="l-break-infinity-tab__break-btn" />
     <div

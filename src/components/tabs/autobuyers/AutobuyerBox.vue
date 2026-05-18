@@ -188,7 +188,7 @@ export default {
   >
     {{ name }}
     <br>
-    Requirement: {{ format(antimatterCost) }} Total Antimatter {{ showEternity }}
+    要求：{{ format(antimatterCost) }} 总反物质 {{ showEternity }}
   </div>
 </template>
 

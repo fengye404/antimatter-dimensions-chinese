@@ -42,8 +42,8 @@ export default {
     class="o-save-timer"
     @click="save"
   >
-    <b v-if="saveDisabled">There is nothing left to save.</b>
-    <span v-else>Time since last save: {{ timeString }}</span>
+    <b v-if="saveDisabled">已经没有什么可保存了。</b>
+    <span v-else>距上次保存：{{ timeString }}</span>
   </div>
 </template>
 

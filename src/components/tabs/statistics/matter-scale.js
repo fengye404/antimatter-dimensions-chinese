@@ -4,12 +4,12 @@ export const MatterScale = {
   proton: new Decimal("2.82e-45"),
 
   estimate(matter) {
-    if (!matter) return ["There is no antimatter yet."];
+    if (!matter) return ["还没有反物质。"];
     if (matter.gt(DC.E100000)) {
       return [
-        `If you wrote ${formatInt(3)} numbers a second, it would take you`,
+        `如果你每秒写下 ${formatInt(3)} 个数字，需要`,
         TimeSpan.fromSeconds(matter.log10() / 3).toString(),
-        "to write down your antimatter amount."
+        "才能写完你的反物质数量。"
       ];
     }
     const planck = new Decimal("4.22419e-105");
@@ -17,12 +17,11 @@ export const MatterScale = {
     if (planckedMatter.gt(this.proton)) {
       const scale = this.macroScale(planckedMatter);
       const amount = format(planckedMatter.dividedBy(scale.amount), 2, 1);
-      return [`If every antimatter were a planck volume, you would have
-        enough to ${scale.verb} ${amount} ${scale.name}`];
+      return [`如果每个反物质都有一个普朗克体积，你就足够${scale.verb} ${amount} ${scale.name}。`];
     }
     const scale = this.microScale(matter);
-    return [`If every antimatter were ${format(this.proton.div(scale.amount).div(matter), 2, 1)} ${scale.name},
-      you would have enough to make a proton.`];
+    return [`如果每个反物质都有 ${format(this.proton.div(scale.amount).div(matter), 2, 1)} ${scale.name}，
+      你就足够构成一个质子。`];
   },
 
   microScale(matter) {
@@ -54,10 +53,10 @@ export const MatterScale = {
   },
 
   microObjects: [
-    { amount: new Decimal("1e-54"), name: "attometers cubed" },
-    { amount: new Decimal("1e-63"), name: "zeptometers cubed" },
-    { amount: new Decimal("1e-72"), name: "yoctometers cubed" },
-    { amount: new Decimal("4.22419e-105"), name: "planck volumes" }
+    { amount: new Decimal("1e-54"), name: "立方阿米" },
+    { amount: new Decimal("1e-63"), name: "立方仄米" },
+    { amount: new Decimal("1e-72"), name: "立方幺米" },
+    { amount: new Decimal("4.22419e-105"), name: "普朗克体积" }
   ],
 
   macroObjects: [

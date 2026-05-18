@@ -7,7 +7,8 @@
     "build:steam-development": "node build/pre-build.js && vue-cli-service build --mode steam-development",
     "build:steam-release": "node build/pre-build.js && vue-cli-service build --mode steam-release",
     "lint": "vue-cli-service lint",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "audit:i18n": "node scripts/audit-i18n-visible-text.js"
   },
   "dependencies": {
     "@antimatter-dimensions/notations": "^3.1.0",

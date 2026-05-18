@@ -24,10 +24,10 @@ export default {
       const first = this.nextIC?.id === 1;
       const next = InfinityChallenges.nextICUnlockAM;
 
-      if (first) return `The first Infinity Challenge unlocks at ${format(next)} antimatter.`;
+      if (first) return `第一个无限挑战将在 ${format(next)} 反物质解锁。`;
       return next === undefined
-        ? "All Infinity Challenges unlocked"
-        : `Next Infinity Challenge unlocks at ${format(next)} antimatter.`;
+        ? "所有无限挑战均已解锁"
+        : `下一个无限挑战将在 ${format(next)} 反物质解锁。`;
     }
   },
   methods: {
@@ -46,8 +46,7 @@ export default {
   <div class="l-challenges-tab">
     <ChallengeTabHeader />
     <div>
-      An active Big Crunch Autobuyer will Crunch immediately when
-      reaching an Infinity Challenge's antimatter goal, regardless of settings.
+      启用的大坍缩自动购买器会在达到无限挑战的反物质目标时立即坍缩，不受其他设置影响。
     </div>
     <div>{{ nextAtDisplay }}</div>
     <ChallengeGrid

@@ -71,7 +71,7 @@ class AchievementState extends GameMechanicState {
     if (auto) {
       GameUI.notify.reality(`Automatically unlocked: ${this.name}`);
     } else {
-      GameUI.notify.success(`Achievement: ${this.name}`);
+      GameUI.notify.success(`成就：${this.name}`);
       SteamRuntime.activateAchievement(this.id);
     }
     if (player.speedrun.isActive && !player.speedrun.achievementTimes[this.id]) {

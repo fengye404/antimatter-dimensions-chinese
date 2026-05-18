@@ -110,29 +110,29 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.confirmationOptions.show()"
         >
-          Open Confirmation Options
+          打开确认选项
         </OptionsButton>
         <PrimaryToggleButton
           v-model="hotkeys"
           class="o-primary-btn--option l-options-grid__button"
-          label="Hotkeys:"
-          on="Enabled"
-          off="Disabled"
+          label="快捷键："
+          on="已启用"
+          off="已禁用"
         />
         <PrimaryToggleButton
           v-model="automaticTabSwitching"
           class="o-primary-btn--option l-options-grid__button l-toggle-button"
-          label="Switch tabs on some events (e.g. entering challenges):"
+          label="部分事件后自动切换标签页（例如进入挑战）："
         />
       </div>
       <div class="l-options-grid__row">
         <PrimaryToggleButton
           v-model="offlineProgress"
           class="o-primary-btn--option l-options-grid__button"
-          label="Offline progress:"
+          label="离线进度："
         />
         <div class="o-primary-btn o-primary-btn--option o-primary-btn--slider l-options-grid__button">
-          <b>Offline ticks: {{ formatInt(offlineTicks) }}</b>
+          <b>离线模拟 tick 数：{{ formatInt(offlineTicks) }}</b>
           <SliderComponent
             class="o-primary-btn--slider__slider"
             v-bind="sliderPropsOfflineTicks"
@@ -143,7 +143,7 @@ export default {
         <PrimaryToggleButton
           v-model="hibernationCatchup"
           class="o-primary-btn--option l-options-grid__button"
-          label="Run suspended time as offline:"
+          label="将暂停时间按离线进度处理："
         />
       </div>
       <div class="l-options-grid__row">
@@ -151,7 +151,7 @@ export default {
           v-if="automatorUnlocked"
           class="o-primary-btn o-primary-btn--option o-primary-btn--slider l-options-grid__button"
         >
-          <b>Automator Log Max: {{ formatInt(parseInt(automatorLogSize)) }}</b>
+          <b>自动机日志上限：{{ formatInt(parseInt(automatorLogSize)) }}</b>
           <SliderComponent
             class="o-primary-btn--slider__slider"
             v-bind="sliderPropsAutomatorLogSize"

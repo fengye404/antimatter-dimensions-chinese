@@ -34,11 +34,11 @@ export default {
     buttonText() {
       if (this.lockText !== null) return this.lockText;
       const reset = [];
-      if (!Achievement(111).isUnlocked) reset.push("Dimensions");
-      if (!Achievement(143).isUnlocked) reset.push("Dimension Boosts");
+      if (!Achievement(111).isUnlocked) reset.push("维度");
+      if (!Achievement(143).isUnlocked) reset.push("维度提升");
       return reset.length === 0
-        ? `Increase the power of Tickspeed upgrades`
-        : `Reset your ${makeEnumeration(reset)} to increase the power of Tickspeed upgrades`;
+        ? "增强计数频率升级"
+        : `重置你的${makeEnumeration(reset)}以增强计数频率升级`;
     },
     sumText() {
       const parts = [Math.max(this.galaxies.normal, 0)];

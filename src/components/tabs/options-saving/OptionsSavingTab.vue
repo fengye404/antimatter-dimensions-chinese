@@ -185,7 +185,9 @@ export default {
           v-model="showTimeSinceSave"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Display time since save:"
+          label="显示距上次保存时间："
+          on="开启"
+          off="关闭"
         />
       </div>
       <div class="l-options-grid__row">

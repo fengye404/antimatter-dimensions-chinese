@@ -59,13 +59,13 @@ export default {
     },
     buttonText() {
       if (this.overrideLabel.length > 0) return this.overrideLabel;
-      if (this.isRunning || this.inC1) return "Running";
-      if (this.isCompleted) return "Completed";
-      if (this.isUnlocked) return "Start";
+      if (this.isRunning || this.inC1) return "进行中";
+      if (this.isCompleted) return "已完成";
+      if (this.isUnlocked) return "开始";
       const lockedText = this.lockedAt === undefined
         ? ""
         : ` (${formatInt(this.infinities)}/${formatInt(this.lockedAt)})`;
-      return `Locked${lockedText}`;
+      return `未解锁${lockedText}`;
     }
   },
   methods: {

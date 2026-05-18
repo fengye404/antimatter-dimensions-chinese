@@ -172,39 +172,39 @@ export default {
   <div class="c-stats-tab">
     <div>
       <PrimaryButton onclick="Modal.catchup.show(0)">
-        View Content Summary
+        查看内容概要
       </PrimaryButton>
       <div class="c-stats-tab-title c-stats-tab-general">
         General
       </div>
       <div class="c-stats-tab-general">
-        <div>You have made a total of {{ format(totalAntimatter, 2, 1) }} antimatter.</div>
-        <div>You have played for {{ realTimePlayed }}. (real time)</div>
+        <div>你总共产出了 {{ format(totalAntimatter, 2, 1) }} 反物质。</div>
+        <div>你已游玩 {{ realTimePlayed }}。（真实时间）</div>
         <div v-if="reality.isUnlocked">
-          Your existence has spanned {{ reality.totalTimePlayed }} of time. (game time)
+          你的存在已经跨越了 {{ reality.totalTimePlayed }}。（游戏时间）
         </div>
         <div>
-          Your save was created on {{ startDate }} ({{ saveAge }} ago)
+          你的存档创建于 {{ startDate }}（{{ saveAge }} 前）
         </div>
         <br>
         <div>
-          You have seen {{ quantifyInt("news message", totalNews) }} in total.
+          你总共看过 {{ formatInt(totalNews) }} 条新闻。
         </div>
         <div>
-          You have seen {{ quantifyInt("unique news message", uniqueNews) }}.
+          你看过 {{ formatInt(uniqueNews) }} 条不重复新闻。
         </div>
         <div>
-          You have unlocked {{ quantifyInt("Secret Achievement", secretAchievementCount) }}.
+          你已解锁 {{ formatInt(secretAchievementCount) }} 个秘密成就。
         </div>
         <div v-if="paperclips">
-          You have {{ quantifyInt("useless paperclip", paperclips) }}.
+          你拥有 {{ formatInt(paperclips) }} 个没用的回形针。
         </div>
         <div v-if="fullGameCompletions">
           <br>
           <b>
-            You have completed the entire game {{ quantifyInt("time", fullGameCompletions) }}.
+            你已完整通关 {{ formatInt(fullGameCompletions) }} 次。
             <br>
-            You have played for {{ fullTimePlayed }} across all playthroughs.
+            所有周目合计游玩时间为 {{ fullTimePlayed }}。
           </b>
         </div>
       </div>
@@ -231,28 +231,26 @@ export default {
         Infinity
       </div>
       <div>
-        You have {{ infinityCountString }}<span v-if="eternity.isUnlocked"> this Eternity</span>.
+        你有 {{ infinityCountString }}<span v-if="eternity.isUnlocked">，计入本次永恒</span>。
       </div>
       <div v-if="infinity.banked.gt(0)">
-        You have {{ formatDecimalAmount(infinity.banked.floor()) }}
-        {{ pluralize("Banked Infinity", infinity.banked.floor()) }}.
+        你拥有 {{ formatDecimalAmount(infinity.banked.floor()) }} 个储备无限。
       </div>
       <div v-if="infinity.hasBest">
-        Your fastest Infinity was {{ infinity.best.toStringShort() }}.
+        你最快的一次无限用时 {{ infinity.best.toStringShort() }}。
       </div>
       <div v-else>
-        You have no fastest Infinity<span v-if="eternity.isUnlocked"> this Eternity</span>.
+        你还没有最快无限记录<span v-if="eternity.isUnlocked">（本次永恒）</span>。
       </div>
       <div>
-        You have spent {{ infinity.this.toStringShort() }} in this Infinity.
+        你已在本次无限中花费 {{ infinity.this.toStringShort() }}。
         <span v-if="reality.isUnlocked">
-          ({{ infinity.thisReal.toStringShort() }} real time)
+          （{{ infinity.thisReal.toStringShort() }} 真实时间）
         </span>
       </div>
       <div>
-        Your best Infinity Points per minute
-        <span v-if="eternity.count.gt(0)">this Eternity </span>
-        is {{ format(infinity.bestRate, 2, 2) }}.
+        你<span v-if="eternity.count.gt(0)">本次永恒中</span>最高每分钟无限点数为
+        {{ format(infinity.bestRate, 2, 2) }}。
       </div>
       <br>
     </div>

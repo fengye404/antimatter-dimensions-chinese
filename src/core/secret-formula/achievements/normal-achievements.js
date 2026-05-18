@@ -495,11 +495,11 @@ export const normalAchievements = [
   },
   {
     id: 75,
-    name: "NEW DIMENSIONS???",
-    description: "Unlock the 4th Infinity Dimension.",
+    name: "新维度？？？",
+    description: "解锁第 4 无限维度。",
     checkRequirement: () => InfinityDimension(4).isUnlocked,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    reward: "Your Achievement bonus affects Infinity Dimensions.",
+    reward: "成就加成会影响无限维度。",
     effect: () => Achievements.power
   },
   {
@@ -686,8 +686,8 @@ export const normalAchievements = [
   },
   {
     id: 98,
-    name: "0 degrees from Infinity",
-    description: "Unlock the 8th Infinity Dimension.",
+    name: "距无限 0 度",
+    description: "解锁第 8 无限维度。",
     checkRequirement: () => InfinityDimension(8).isUnlocked,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
@@ -909,7 +909,7 @@ export const normalAchievements = [
   },
   {
     id: 127,
-    name: "But I wanted another prestige layer...",
+    name: "但我还想要一个新的重置层……",
     get description() { return `Reach ${format(Decimal.NUMBER_MAX_VALUE, 1, 0)} Eternity Points.`; },
     checkRequirement: () => Currency.eternityPoints.gte(Decimal.NUMBER_MAX_VALUE),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER

@@ -148,6 +148,7 @@ const pluralDatabase = new Map([
 window.pluralize = function pluralize(word, amount, plural) {
   if (word === undefined || amount === undefined) throw "Arguments must be defined";
 
+  if (/[\u4E00-\u9FFF]/u.test(word)) return word;
   if (isSingular(amount)) return word;
   const existingPlural = plural ?? pluralDatabase.get(word);
   if (existingPlural !== undefined) return existingPlural;
@@ -210,8 +211,8 @@ window.quantifyInt = function quantifyInt(name, value) {
 window.makeEnumeration = function makeEnumeration(items) {
   if (items.length === 0) return "";
   if (items.length === 1) return items[0];
-  if (items.length === 2) return `${items[0]} and ${items[1]}`;
-  const commaSeparated = items.slice(0, items.length - 1).join(", ");
+  if (items.length === 2) return `${items[0]}和${items[1]}`;
+  const commaSeparated = items.slice(0, items.length - 1).join("、");
   const last = items[items.length - 1];
-  return `${commaSeparated}, and ${last}`;
+  return `${commaSeparated}和${last}`;
 };

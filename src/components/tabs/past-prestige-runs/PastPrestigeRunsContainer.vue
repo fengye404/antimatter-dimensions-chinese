@@ -145,10 +145,10 @@ export default {
       return cells;
     },
     infoCol() {
-      const cells = ["Run", this.hasRealTime ? "Game Time" : "Time in Run"];
-      if (this.hasRealTime) cells.push("Real Time");
+      const cells = ["运行", this.hasRealTime ? "游戏时间" : "本轮用时"];
+      if (this.hasRealTime) cells.push("真实时间");
       cells.push(...this.resourceTitles);
-      if (this.hasChallenges) cells.push("Challenge");
+      if (this.hasChallenges) cells.push("挑战");
 
       for (let index = 0; index < this.layer.extra?.length && cells.length <= this.longestRow; index++) {
         if (!this.layer.showExtra[index]()) continue;
@@ -258,11 +258,10 @@ export default {
           class="c-empty-row"
         >
           <i v-if="index === 10">
-            An average cannot be calculated with no {{ plural }}.
+            尚无{{ plural }}记录，无法计算平均值。
           </i>
           <i v-else>
-            You have not done {{ formatInt(index + 1) }}
-            {{ index === 0 ? singular : plural }} yet.
+            你还没有完成第 {{ formatInt(index + 1) }} 次{{ index === 0 ? singular : plural }}。
           </i>
         </span>
         <span

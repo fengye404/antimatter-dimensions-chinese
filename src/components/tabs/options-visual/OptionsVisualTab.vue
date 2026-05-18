@@ -4,9 +4,43 @@ import OpenModalHotkeysButton from "@/components/OpenModalHotkeysButton";
 import OptionsButton from "@/components/OptionsButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 import SelectNotationDropdown from "@/components/tabs/options-visual/SelectNotationDropdown";
-import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDropdown";
 import SelectSidebarDropdown from "@/components/tabs/options-visual/SelectSidebarDropdown";
+import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDropdown";
 import UpdateRateSlider from "./UpdateRateSlider";
+
+const DISPLAY_TEXT = {
+  "AMOLED": "AMOLED",
+  "AMOLED Metro": "AMOLED 都市",
+  "Bar": "条形",
+  "Blind": "盲文",
+  "Blobs": "Blob",
+  "Brackets": "括号",
+  "Cancer": "癌症",
+  "Classic": "经典",
+  "Commas": "逗号",
+  "Dark": "深色",
+  "Dark Metro": "深色都市",
+  "Dots": "点号",
+  "Emoji": "Emoji",
+  "Engineering": "工程计数法",
+  "Hex": "十六进制",
+  "Imperial": "英制",
+  "Inverted": "反色",
+  "Inverted Metro": "反色都市",
+  "Latest Resource": "最新资源",
+  "Letters": "字母",
+  "Logarithm": "对数",
+  "Mixed engineering": "混合工程计数法",
+  "Mixed scientific": "混合科学计数法",
+  "Modern": "现代",
+  "Normal": "普通",
+  "Prime": "质数",
+  "Roman": "罗马数字",
+  "Scientific": "科学计数法",
+  "Shi": "中文数字",
+  "Standard": "标准",
+  "Zalgo": "乱码"
+};
 
 export default {
   name: "OptionsVisualTab",
@@ -31,16 +65,16 @@ export default {
   computed: {
     sidebarDB: () => GameDatabase.sidebarResources,
     themeLabel() {
-      return `Theme: ${Themes.find(this.theme).displayName()}`;
+      return `主题：${this.localizeDisplayText(Themes.find(this.theme).displayName())}`;
     },
     notationLabel() {
-      return `Notation: ${this.notation}`;
+      return `记数法：${this.localizeDisplayText(this.notation)}`;
     },
     sidebarLabel() {
-      return `Sidebar (Modern UI): ${this.sidebarResource}`;
+      return `侧边栏（现代界面）：${this.localizeDisplayText(this.sidebarResource)}`;
     },
     UILabel() {
-      return `UI: ${this.$viewModel.newUI ? "Modern" : "Classic"}`;
+      return `界面：${this.$viewModel.newUI ? "现代" : "经典"}`;
     }
   },
   watch: {
@@ -49,12 +83,15 @@ export default {
     },
   },
   methods: {
+    localizeDisplayText(text) {
+      return DISPLAY_TEXT[text] || text;
+    },
     update() {
       const options = player.options;
       this.theme = Theme.currentName();
       this.notation = options.notation;
       this.sidebarResource = player.options.sidebarResourceID === 0
-        ? "Latest Resource"
+        ? "最新资源"
         : this.sidebarDB.find(e => e.id === player.options.sidebarResourceID).optionName;
       this.headerTextColored = options.headerTextColored;
     },
@@ -77,7 +114,7 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.newsOptions.show();"
         >
-          Open News Options
+          打开新闻选项
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -103,7 +140,7 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.notation.show();"
         >
-          Open Exponent Notation Options
+          打开指数记数法选项
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -111,19 +148,19 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.animationOptions.show();"
         >
-          Open Animation Options
+          打开动画选项
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.infoDisplayOptions.show()"
         >
-          Open Info Display Options
+          打开信息显示选项
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option"
           onclick="Modal.awayProgressOptions.show()"
         >
-          Open Away Progress Options
+          打开离线进度选项
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -131,12 +168,14 @@ export default {
           class="o-primary-btn--option"
           onclick="Modal.hiddenTabs.show()"
         >
-          Modify Visible Tabs
+          调整可见标签页
         </OptionsButton>
         <PrimaryToggleButton
           v-model="headerTextColored"
           class="o-primary-btn--option l-options-grid__button"
-          label="Relative prestige gain text coloring:"
+          label="重置收益文本着色："
+          on="开启"
+          off="关闭"
         />
         <ExpandingControlBox
           v-if="$viewModel.newUI"

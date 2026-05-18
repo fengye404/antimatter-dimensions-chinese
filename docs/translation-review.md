@@ -8,6 +8,20 @@
 
 ## 已修复问题
 
+### 2026-05-19 阶段式 UI 审计与核心机制翻译
+
+| # | 位置 | 原文/问题 | 修复后 | 原因 |
+|---|------|-----------|--------|------|
+| 23 | `scripts/audit-i18n-visible-text.js` | 缺少跨阶段可见英文审计 | 新增 Playwright 阶段遍历报告 | 让翻译修复从人工抽查变为可重复审计 |
+| 24 | `src/core/secret-formula/tabs.js` | 主 Tab/Subtab 名称大量依赖运行时替换 | 维度、选项、统计、挑战、无限、永恒、现实、天体等源头中文化 | 导航是最高频 UI，不应出现加载时英文闪烁 |
+| 25 | `src/components/tabs/options-*` | 选项页标签和滑块句式中英混排 | 存档、显示、玩法选项源头中文化 | Vue 模板拆分文本会导致翻译引擎只能替换半句 |
+| 26 | `src/components/tabs/normal-challenges` 与 `src/core/secret-formula/challenges/normal-challenges.js` | 普通挑战名称、规则、奖励仍有英文 | 挑战规则和自动购买器奖励中文化 | 普通挑战解释直接影响早中期玩法理解 |
+| 27 | `src/components/tabs/infinity-dimensions` 与 `src/components/tabs/replicanti` | 无限维度、复制品页存在动态英文句式 | 无限之力、复制概率、复制品星系、上限说明等中文化 | 无限阶段是第一次机制扩展，术语必须稳定 |
+| 28 | `src/core/timespan.js` | 时间显示输出 `seconds/minutes/hours` | 输出“秒/分钟/小时/天/年” | 全局时间格式影响统计、复制品、自动机和离线进度 |
+| 29 | `src/core/format.js` | `makeEnumeration` 和 `pluralize` 默认英文复数 | 中文列表用顿号/“和”，中文词不加复数 `s` | 避免“维度和Dimension Boosts”“无限点数s”等混排 |
+| 30 | `src/core/secret-formula/news.js` | 审计中抽到的新闻仍为英文 | 已翻译本轮命中的新闻样例 | 新闻滚动条是可见 UI，需逐步进入审计队列 |
+| 31 | `src/core/achievements/*` | 成就通知前缀与部分成就名英文 | “成就/秘密成就”通知前缀和审计命中成就名中文化 | 避免通知区反复出现 `Achievement:` |
+
 ### 2026-05-18 商店与运行时翻译重做
 
 | # | 位置 | 原文/问题 | 修复后 | 原因 |

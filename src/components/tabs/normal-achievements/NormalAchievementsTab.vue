@@ -42,14 +42,14 @@ export default {
       const boostList = [];
 
       const dimMultList = [];
-      dimMultList.push("Antimatter");
-      if (this.achMultToIDS) dimMultList.push("Infinity");
-      if (this.achMultToTDS) dimMultList.push("Time");
-      boostList.push(`${makeEnumeration(dimMultList)} Dimensions: ${achievementPower}`);
+      dimMultList.push("反物质");
+      if (this.achMultToIDS) dimMultList.push("无限");
+      if (this.achMultToTDS) dimMultList.push("时间");
+      boostList.push(`${makeEnumeration(dimMultList)}维度：${achievementPower}`);
 
-      if (this.achMultToTP) boostList.push(`Tachyon Particles: ${achTPEffect}`);
-      if (this.achMultToBH) boostList.push(`Black Hole Power: ${achievementPower}`);
-      if (this.achMultToTT) boostList.push(`Time Theorem production: ${achievementPower}`);
+      if (this.achMultToTP) boostList.push(`快子粒子：${achTPEffect}`);
+      if (this.achMultToBH) boostList.push(`黑洞能量：${achievementPower}`);
+      if (this.achMultToTT) boostList.push(`时间定理产量：${achievementPower}`);
       return `${boostList.join("<br>")}`;
     },
   },
@@ -134,13 +134,17 @@ export default {
       <PrimaryToggleButton
         v-model="hideCompletedRows"
         class="o-primary-btn--subtab-option"
-        label="Hide completed rows:"
+        label="隐藏已完成行："
+        on="开启"
+        off="关闭"
       />
       <PrimaryToggleButton
         v-if="showAutoAchieve"
         v-model="isAutoAchieveActive"
         class="o-primary-btn--subtab-option"
-        label="Auto Achievements:"
+        label="自动成就："
+        on="开启"
+        off="关闭"
       />
     </div>
     <div class="c-achievements-tab__header c-achievements-tab__header--multipliers">
@@ -153,7 +157,7 @@ export default {
       </span>
     </div>
     <div class="c-achievements-tab__header">
-      Achievements with a <i class="fas fa-star" /> icon also give an additional reward.
+      带有 <i class="fas fa-star" /> 图标的成就还会提供额外奖励。
     </div>
     <div
       v-if="showAutoAchieve"

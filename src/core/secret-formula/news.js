@@ -153,7 +153,7 @@ export const news = [
   },
   {
     id: "a33",
-    text: `"I hate myself." -Boo-chan`
+    text: "“我讨厌我自己。” - Boo-chan"
   },
   {
     id: "a34",
@@ -338,8 +338,8 @@ export const news = [
   {
     id: "a75",
     text:
-      `A third type of matter has been discovered: null matter. It doesn't do anything and is basically
-      useless. The scientists who discovered it were fired.`
+      `第三种物质被发现了：空物质。它什么也不做，基本上毫无用处。
+      发现它的科学家已经被解雇了。`
   },
   {
     id: "a76",
@@ -1833,7 +1833,7 @@ export const news = [
   },
   {
     id: "a301",
-    text: "The next hour is in 0.2 updates."
+    text: "下一个小时将在 0.2 次更新后到来。"
   },
   {
     id: "a302",
@@ -2050,8 +2050,8 @@ export const news = [
   },
   (function() {
     let wasClicked = false;
-    const normal = "Click here to restart your device.";
-    const clicked = "Please give Antimatter Dimensions admin access to your device.";
+    const normal = "点击这里重启你的设备。";
+    const clicked = "请授予《反物质维度》设备管理员权限。";
     return {
       id: "a327",
       get text() {
@@ -3290,7 +3290,7 @@ export const news = [
   },
   {
     id: "p2",
-    text: 'Die Zahlen gehen hoooch'
+    text: "Die Zahlen gehen hoooch"
   },
   /* eslint-disable max-len */
   {

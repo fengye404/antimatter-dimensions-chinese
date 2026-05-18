@@ -123,14 +123,14 @@ export default {
       />
       <template v-if="!isDisabled && isImprovedByTS31">
         <br>
-        After TS31: {{ formatX(ts31Effect, 2, 2) }}
+        时间研究 31 后：{{ formatX(ts31Effect, 2, 2) }}
       </template>
     </span>
     <CostDisplay
       v-if="!isBought"
       br
       :config="config"
-      name="Infinity Point"
+      name="无限点数"
     />
     <slot />
   </button>

@@ -69,8 +69,8 @@ export default {
       }
     },
     getUntil10Display() {
-      if (this.isContinuumActive) return "Continuum";
-      return this.buyUntil10 ? "Until 10" : "Buy 1";
+      if (this.isContinuumActive) return "连续体";
+      return this.buyUntil10 ? "补至 10 个" : "购买 1 个";
     },
     update() {
       this.hasDimensionBoosts = player.dimensionBoosts > 0;
@@ -84,7 +84,7 @@ export default {
 
       this.buy10Mult.copyFrom(AntimatterDimensions.buyTenMultiplier);
 
-      this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}`;
+      this.multiplierText = `购买 10 个维度的倍率：${formatX(this.buy10Mult, 2, 2)}`;
       if (!isSacrificeUnlocked) return;
       this.isFullyAutomated = Autobuyer.sacrifice.isActive && Achievement(118).isUnlocked;
       this.isSacrificeAffordable = Sacrifice.canSacrifice && !this.isFullyAutomated;
@@ -92,7 +92,7 @@ export default {
       this.sacrificeBoost.copyFrom(Sacrifice.nextBoost);
       this.disabledCondition = Sacrifice.disabledCondition;
       const sacText = this.isSacrificeUnlocked
-        ? ` | Dimensional Sacrifice multiplier: ${formatX(this.currentSacrifice, 2, 2)}`
+        ? ` | 维度牺牲倍率：${formatX(this.currentSacrifice, 2, 2)}`
         : "";
       this.multiplierText += sacText;
     }
@@ -116,17 +116,17 @@ export default {
         class="o-primary-btn--sacrifice"
         @click="sacrifice"
       >
-        <span v-if="isSacrificeAffordable">Dimensional Sacrifice ({{ formatX(sacrificeBoost, 2, 2) }})</span>
+        <span v-if="isSacrificeAffordable">维度牺牲（{{ formatX(sacrificeBoost, 2, 2) }}）</span>
         <span v-else-if="isFullyAutomated && disabledCondition !== ''">
-          Dimensional Sacrifice is Automated (Achievement 118)
+          维度牺牲已自动化（成就 118）
         </span>
-        <span v-else>Dimensional Sacrifice Disabled ({{ disabledCondition }})</span>
+        <span v-else>维度牺牲已禁用（{{ disabledCondition }}）</span>
       </PrimaryButton>
       <button
         class="o-primary-btn l-button-container"
         @click="maxAll"
       >
-        Max All (M)
+        全部最大（M）
       </button>
     </div>
     <span>{{ multiplierText }}</span>
@@ -145,9 +145,9 @@ export default {
         class="o-primary-btn--quick-reset"
         onclick="softReset(-1, true, true)"
       >
-        Perform a Dimension Boost reset
-        <span v-if="hasDimensionBoosts"> but lose a Dimension Boost</span>
-        <span v-else> for no gain</span>
+        执行一次维度提升重置
+        <span v-if="hasDimensionBoosts">，但会失去一个维度提升</span>
+        <span v-else>，且没有收益</span>
       </PrimaryButton>
       <AntimatterGalaxyRow />
     </div>
