@@ -21,6 +21,7 @@
 | 29 | `src/core/format.js` | `makeEnumeration` 和 `pluralize` 默认英文复数 | 中文列表用顿号/“和”，中文词不加复数 `s` | 避免“维度和Dimension Boosts”“无限点数s”等混排 |
 | 30 | `src/core/secret-formula/news.js` | 审计中抽到的新闻仍为英文 | 已翻译本轮命中的新闻样例 | 新闻滚动条是可见 UI，需逐步进入审计队列 |
 | 31 | `src/core/achievements/*` | 成就通知前缀与部分成就名英文 | “成就/秘密成就”通知前缀和审计命中成就名中文化 | 避免通知区反复出现 `Achievement:` |
+| 32 | `public/stylesheets/chinese-localization.css` | 同一句内英文/数字使用 `Typewriter`，中文使用系统 fallback，视觉大小和字重不一致 | 中文版常规 UI 统一使用系统中文 UI 字体栈，保留图标/代码/特殊符号字体 | 解决“已翻译但同段字体和大小不一致”的基础视觉问题 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

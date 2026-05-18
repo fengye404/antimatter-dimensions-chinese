@@ -125,7 +125,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Typewriter;
+  font-family: inherit;
   background: turquoise;
   border: none;
   border-radius: var(--var-border-radius, 0.5rem);

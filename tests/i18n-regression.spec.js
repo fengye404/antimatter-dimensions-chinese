@@ -45,4 +45,31 @@ test.describe("Chinese localization regression", () => {
     expect(text).not.toContain("Login with Google");
     expect(text).not.toContain("In-app Purchases");
   });
+
+  test("uses a consistent Chinese UI font stack for localized text", async({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
+
+    const fontReport = await page.evaluate(() => {
+      const selectors = ["body", "#page", ".o-tab-btn", ".o-primary-btn"];
+      return selectors.map(selector => {
+        const element = document.querySelector(selector);
+        return {
+          selector,
+          fontFamily: element ? getComputedStyle(element).fontFamily : null,
+        };
+      });
+    });
+
+    for (const entry of fontReport) {
+      expect(
+        entry.fontFamily,
+        `${entry.selector} should not render CJK UI with Typewriter`
+      ).not.toMatch(/Typewriter/u);
+      expect(
+        entry.fontFamily,
+        `${entry.selector} should use the Chinese UI font stack`
+      ).toMatch(/PingFang|Microsoft YaHei|Noto Sans CJK|Source Han Sans|Segoe UI|-apple-system/u);
+    }
+  });
 });

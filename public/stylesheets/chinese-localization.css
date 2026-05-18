@@ -1,0 +1,79 @@
+/*
+ * Chinese localization visual layer.
+ *
+ * The upstream UI was designed around the custom Typewriter font, which has no
+ * complete CJK coverage. If we keep it as the primary UI font, browsers render
+ * Latin text with Typewriter and Chinese text with a fallback font in the same
+ * sentence, making translated copy look uneven. This file is loaded last and
+ * normalizes regular UI text to a native Chinese UI font stack while leaving
+ * icon fonts, glyph symbols, and deliberate novelty fonts alone.
+ */
+
+:root {
+  --ad-cn-font-sans:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    sans-serif;
+  --ad-cn-font-mono:
+    "SFMono-Regular",
+    "Cascadia Mono",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+html[lang="zh-CN"] body,
+html[lang="zh-CN"] #page,
+html[lang="zh-CN"] #ui,
+html[lang="zh-CN"] button,
+html[lang="zh-CN"] input,
+html[lang="zh-CN"] select,
+html[lang="zh-CN"] textarea,
+html[lang="zh-CN"] .c-modal,
+html[lang="zh-CN"] .c-tooltip-content,
+html[lang="zh-CN"] .o-primary-btn,
+html[lang="zh-CN"] .o-tab-btn,
+html[lang="zh-CN"] .o-subtab-btn,
+html[lang="zh-CN"] .o-shop-button-button {
+  font-family: var(--ad-cn-font-sans) !important;
+}
+
+html[lang="zh-CN"] body {
+  font-weight: 400;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis-weight: none;
+}
+
+html[lang="zh-CN"] button,
+html[lang="zh-CN"] .o-primary-btn,
+html[lang="zh-CN"] .o-tab-btn,
+html[lang="zh-CN"] .o-subtab-btn,
+html[lang="zh-CN"] .c-shop-panel,
+html[lang="zh-CN"] .c-shop-disclaimer {
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+}
+
+html[lang="zh-CN"] code,
+html[lang="zh-CN"] pre,
+html[lang="zh-CN"] .CodeMirror,
+html[lang="zh-CN"] .c-automator-block-row,
+html[lang="zh-CN"] .c-automator-docs-page__indented {
+  font-family: var(--ad-cn-font-mono) !important;
+}
+
+html[lang="zh-CN"] .fa,
+html[lang="zh-CN"] .fas,
+html[lang="zh-CN"] .far,
+html[lang="zh-CN"] .fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome" !important;
+}

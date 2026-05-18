@@ -91,3 +91,17 @@
 ### 本轮修复策略
 
 本轮不再只依赖运行时字典。对于 Vue 模板拆分文本、长期显示的导航名称、核心机制说明和格式化函数，直接在源组件中中文化，以减少 DOM 翻译竞态和半句中英混排。
+
+## 2026-05-19 视觉一致性补充
+
+### 问题
+
+原版 UI 大量使用自定义 `Typewriter` 字体。该字体没有完整中文字符设计，浏览器会在同一段文本中用 `Typewriter` 渲染英文和数字、再用系统中文 fallback 渲染汉字，导致同一句内字体、字重和视觉大小不一致。运行时翻译层还会在局部文本节点上替换内容，使这种不一致更明显。
+
+### 设计
+
+1. `public/index.html` 将页面语言声明改为 `zh-CN`。
+2. 新增 `public/stylesheets/chinese-localization.css` 并在所有原版样式后加载。
+3. 中文版常规 UI 使用系统中文 UI 字体栈，优先 `PingFang SC`、`Microsoft YaHei`、`Noto Sans CJK SC`、`Source Han Sans SC`。
+4. 图标字体、CodeMirror、自动机代码块和符文/特殊视觉仍保留各自专用字体，避免破坏原版机制表达。
+5. Playwright 回归新增字体栈检查，防止 `body`、`#page`、主按钮和 Tab 按钮继续落回 `Typewriter`。
