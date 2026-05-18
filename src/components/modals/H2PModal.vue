@@ -1,6 +1,28 @@
 <script>
 import ModalCloseButton from "@/components/modals/ModalCloseButton";
 
+let cachedH2PTranslations;
+
+function normalizeH2PText(value) {
+  return String(value)
+    .replace(/\\n/gu, " ")
+    .replace(/\\"/gu, "\"")
+    .replace(/<[^>]*>/gu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function h2pTranslations() {
+  if (cachedH2PTranslations) return cachedH2PTranslations;
+
+  const translations = window.__AD_I18N__?.translations;
+  if (!translations) return new Map();
+
+  cachedH2PTranslations = new Map(Object.entries(translations)
+    .map(([key, value]) => [normalizeH2PText(key), value]));
+  return cachedH2PTranslations;
+}
+
 export default {
   name: "H2PModal",
   components: {
@@ -54,6 +76,26 @@ export default {
       return idx > 0 &&
         searchObjThis.relevance >= this.topThreshold &&
         searchObjOther.relevance < this.topThreshold;
+    },
+    localizedH2PText(text) {
+      return h2pTranslations().get(normalizeH2PText(text)) ?? text;
+    },
+    localizedH2PInfo(tab) {
+      const translations = h2pTranslations();
+
+      return tab.info()
+        .split(/((?:\s*<br\s*\/?>\s*)+)/giu)
+        .map(chunk => {
+          if (/<br\s*\/?>/iu.test(chunk)) return chunk;
+
+          const translated = translations.get(normalizeH2PText(chunk));
+          if (!translated) return chunk;
+
+          return translated
+            .replace(/\\n/gu, " ")
+            .replace(/\n/gu, " ");
+        })
+        .join("");
     }
   },
 };
@@ -64,7 +106,7 @@ export default {
     <ModalCloseButton @click="emitClose" />
     <div class="l-h2p-header">
       <div class="c-h2p-title">
-        How To Play
+        游戏玩法
       </div>
     </div>
     <div class="l-h2p-container">
@@ -72,7 +114,7 @@ export default {
         <input
           ref="input"
           v-model="searchValue"
-          placeholder="Type to search..."
+          placeholder="搜索玩法条目..."
           class="c-h2p-search-bar"
           @keyup.esc="emitClose"
         >
@@ -88,18 +130,18 @@ export default {
             }"
             @click="setActiveTab(searchObj.tab)"
           >
-            {{ searchObj.tab.alias }}
+            {{ localizedH2PText(searchObj.tab.alias) }}
           </div>
         </div>
       </div>
       <div class="l-h2p-info">
         <div class="c-h2p-body--title">
-          {{ activeTab.name }}
+          {{ localizedH2PText(activeTab.name) }}
         </div>
         <div
           id="h2p-body"
           class="l-h2p-body c-h2p-body"
-          v-html="activeTab.info()"
+          v-html="localizedH2PInfo(activeTab)"
         />
       </div>
     </div>

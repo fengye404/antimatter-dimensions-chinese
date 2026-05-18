@@ -72,4 +72,22 @@ test.describe("Chinese localization regression", () => {
       ).toMatch(/PingFang|Microsoft YaHei|Noto Sans CJK|Source Han Sans|Segoe UI|-apple-system/u);
     }
   });
+
+  test("localizes the How to Play modal body instead of leaving large English paragraphs", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.GameDatabase && window.Modal && window.ui);
+    await page.evaluate(() => {
+      ui.view.h2pForcedTab = GameDatabase.h2p.tabs.find(tab => tab.name === "Customization");
+      Modal.h2p.show();
+    });
+    await page.locator(".o-h2p-tab-button", { hasText: "定制" }).click();
+
+    await expect(page.locator(".c-h2p-title")).toContainText("游戏玩法");
+    await expect(page.locator(".c-h2p-search-bar")).toHaveAttribute("placeholder", "搜索玩法条目...");
+    await expect(page.locator(".c-h2p-body--title")).toContainText("定制");
+    await expect(page.locator("#h2p-body")).toContainText("游戏提供两套界面布局");
+    await expect(page.locator("#h2p-body")).toContainText("混合科学记数法");
+    await expect(page.locator("#h2p-body")).not.toContainText("The game has two different UI layouts");
+    await expect(page.locator("#h2p-body")).not.toContainText("The notation used to display numbers");
+  });
 });
