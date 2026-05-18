@@ -129,6 +129,30 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("#h2p-body")).not.toContainText("The notation used to display numbers");
   });
 
+  test("localizes early How to Play mechanic entries without mixed English paragraphs", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Modal);
+    await page.evaluate(() => Modal.h2p.show());
+
+    await page.locator(".o-h2p-tab-button", { hasText: "效果叠加" }).click();
+    await expect(page.locator("#h2p-body")).toContainText("多个叠加效果会彼此相加");
+    await expect(page.locator("#h2p-body")).toContainText("按“叠加、相乘、幂次”的顺序");
+    await expect(page.locator("#h2p-body")).not.toContainText("These effects are typically denoted");
+    await expect(page.locator("#h2p-body")).not.toContainText("replacing an older value");
+
+    await page.locator(".o-h2p-tab-button", { hasText: "反物质维度" }).click();
+    await expect(page.locator("#h2p-body")).toContainText("第一反物质维度产出反物质");
+    await expect(page.locator("#h2p-body")).toContainText("快捷键：1 到 8");
+    await expect(page.locator("#h2p-body")).not.toContainText("Beside the Dimension there is a multiplier");
+    await expect(page.locator("#h2p-body")).not.toContainText("Hotkeys:");
+
+    await page.locator(".o-h2p-tab-button", { hasText: "自动购买器" }).click();
+    await expect(page.locator("#h2p-body")).toContainText("自动购买器会在你负担得起时自动购买");
+    await expect(page.locator("#h2p-body")).toContainText("可以把它理解为总开关");
+    await expect(page.locator("#h2p-body")).not.toContainText("The cooldown period before the autobuyer");
+    await expect(page.locator("#h2p-body")).not.toContainText("Dynamic Amount");
+  });
+
   test("localizes the content summary modal", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.Modal);

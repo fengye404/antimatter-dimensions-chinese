@@ -129,6 +129,7 @@ const TEXT_ALLOWLIST = [
   /^ALT$/u,
   /^Alt$/u,
   /^CTRL$/u,
+  /^Ctrl$/u,
   /^ON$/u,
   /^OFF$/u,
   /^ENTER$/u,
@@ -138,14 +139,19 @@ const TEXT_ALLOWLIST = [
   /^Blob.+$/u,
   /^AI$/u,
   /^Kms$/u,
+  /^eyJ$/u,
+  /^In19$/u,
+  /^fX0=$/u,
+  /^fQ==$/u,
   /^https?:\/\/\S+$/u
 ];
 
 const ALLOWED_ENGLISH_TOKENS = [
   "AD", "AM", "AMOLED", "EP", "IP", "RM", "STD", "TT", "Emoji", "OAuth", "Steam", "Google", "Discord",
-  "GitHub", "PlayFab",
+  "GitHub", "PlayFab", "Android", "JavaScript", "DLC",
   "Antimatter Dimensions", "Teresa", "Effarig", "Ra", "Pelle", "Chrome", "Firefox", "Safari", "Edge",
-  "SHIFT", "Shift", "ALT", "Alt", "CTRL", "ENTER", "ESC", "TAB", "ON", "OFF", "Blob", "AI", "Kms", "Cookie"
+  "SHIFT", "Shift", "ALT", "Alt", "CTRL", "Ctrl", "ENTER", "ESC", "TAB", "ON", "OFF", "Blob", "AI", "Kms",
+  "Cookie", "Qa", "Qt", "Sp", "No", "EC", "NC", "ID", "BH", "DT", "TP", "eyJ", "In19", "fX0=", "fQ=="
 ];
 
 function contentType(filePath) {
@@ -304,6 +310,30 @@ async function showCatchupModal(page) {
   await page.waitForTimeout(250);
 }
 
+async function collectH2PEnglish(page, stageTitle) {
+  const results = [];
+
+  await page.evaluate(() => {
+    Modal.hide();
+    Modal.h2p.show();
+    GameUI.update();
+  });
+  await page.waitForTimeout(250);
+
+  const tabCount = await page.locator(".l-h2p-modal .o-h2p-tab-button").count();
+  for (let index = 0; index < tabCount; index++) {
+    const tabButton = page.locator(".l-h2p-modal .o-h2p-tab-button").nth(index);
+    const tabName = normalizeText(await tabButton.innerText());
+    await tabButton.click();
+    await page.waitForTimeout(100);
+
+    const visible = await collectVisibleEnglish(page, stageTitle, "游戏玩法", tabName, ".l-h2p-modal");
+    results.push(...visible);
+  }
+
+  return results;
+}
+
 function renderReport(results) {
   const generatedAt = new Date().toISOString();
   const grouped = new Map();
@@ -388,6 +418,8 @@ async function main() {
       await showCatchupModal(page);
       const catchupVisible = await collectVisibleEnglish(page, stage.title, "统计弹窗", "内容概要", ".c-modal.l-modal");
       results.push(...catchupVisible);
+
+      results.push(...await collectH2PEnglish(page, stage.title));
     }
   } finally {
     await browser.close();
