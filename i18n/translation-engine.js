@@ -18,8 +18,14 @@
   const i18nData = window.__AD_I18N__ || {};
   const cnItems = i18nData.translations || {};
   const cnPostfix = i18nData.postfix || {};
-  const cnExcludeWhole = (i18nData.excludeWhole || []).map(p => new RegExp(p));
-  const cnRegReplace = (i18nData.regReplace || []).map(([p, r]) => [new RegExp(p), r]);
+  const cnExcludeWhole = (i18nData.excludeWhole || []).reduce((acc, p) => {
+    try { acc.push(new RegExp(p)); } catch(e) { console.warn('[AD-i18n] 跳过无效排除规则:', p, e.message); }
+    return acc;
+  }, []);
+  const cnRegReplace = (i18nData.regReplace || []).reduce((acc, [p, r]) => {
+    try { acc.push([new RegExp(p), r]); } catch(e) { console.warn('[AD-i18n] 跳过无效正则:', p, e.message); }
+    return acc;
+  }, []);
 
   const CNITEM_DEBUG = 0;
 

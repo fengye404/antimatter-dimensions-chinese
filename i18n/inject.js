@@ -75,7 +75,7 @@ if (fs.existsSync(regexDataPath)) {
   const excludeLines = regexContent.match(/var cnExcludeWhole = \[([\s\S]*?)\n\];/);
   if (excludeLines) {
     const excludeContent = excludeLines[1];
-    const regexMatches = excludeContent.match(/\/[^/]+\/[gimsuy]*/g);
+    const regexMatches = excludeContent.match(/\/(?:[^/\\]|\\.)+\/[gimsuy]*/g);
     if (regexMatches) {
       excludeWholePatterns = regexMatches.map(r => {
         const lastSlash = r.lastIndexOf('/');
