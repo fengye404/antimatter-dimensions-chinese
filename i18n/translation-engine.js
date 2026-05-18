@@ -127,7 +127,10 @@
     doTask() {
       let task;
       while (task = this.tasks.pop()) {
-        task.node[task.attr] = task.text;
+        // 检查目标文本与当前文本是否相同（避免反复设置触发 Observer）
+        if (task.node[task.attr] !== task.text) {
+          task.node[task.attr] = task.text;
+        }
       }
     }
   };
@@ -165,6 +168,8 @@
    * 初始化翻译引擎
    */
   function init() {
+    console.log('[AD-i18n] readyState:', document.readyState);
+    console.log('[AD-i18n] body 子节点数:', document.body.children.length);
     console.log('[AD-i18n] 加载中文翻译引擎');
     console.log(`[AD-i18n] 词典条目: ${translationMap.size}`);
     console.log(`[AD-i18n] 正则规则: ${cnRegReplace.length}`);
@@ -179,7 +184,9 @@
     const targetNode = document.body;
 
     // 翻译初始静态内容
+    console.log('[AD-i18n] 首次扫描前 task 数:', transTaskMgr.tasks.length);
     TransSubTextNode(targetNode);
+    console.log('[AD-i18n] 首次扫描后 task 数:', transTaskMgr.tasks.length);
     transTaskMgr.doTask();
 
     // 监听动态变化
@@ -235,13 +242,32 @@
     });
 
     observer.observe(targetNode, observer_config);
+
+    // 周期性重扫，弥补 MutationObserver 丢失的事件
+    setInterval(() => {
+      TransSubTextNode(targetNode);
+      if (transTaskMgr.tasks.length > 0) {
+        const count = transTaskMgr.tasks.length;
+        transTaskMgr.doTask();
+        if (CNITEM_DEBUG || count > 0) {
+          console.log(`[AD-i18n] 周期重扫: 翻译 ${count} 个节点`);
+        }
+      }
+    }, 1500);
+
     console.log('[AD-i18n] 翻译引擎已启动');
   }
 
-  // 等待 DOM 就绪后启动
+  // 延迟启动，等 Vue 完全 mount 后再初始化
+  function startEngine() {
+    // 给 Vue 200ms mount 时间
+    setTimeout(init, 200);
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', startEngine);
+  } else if (document.readyState === 'interactive') {
+    document.addEventListener('DOMContentLoaded', startEngine);
   } else {
-    init();
+    startEngine();
   }
 })();
