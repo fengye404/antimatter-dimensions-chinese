@@ -3,18 +3,18 @@ import { createEntryInfo } from "./breakdown-entry-info";
 import MultiplierBreakdownEntry from "./MultiplierBreakdownEntry";
 
 const MULT_TAB_OPTIONS = [
-  { id: 0, key: "AM", text: "Antimatter Production" },
-  { id: 1, key: "tickspeed", text: "Tickspeed" },
-  { id: 2, key: "AD", text: "Antimatter Dimensions" },
-  { id: 3, key: "IP", text: "Infinity Points" },
-  { id: 4, key: "ID", text: "Infinity Dimensions" },
-  { id: 5, key: "infinities", text: "Infinities" },
-  { id: 6, key: "replicanti", text: "Replicanti Speed" },
-  { id: 7, key: "EP", text: "Eternity Points" },
-  { id: 8, key: "TD", text: "Time Dimensions" },
-  { id: 9, key: "eternities", text: "Eternities" },
-  { id: 10, key: "DT", text: "Dilated Time" },
-  { id: 11, key: "gamespeed", text: "Game Speed" },
+  { id: 0, key: "AM", text: "反物质产量" },
+  { id: 1, key: "tickspeed", text: "计数频率" },
+  { id: 2, key: "AD", text: "反物质维度" },
+  { id: 3, key: "IP", text: "无限点数" },
+  { id: 4, key: "ID", text: "无限维度" },
+  { id: 5, key: "infinities", text: "无限次数" },
+  { id: 6, key: "replicanti", text: "复制品速度" },
+  { id: 7, key: "EP", text: "永恒点数" },
+  { id: 8, key: "TD", text: "时间维度" },
+  { id: 9, key: "eternities", text: "永恒次数" },
+  { id: 10, key: "DT", text: "膨胀时间" },
+  { id: 11, key: "gamespeed", text: "游戏速度" },
 ];
 
 export default {
@@ -95,14 +95,12 @@ export default {
         :is-root="true"
       />
       <div class="c-multiplier-tab-text-line">
-        Note: Entries are only expandable if they contain multiple sources which can be different values.
-        For example, any effects which affect all Dimensions of any type equally will not expand into a
-        list of eight identical numbers.
+        注意：只有包含多个来源、且这些来源数值可能不同的条目才能展开。
+        例如，对同一类型所有维度产生完全相同影响的效果，不会展开成八个相同数字。
         <br>
         <b>
-          Some entries may cause lag if expanded out fully. Resizing happens over 200 ms (instead of instantly)
-          in order to reduce possible adverse effects due to photosensitivity. This may cause some visual weirdness
-          after prestige events.
+          某些条目完全展开时可能造成卡顿。为了降低光敏风险，展开高度会在 200 毫秒内渐变，
+          而不是瞬间改变；这可能会在重置事件后造成短暂的视觉异常。
         </b>
       </div>
     </div>

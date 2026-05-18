@@ -12,7 +12,7 @@ echo ""
 
 # 1. 构建原版
 echo "[1/3] 构建原版游戏..."
-npm run build:release
+npm run build:master
 echo "✓ 原版构建完成"
 echo ""
 

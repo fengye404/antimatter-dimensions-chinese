@@ -108,7 +108,8 @@ const TEXT_ALLOWLIST = [
   /^Chrome$/u,
   /^Firefox$/u,
   /^Safari$/u,
-  /^Edge$/u
+  /^Edge$/u,
+  /^https?:\/\/\S+$/u
 ];
 
 function contentType(filePath) {
@@ -163,7 +164,7 @@ function shouldKeepCandidate(text) {
 }
 
 async function collectVisibleEnglish(page, stage, tab, subtab) {
-  const lines = await page.evaluate(() => [...document.body.querySelectorAll("script, style")]
+  const lines = await page.evaluate(() => [...document.body.querySelectorAll("script, style, .c-news-ticker")]
     .forEach(node => node.remove()) || document.body.innerText.split(/\n+/u));
 
   return lines
@@ -174,7 +175,22 @@ async function collectVisibleEnglish(page, stage, tab, subtab) {
 
 async function waitForGame(page) {
   await page.waitForFunction(() => window.Tabs && window.GameUI && document.querySelector("#ui"));
+  await stabilizeNewsTicker(page);
   await page.waitForTimeout(500);
+}
+
+async function stabilizeNewsTicker(page) {
+  await page.evaluate(() => {
+    const ticker = document.querySelector(".c-news-ticker")?.__vue__;
+    if (!ticker || !window.GameDatabase?.news) return;
+
+    const fixedNews = GameDatabase.news.find(item => item.id === "a294");
+    if (!fixedNews) return;
+
+    NewsHandler.nextNewsMessageId = "a294";
+    ticker.currentNews = fixedNews;
+    ticker.prepareNextMessage();
+  });
 }
 
 async function resetGame(page) {
@@ -214,6 +230,7 @@ async function showSubtab(page, entry) {
     subtab.show(true);
     GameUI.update();
   }, entry);
+  await stabilizeNewsTicker(page);
   await page.waitForTimeout(350);
 }
 
@@ -233,6 +250,7 @@ function renderReport(results) {
     `生成时间：${generatedAt}`,
     "",
     "本报告由 `npm run audit:i18n` 生成，用真实浏览器遍历主要游戏阶段和可见 Tab/Subtab。",
+    "为避免随机新闻污染审计结果，新闻滚动条由专门 E2E 覆盖，本报告不统计新闻文本。",
     "命中项不是自动判错清单，专有名词、缩写和浏览器品牌可能允许保留英文；其余应进入翻译修复队列。",
     "",
     `候选英文残留总数：${results.length}`,

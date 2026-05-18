@@ -14,7 +14,10 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("选项");
     await expect(page.locator("body")).toContainText("补至 10 个");
     await expect(page.locator("body")).toContainText("购买 10 个维度的倍率");
+    await expect(page.locator("body")).toContainText("计数频率花费");
     await expect(page.locator("body")).not.toContainText("Buy 10 Dimension purchase multiplier");
+    await expect(page.locator("body")).not.toContainText("Until 10");
+    await expect(page.locator("body")).not.toContainText("Tickspeed Cost");
   });
 
   test("renders core option panels with source-level Chinese labels", async({ page }) => {
@@ -29,12 +32,13 @@ test.describe("Chinese localization regression", () => {
 
     await page.evaluate(() => Tab.options.gameplay.show(true));
     await expect(page.locator("body")).toContainText("快捷键：");
-    await expect(page.locator("body")).toContainText("离线模拟 tick 数");
+    await expect(page.locator("body")).toContainText("离线模拟游戏刻数量");
     await expect(page.locator("body")).not.toContainText("Hotkeys:");
   });
 
   test("keeps the localized shop tab visible and disables payments", async({ page }) => {
     await page.goto("/");
+    await expect(page.getByText("商店", { exact: true }).first()).toBeVisible();
     await page.getByText("商店", { exact: true }).first().click();
 
     const text = await visibleText(page);
@@ -89,5 +93,18 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("#h2p-body")).toContainText("混合科学记数法");
     await expect(page.locator("#h2p-body")).not.toContainText("The game has two different UI layouts");
     await expect(page.locator("#h2p-body")).not.toContainText("The notation used to display numbers");
+  });
+
+  test("localizes imperative news ticker messages", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.GameDatabase && document.querySelector(".c-news-ticker")?.__vue__);
+
+    await page.evaluate(() => {
+      nextNewsMessageId = "a294";
+      document.querySelector(".c-news-ticker").__vue__.prepareNextMessage();
+    });
+
+    await expect(page.locator(".c-news-line")).toContainText("如果你看到一条新闻");
+    await expect(page.locator(".c-news-line")).not.toContainText("If you see a news message");
   });
 });

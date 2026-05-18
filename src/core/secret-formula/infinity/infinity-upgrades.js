@@ -79,7 +79,7 @@ export const infinityUpgrades = {
     cost: 1,
     checkRequirement: () => InfinityUpgrade.dim36mult.isBought,
     description: () =>
-      `Decrease the number of Dimensions needed for Dimension Boosts and Antimatter Galaxies by ${formatInt(9)}`,
+      `维度提升和反物质星系所需的维度数量减少 ${formatInt(9)}`,
     effect: 9,
     charged: {
       description: () => "Decrease Dimension Boost requirement based on Teresa level",
@@ -163,8 +163,8 @@ export const infinityUpgrades = {
     formatEffect: value => {
       if (Teresa.isRunning || V.isRunning) return "Disabled in this reality";
       if (Pelle.isDoomed) return "Disabled";
-      if (player.records.bestInfinity.time >= 999999999999) return "Too slow to generate";
-      return `${format(value, 2)} every ${Time.bestInfinity.times(10).toStringShort()}`;
+      if (player.records.bestInfinity.time >= 999999999999) return "生成速度过慢";
+      return `每 ${Time.bestInfinity.times(10).toStringShort()} 生成 ${format(value, 2)}`;
     },
     charged: {
       description: () =>

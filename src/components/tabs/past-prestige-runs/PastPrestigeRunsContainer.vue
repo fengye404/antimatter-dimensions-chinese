@@ -62,6 +62,9 @@ export default {
     singular() {
       return this.layer.name;
     },
+    runKey() {
+      return this.layer.key;
+    },
     getRuns() {
       return this.layer.getRuns;
     },
@@ -73,7 +76,7 @@ export default {
       this.hasEmptyRecord = this.runs[0][0] === Number.MAX_VALUE;
       this.runs.push(this.averageRun);
       this.isRealityUnlocked = PlayerProgress.current.isRealityUnlocked;
-      this.shown = player.shownRuns[this.singular];
+      this.shown = player.shownRuns[this.runKey];
       this.resourceType = player.options.statTabResources;
       this.showRate = this.resourceType === RECENT_PRESTIGE_RESOURCE.RATE;
       this.hasChallenges = this.runs.map(r => this.challengeText(r)).some(t => t);
@@ -165,14 +168,14 @@ export default {
       return timeDisplayShort(run[1]);
     },
     prestigeCurrencyGain(run) {
-      if (this.hasIM && this.layer.name === "Reality") return `${format(run[7], 2)} iM`;
+      if (this.hasIM && this.runKey === "Reality") return `${format(run[7], 2)} iM`;
       return `${format(run[2], 2)} ${this.points}`;
     },
     prestigeCountGain(run) {
       return quantify(this.singular, run[3]);
     },
     prestigeCurrencyRate(run) {
-      if (this.hasIM && this.layer.name === "Reality") return "N/A";
+      if (this.hasIM && this.runKey === "Reality") return "N/A";
       return this.rateText(run, run[2]);
     },
     prestigeCountRate(run) {
@@ -191,7 +194,7 @@ export default {
       return rawText === "The Nameless Ones" ? "Nameless" : rawText;
     },
     toggleShown() {
-      player.shownRuns[this.singular] = !player.shownRuns[this.singular];
+      player.shownRuns[this.runKey] = !player.shownRuns[this.runKey];
     },
     cellStyle(col, isHeader) {
       let width;
@@ -203,11 +206,11 @@ export default {
         case 3:
         case 4:
           // Prestige currency is long, but the reality table can be shorter due to smaller numbers
-          width = this.layer.name === "Reality" ? "15rem" : "20rem";
+          width = this.runKey === "Reality" ? "15rem" : "20rem";
           break;
         case 5:
           // Challenges can potentially be very long, but this is glyph level in the reality table
-          width = this.layer.name === "Reality" ? "10rem" : "20rem";
+          width = this.runKey === "Reality" ? "10rem" : "20rem";
           break;
         default:
           width = "13rem";
@@ -236,7 +239,7 @@ export default {
         <i :class="dropDownIconClass" />
       </span>
       <span>
-        <h3>Last {{ formatInt(10) }} {{ plural }}:</h3>
+        <h3>最近 {{ formatInt(10) }} 次{{ plural }}：</h3>
       </span>
     </div>
     <div v-show="shown">

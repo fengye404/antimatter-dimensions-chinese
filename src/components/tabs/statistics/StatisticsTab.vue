@@ -61,8 +61,8 @@ export default {
     infinityCountString() {
       const num = this.infinity.count;
       return num.gt(0)
-        ? `${this.formatDecimalAmount(num)} ${pluralize("Infinity", num.floor())}`
-        : "no Infinities";
+        ? `${this.formatDecimalAmount(num)} 次无限`
+        : "0 次无限";
     },
     eternityCountString() {
       const num = this.eternity.count;
@@ -74,7 +74,15 @@ export default {
       return player.records.fullGameCompletions;
     },
     startDate() {
-      return Time.toDateTimeString(player.records.gameCreatedTime);
+      return new Date(player.records.gameCreatedTime).toLocaleString("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      });
     },
     saveAge() {
       return TimeSpan.fromMilliseconds(this.timeSinceCreation);

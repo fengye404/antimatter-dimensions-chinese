@@ -42,6 +42,6 @@ export default {
     :class="enabledClass"
     @click="action"
   >
-    {{ isLocked ? "Requires an Eternity to unlock" : formatCost(cost) }}
+    {{ isLocked ? "需要完成一次永恒后解锁" : formatCost(cost) }}
   </button>
 </template>

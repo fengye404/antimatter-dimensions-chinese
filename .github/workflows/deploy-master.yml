@@ -24,10 +24,9 @@ jobs:
           node-version: "14"
           cache: "npm"
       - run: npm ci
-      - run: npm run build:master
+      - run: npm run build:chinese
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist
           single-commit: true
-

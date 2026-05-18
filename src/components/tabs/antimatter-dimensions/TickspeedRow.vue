@@ -27,22 +27,23 @@ export default {
       };
     },
     multiplierDisplay() {
-      if (InfinityChallenge(3).isRunning) return `Multiply all Antimatter Dimensions by
-        ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)}`;
+      if (InfinityChallenge(3).isRunning) {
+        return `所有反物质维度倍率乘以 ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)}`;
+      }
       const tickmult = this.mult;
-      return `${formatX(tickmult.reciprocal(), 2, 3)} faster / upgrade.`;
+      return `每次升级加快 ${formatX(tickmult.reciprocal(), 2, 3)}。`;
     },
     tickspeedDisplay() {
-      return `Tickspeed: ${format(this.tickspeed, 2, 3)} / sec`;
+      return `计数频率：${format(this.tickspeed, 2, 3)} / 秒`;
     },
     continuumString() {
       return formatFloat(this.continuumValue, 2);
     },
     upgradeCount() {
       const purchased = this.purchasedTickspeed;
-      if (!this.freeTickspeed) return quantifyInt("Purchased Upgrade", purchased);
-      if (purchased === 0 || this.isContinuumActive) return `${formatInt(this.freeTickspeed)} Free Upgrades`;
-      return `${formatInt(purchased)} Purchased + ${formatInt(this.freeTickspeed)} Free`;
+      if (!this.freeTickspeed) return `已购买升级：${formatInt(purchased)}`;
+      if (purchased === 0 || this.isContinuumActive) return `${formatInt(this.freeTickspeed)} 个免费升级`;
+      return `${formatInt(purchased)} 个已购买 + ${formatInt(this.freeTickspeed)} 个免费`;
     }
   },
   methods: {
@@ -85,13 +86,13 @@ export default {
         onclick="buyTickSpeed()"
       >
         <span v-if="isContinuumActive">
-          Tickspeed Continuum: {{ continuumString }}
+          计数频率连续体：{{ continuumString }}
         </span>
         <span v-else-if="isEC9">
-          Tickspeed Unpurchasable (EC 9)
+          计数频率无法购买（EC 9）
         </span>
         <span v-else>
-          Tickspeed Cost: {{ format(cost) }}
+          计数频率花费：{{ format(cost) }}
         </span>
         <div
           v-if="hasTutorial"
@@ -104,7 +105,7 @@ export default {
         :class="{ 'o-primary-btn--disabled': !isAffordable && !isContinuumActive }"
         onclick="buyMaxTickSpeed()"
       >
-        Buy Max
+        购买最大
       </button>
     </div>
     <div

@@ -2,6 +2,35 @@
 import { openExternalLink } from "@/utility/open-external-link";
 import { STEAM } from "@/env";
 
+let cachedNewsTranslations;
+
+function normalizeNewsText(value) {
+  return String(value)
+    .replace(/\\n/gu, " ")
+    .replace(/\\"/gu, "\"")
+    .replace(/<[^>]*>/gu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function newsTranslations() {
+  if (cachedNewsTranslations) return cachedNewsTranslations;
+
+  const translations = window.__AD_I18N__?.translations;
+  if (!translations) return new Map();
+
+  cachedNewsTranslations = new Map(Object.entries(translations)
+    .map(([key, value]) => [normalizeNewsText(key), value]));
+  return cachedNewsTranslations;
+}
+
+function localizedNewsText(text) {
+  const translated = newsTranslations().get(normalizeNewsText(text));
+  return translated
+    ? translated.replace(/\\n/gu, " ").replace(/\n/gu, " ")
+    : text;
+}
+
 export default {
   name: "NewsTicker",
   data() {
@@ -27,7 +56,7 @@ export default {
   methods: {
     update() {
       if (this.currentNews?.dynamic) {
-        this.$refs.line.innerHTML = this.currentNews.text;
+        this.$refs.line.innerHTML = localizedNewsText(this.currentNews.text);
       }
       this.enableAnimation = player.options.news.includeAnimated;
     },
@@ -75,7 +104,7 @@ export default {
         this.currentNews.reset();
       }
 
-      let text = this.currentNews.text;
+      let text = localizedNewsText(this.currentNews.text);
       if (STEAM) {
         window.openNewsLink = openExternalLink;
         text = text.replace(
@@ -121,7 +150,7 @@ export default {
       SecretAchievement(24).unlock();
       const updatedText = this.currentNews.onClick();
       if (updatedText !== undefined) {
-        this.$refs.line.innerHTML = updatedText;
+        this.$refs.line.innerHTML = localizedNewsText(updatedText);
       }
     }
   }

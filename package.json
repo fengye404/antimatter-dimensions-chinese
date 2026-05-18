@@ -6,6 +6,7 @@
     "build:release": "node build/pre-build.js && vue-cli-service build && node build/post-build.js",
     "build:steam-development": "node build/pre-build.js && vue-cli-service build --mode steam-development",
     "build:steam-release": "node build/pre-build.js && vue-cli-service build --mode steam-release",
+    "build:chinese": "npm run build:master && node i18n/inject.js",
     "lint": "vue-cli-service lint",
     "test:e2e": "playwright test",
     "audit:i18n": "node scripts/audit-i18n-visible-text.js"

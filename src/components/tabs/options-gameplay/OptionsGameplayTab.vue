@@ -132,7 +132,7 @@ export default {
           label="离线进度："
         />
         <div class="o-primary-btn o-primary-btn--option o-primary-btn--slider l-options-grid__button">
-          <b>离线模拟 tick 数：{{ formatInt(offlineTicks) }}</b>
+          <b>离线模拟游戏刻数量：{{ formatInt(offlineTicks) }}</b>
           <SliderComponent
             class="o-primary-btn--slider__slider"
             v-bind="sliderPropsOfflineTicks"

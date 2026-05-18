@@ -172,6 +172,7 @@
   "We now bring you today's weather report. There is a 100% chance of weather.": "我们现在为您带来今天的天气预报。 天气的可能性为 100%。",
   "This world situation is an SOS situation to the world!! MAYDAY, MAYDAY!!": "这种世界局势对世界来说是一个紧急求救的局势！！ 求救，求救！",
   "This news message is a test of \\\"News 2.0\\\". News 2.0 will feature things like the ability to\\n      click on news messages to flip them upside down!": "本条消息是对“新闻2.0”的测试。 新闻 2.0 将具有一些功能，例如能够\\n 单击新闻消息将它们上下颠倒！",
+  "This news message is a test of \"News 2.0\". News 2.0 will feature things like the ability to listen to an audio version of any news message!": "本条消息是对“新闻 2.0”的测试。新闻 2.0 将加入类似“收听任意新闻语音版”的功能！",
   "This link is not a rick roll.\\n       It's a reference to a certain scene in the movie Star Wars that was also referenced by a certain\\n       website and was a very popular meme.": "此链接不是 rick roll。\\n 它是对电影星球大战中某个场景的引用，该场景也被某个\\n 网站引用并且是一个非常流行的模因。",
   "If I have bad English, I'll study English until I have good English.": "如果我英语不好，我会学习英语，直到我英语好为止。",
   "If you have an idea for a news message, shout it into the void.\\n      It won't get your message into the game, but it's fun!": "如果您对新闻消息有想法，请对着虚空大喊。\\n 它不会将您的消息带入游戏中，但它很有趣！",
@@ -220,5 +221,10 @@
   "Main\\n\\t\\t\\t\\tPrestige Tree server": "主\\n\\t\\t\\t\\t声望树服务器",
   "The Modding Tree\\n\\t\\t\\t\\t\\t\\t\\tDiscord": "模型树\\n\\t\\t\\t\\t\\t\\t\\tDiscord",
   "Please check the Discord to see if there are new content updates!": "请检查 Discord 以查看是否有新的内容更新！",
-  "LAST, AUTO, INCOMPLETE": "最后，自动，不完整"
+  "LAST, AUTO, INCOMPLETE": "最后，自动，不完整",
+  "If you see a news message, and then see it again later, does it become an olds message?": "如果你看到一条新闻，过一会儿又看到它，那它是不是就变成旧闻了？",
+  "In light of recent events, we'd like to issue an official statement. Antimatter Dimensions™ is in no way affiliated with Jimmy's Causality Violating Brainworms™. We do not endorse, nor were we involved in their creation of the product which was involved in several catastrophic dimension-destabilising and reality-toppling incidents. We almost certainly did not sign a contract at 5:30:26 UTC on 08/12/1994 after discussing how we could benefit from destabilising and warping dimensions. There was no industrial zone constructed in the 5th Orion Arm of the వ' galaxy, and even if they were we did not install localised anomalies following the Scranton Reality Anti-anchor mechanism. Additionally, no time loop is occurring at Acroamatic Abatement Facility AAF-D in site 43. We apologise if things seemed this way, and we will be more thorough in cracking down misinformation in the future.": "鉴于近期事件，我们在此发布官方声明：《反物质维度》™ 与吉米的“因果律违逆脑虫”™ 没有任何关联。我们不认可该产品，也未参与其制造；相关产品曾造成多起灾难性的维度失稳和现实坍塌事件。我们几乎可以肯定，没有在 1994 年 8 月 12 日 05:30:26 UTC 签署任何合同，也没有讨论过如何从破坏和扭曲维度中获益。猎户臂第五段的 వ' 星系里并不存在工业区；即使存在，我们也没有按斯克兰顿现实反锚定机制安装局部异常。此外，第 43 站点的 AAF-D 晦涩降解设施也没有发生时间循环。如果事实看起来像这样，我们深表歉意，并会在未来更严格地打击错误信息。",
+  "Hey there! Just to let you know, there a speck of dust on your screen. Can you help wipe it off? It bothers me when l'm not clean. Thanks a lot!": "嘿，提醒你一下：你的屏幕上有一粒灰尘。能帮忙擦掉吗？我不干净的时候会很难受。太感谢了！",
+  "Click here to disassemble the news ticker for a trace amount of paperclips.": "点击这里拆掉新闻滚动条，回收一点点回形针。",
+  "Click here to disassemble the news ticker for a trace amount of useless paperclips.": "点击这里拆掉新闻滚动条，回收一点点没用的回形针。"
 }

@@ -52,16 +52,16 @@ export default {
     },
     TTgenRateText() {
       if (this.theoremGeneration.lt(1 / 3600)) {
-        return `one TT every ${TimeSpan.fromSeconds(
+        return `每 ${TimeSpan.fromSeconds(
           this.theoremGeneration.reciprocal().toNumber()).toStringShort(false)}`;
       }
       if (this.theoremGeneration.lt(0.1)) {
-        return `${format(this.theoremGeneration.times(3600), 2, 2)} TT/hour`;
+        return `${format(this.theoremGeneration.times(3600), 2, 2)} 时间定理 / 小时`;
       }
-      return `${format(this.theoremGeneration, 2, 2)} TT/sec`;
+      return `${format(this.theoremGeneration, 2, 2)} 时间定理 / 秒`;
     },
     totalTimeTheoremText() {
-      return `${quantify("total Time Theorem", this.totalTimeTheorems, 2, 2, this.formatTimeTheoremType)}`;
+      return `共 ${this.formatTimeTheoremType(this.totalTimeTheorems, 2, 2)} 个时间定理`;
     },
     minimizeArrowStyle() {
       return {
@@ -70,7 +70,7 @@ export default {
       };
     },
     saveLoadText() {
-      return this.$viewModel.shiftDown ? "Save:" : "Load:";
+      return this.$viewModel.shiftDown ? "保存：" : "载入：";
     },
     shopBottomRowHeightStyle() {
       return {
@@ -91,7 +91,8 @@ export default {
       player.timestudy.shopMinimized = !player.timestudy.shopMinimized;
     },
     formatAM(am) {
-      return `${format(am)} AM`;
+      const formatted = format(am);
+      return `${formatted === "Infinite" ? "无限" : formatted} 反物质`;
     },
     buyWithAM() {
       TimeTheorems.buyOne(false, "am");
@@ -187,10 +188,10 @@ export default {
               >
             </span>
             <span v-if="showTTGen">
-              You are gaining {{ TTgenRateText }}.
+              你正在获得 {{ TTgenRateText }}。
             </span>
             <span v-else>
-              You have {{ totalTimeTheoremText }}.
+              你拥有 {{ totalTimeTheoremText }}。
             </span>
           </div>
         </div>
@@ -224,13 +225,13 @@ export default {
             class="o-tt-top-row-button c-tt-buy-button c-tt-buy-button--unlocked"
             @click="buyMaxTheorems"
           >
-            Buy max
+            购买最大
           </button>
           <PrimaryToggleButton
             v-if="!minimized && hasTTAutobuyer"
             v-model="isAutobuyerOn"
             class="o-tt-autobuyer-button c-tt-buy-button c-tt-buy-button--unlocked"
-            label="Auto:"
+            label="自动："
           />
         </div>
       </div>
