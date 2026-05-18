@@ -46,7 +46,7 @@ export default {
       :is-focused="isFocusedResource(info)"
       @click="showHowTo"
     >
-      <span class="c-underline">{{ info.name }}</span>: <i class="fas fa-question-circle" />
+      <span class="c-underline">{{ info.displayName }}</span>: <i class="fas fa-question-circle" />
     </span> {{ info.description }}
   </div>
 </template>

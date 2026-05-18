@@ -289,6 +289,21 @@ async function showOptionModal(page, modal) {
   await page.waitForTimeout(250);
 }
 
+async function showCatchupModal(page) {
+  await page.evaluate(() => {
+    Modal.hide();
+    Modal.catchup.show(0);
+    GameUI.update();
+  });
+  await page.waitForTimeout(250);
+
+  const groupCount = await page.locator(".c-modal.l-modal .o-catchup-group-title").count();
+  for (let index = 0; index < groupCount; index++) {
+    await page.locator(".c-modal.l-modal .o-catchup-group-title").nth(index).click();
+  }
+  await page.waitForTimeout(250);
+}
+
 function renderReport(results) {
   const generatedAt = new Date().toISOString();
   const grouped = new Map();
@@ -369,6 +384,10 @@ async function main() {
         const visible = await collectVisibleEnglish(page, stage.title, "选项弹窗", modal.title, ".c-modal.l-modal");
         results.push(...visible);
       }
+
+      await showCatchupModal(page);
+      const catchupVisible = await collectVisibleEnglish(page, stage.title, "统计弹窗", "内容概要", ".c-modal.l-modal");
+      results.push(...catchupVisible);
     }
   } finally {
     await browser.close();

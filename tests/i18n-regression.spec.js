@@ -128,6 +128,23 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("#h2p-body")).not.toContainText("The notation used to display numbers");
   });
 
+  test("localizes the content summary modal", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Modal);
+    await page.evaluate(() => Modal.catchup.show(0));
+    await page.locator(".o-catchup-group-title", { hasText: "反物质产出" }).click();
+
+    await expect(page.locator(".c-modal")).toContainText("内容概要");
+    await expect(page.locator(".c-modal")).toContainText("在“游戏玩法”中查看更详细的信息");
+    await expect(page.locator(".c-modal")).toContainText("每个反物质维度都会持续产出下一层级的维度");
+    await expect(page.locator(".c-modal")).toContainText("时间间隔升级会让反物质维度");
+    await expect(page.locator(".c-modal")).toContainText("接下来优先提高反物质");
+    await expect(page.locator(".c-modal")).not.toContainText("icons to view more detailed information");
+    await expect(page.locator(".c-modal")).not.toContainText("Every Antimatter Dimension continuously produces");
+    await expect(page.locator(".c-modal")).not.toContainText("Tickspeed Upgrades make Antimatter Dimensions");
+    await expect(page.locator(".c-modal")).not.toContainText("Based on your current progression");
+  });
+
   test("localizes high-frequency options modals", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.Modal);

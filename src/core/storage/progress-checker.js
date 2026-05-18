@@ -9,6 +9,10 @@ class GameProgressState extends GameMechanicState {
     return this.config.name;
   }
 
+  get displayName() {
+    return this.config.displayName || this.config.name;
+  }
+
   get suggestedResource() {
     return typeof this.config.suggestedResource === "function"
       ? this.config.suggestedResource()
@@ -26,6 +30,10 @@ class CatchupResource extends GameMechanicState {
 
   get name() {
     return this.config.name;
+  }
+
+  get displayName() {
+    return this.config.displayName || this.config.name;
   }
 
   get description() {
