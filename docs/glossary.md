@@ -8,7 +8,7 @@
 | Infinity Points (IP) | 无限点 | 第一次重置后获得，通过反物质数量换算 |
 | Eternity Points (EP) | 永恒点 | 第一次永恒后获得，通过无限点数换算 |
 | Time Theorems (TT) | 时间定理 | 用于购买时间研究的资源 |
-| Time Shards | 时间碎片 | 时间维度产生，用于购买计数频率升级 |
+| Time Shards | 时间碎片 | 时间维度产生，用于获得额外的时间间隔升级 |
 | Reality Machines | 现实机器 | 现实层获得的资源 |
 | Dilated Time | 膨胀时间 | 时间膨胀相关的高级资源 |
 | Replicanti | 复制品 | 自主增长的资源，可生成复制品星系 |
@@ -40,7 +40,8 @@
 
 | 英文 | 中文 | 备注 |
 |------|------|------|
-| Tickspeed Upgrade | 计数频率升级 | 加快游戏运算速度，使维度生产更快 |
+| Tickspeed | Tickspeed / 游戏刻速率 | 作为专有机制名可保留 Tickspeed；解释数值时译为“游戏刻速率” |
+| Tickspeed Upgrade | 时间间隔升级 | 缩短游戏刻间隔，使维度生产更快；按钮可写“时间间隔花费” |
 | Infinity Upgrade | 无限升级 | 用无限点购买，在无限时重置 |
 | Eternity Upgrade | 永恒升级 | 用永恒点购买，在永恒时保留 |
 | Time Study | 时间研究 | 可重新分配的技能树升级 |
@@ -54,7 +55,7 @@
 |------|------|------|
 | Autobuyer | 自动购买者 | 自动购买各类升级的系统 |
 | Antimatter Dimension Autobuyer | 反物质维度自动购买者 | 自动购买反物质维度 |
-| Tickspeed Autobuyer | 计数频率自动购买者 | 自动购买计数频率升级 |
+| Tickspeed Autobuyer | 时间间隔自动购买器 | 自动购买时间间隔升级 |
 | Dimension Boost Autobuyer | 维度提升自动购买者 | 自动执行维度提升 |
 | Antimatter Galaxy Autobuyer | 反物质星系自动购买者 | 自动购买反物质星系 |
 | Infinity Dimension Autobuyer | 无限维度自动购买者 | 自动购买无限维度 |
@@ -113,15 +114,14 @@
 | Theme | 主题 | UI视觉主题 |
 | Hotkey | 快捷键 | 键盘快捷方式 |
 | Update Rate | 更新速率 | 游戏每秒运算次数 |
-| Tick | Tick/刻度 | 游戏逻辑更新单位 |
+| Tick | 游戏刻 | 游戏逻辑更新单位；解释型文本不保留英文 tick |
 
 ## 数值单位
 
 | 英文 | 中文 | 备注 |
 |------|------|------|
 | e/E notation | 科学计数法 | 如 1e100 表示 10^100 |
-| Tick/s | Tick每秒 | 游戏速度单位 |
+| Tick/s | 游戏刻/秒 | 游戏速度单位，UI 中可写“次/秒” |
 | per second | 每秒 | 生产速率单位 |
 | multiplier | 倍数 | 计算中的乘数概念 |
 | boost | 提升 | 加成或强化 |
-

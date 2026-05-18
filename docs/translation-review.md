@@ -23,7 +23,7 @@
 | 31 | `src/core/achievements/*` | 成就通知前缀与部分成就名英文 | “成就/秘密成就”通知前缀和审计命中成就名中文化 | 避免通知区反复出现 `Achievement:` |
 | 32 | `public/stylesheets/chinese-localization.css` | 同一句内英文/数字使用 `Typewriter`，中文使用系统 fallback，视觉大小和字重不一致 | 中文版常规 UI 统一使用系统中文 UI 字体栈，保留图标/代码/特殊符号字体 | 解决“已翻译但同段字体和大小不一致”的基础视觉问题 |
 | 33 | `src/components/modals/H2PModal.vue` | “游戏玩法”弹窗正文通过 `v-html` 整块渲染，运行时翻译因换行/HTML 差异漏命中 | 渲染前按规范化文本匹配 `howtoplay.json`，并源头中文化标题与搜索占位符 | 修复大段教程正文仍显示英文的问题，避免只翻译左侧目录 |
-| 34 | `src/components/tabs/antimatter-dimensions/*` | 首屏购买按钮、计数频率按钮仍显示 `Until 10`、`Tickspeed Cost`、`Buy Max` | 反物质维度行和计数频率行源头中文化 | 首屏核心玩法文本必须稳定中文，不应依赖 DOM 竞态替换 |
+| 34 | `src/components/tabs/antimatter-dimensions/*` | 首屏购买按钮、Tickspeed 按钮仍显示 `Until 10`、`Tickspeed Cost`、`Buy Max` | 反物质维度行和时间间隔行源头中文化 | 首屏核心玩法文本必须稳定中文，不应依赖 DOM 竞态替换 |
 | 35 | `src/components/ui-modes/NewsTicker.vue` | 新闻滚动条通过 `innerHTML` 命令式写入，部分新闻绕过翻译 | 写入前按规范化文本匹配翻译词典，并补充截图命中的新闻译文 | 修复可见新闻条仍显示整句英文的问题 |
 | 36 | `.github/workflows/deploy-master.yml` | Pages 工作流只跑 `build:master`，可能发布未注入中文词典的产物 | 改为 `npm run build:chinese`，保证构建后执行 `i18n/inject.js` | 修复线上 GitHub Pages 与本地中文构建不一致 |
 
@@ -56,7 +56,7 @@
 | 8 | 字典 L375 | `Replicanti Galaxies boost Replicanti multiplier` | `Replicanti Galaxies 提升 复制品 乘数` | `复制品星系 提升 复制品 乘数` | 英文未翻译 |
 | 9 | 字典 L515 | `Infinity Power strengthens Replicanti Galaxies` | `无限力量强化复制星系` | `无限力量强化复制品星系` | 统一术语：Replicanti Galaxy→复制品星系 |
 | 10 | 字典 L756 | `: Replicanti Galaxy` | `: 复制星系` | `: 复制品星系` | 统一术语 |
-| 11 | 字典 L976 | `Replicanti Galaxies no longer reset...Tickspeed...` | `复制星系不再重置...tick速度...` | `复制品星系不再重置...计数频率...` | 统一术语：Replicanti Galaxies→复制品星系，Tickspeed→计数频率 |
+| 11 | 字典 L976 | `Replicanti Galaxies no longer reset...Tickspeed...` | `复制星系不再重置...tick速度...` | `复制品星系不再重置...时间间隔升级...` | 统一术语：Replicanti Galaxies→复制品星系，Tickspeed Upgrade→时间间隔升级 |
 | 12 | 字典 L364 | `(1 per 2,000 Dim Boosts)` | `（每 2,000 个暗淡提升 1 个）` | `（每 2,000 个维度提升 1 个）` | Dim Boosts=Dimension Boosts=维度提升，非"暗淡提升" |
 | 13 | 字典 L945 | `(1 per 2,000 Dim Boosts)` | `（每 2,000 个暗淡增强 1 个）` | `（每 2,000 个维度提升 1 个）` | 同上 |
 | 14 | 字典 L752 | `: Infinity Dimension` | `: 无限次元` | `: 无限维度` | 统一术语：Dimension→维度，不是"次元" |
@@ -85,13 +85,13 @@
 | Replicanti Galaxy | 混用"复制星系"和"复制品星系" | 统一为"复制品星系" |
 | Dim Boosts | 误译为"暗淡提升/增强" | 修正为"维度提升" |
 | Infinity Dimension | 偶见"无限次元" | 统一为"无限维度" |
-| Tickspeed | 偶见"tick速度" | 统一为"计数频率" |
+| Tickspeed | 偶见"tick速度/计数频率" | 机制名可保留 Tickspeed；按钮译为“时间间隔升级”，速率译为“游戏刻速率” |
 | Additive (效果类型) | 误译为"添加剂" | 修正为"叠加/加法" |
 
 ### 4. 格式化问题 — 部分修复
 
 - ✅ "反物质维" 截断问题已修复
-- ⚠️ "计数频率 升级" 中间的空格是文件中的一致格式约定，保持不变
+- ✅ “计数频率 升级”这类机械拼接改为“时间间隔升级”，避免中英逻辑和空格混排
 
 ---
 
@@ -108,7 +108,7 @@
 | Dimension | 维度 | 已修复 ✓ |
 | Galaxy | 星系 | 一致 ✓ |
 | Autobuyer | 自动购买者 | 一致 ✓ |
-| Tickspeed | 计数频率 | 已修复 ✓ |
+| Tickspeed | Tickspeed / 时间间隔升级 / 游戏刻速率 | 已按语境修复 ✓ |
 | Replicanti Galaxy | 复制品星系 | 已修复 ✓ |
 | Dimension Boost / Dim Boost | 维度提升 | 已修复 ✓ |
 | Peak | 峰值 | 已修复 ✓ |
@@ -183,7 +183,7 @@ chs.js 包含以下五个主要部分：
 
 | 行号 | 原文 | 现有翻译 | 问题类型 | 备注 |
 |------|------|----------|----------|------|
-| 49 | `Tickspeed upgrades` | `计数频率 升级` | 格式不一致 | 术语间空格是文件约定，不修改 |
+| 49 | `Tickspeed upgrades` | `计数频率 升级` | 机械直译且格式不一致 | 后续统一按语境改为“时间间隔升级”或“游戏刻速率” |
 | 1314 | `are gained by resetting...` | `通过重置...获得。` | 句子不完整 | 原文本身是片段，结合DOM使用 |
 | 1953-1955 | EP, DT, Replicanti with ^ | `×永恒点数^` 等 | 缩写不统一 | 保留原样，这是特殊数学表达式格式 |
 | 多处 | 各种描述 | -- | 可读性优化 | 建议后续进行自然度润色 |
@@ -192,7 +192,7 @@ chs.js 包含以下五个主要部分：
 
 | 范围 | 修复内容 | 验证方式 | 备注 |
 |------|----------|----------|------|
-| 反物质维度 / 计数频率 | 将购买模式、花费、购买数量、计数频率说明改为源码级中文 | Playwright 首屏回归 | 修复 `Until 10`、`Buy 10`、`Tickspeed Cost` 等拆分文本 |
+| 反物质维度 / 时间间隔 | 将购买模式、花费、购买数量、游戏刻速率说明改为源码级中文 | Playwright 首屏回归 | 修复 `Until 10`、`Buy 10`、`Tickspeed Cost` 等拆分文本 |
 | 无限维度 / 永恒按钮 | 将解锁要求、购买按钮、效果标签改为源码级中文 | 可见文本审计 | 修复 `Reach 1.80e308`、`Currently:` 等长期显示文本 |
 | 新闻滚动条 | `innerHTML` 写入前进行规范化翻译匹配 | Playwright 指定新闻回归 | 主审计不统计随机新闻，避免结果不稳定 |
 | 商店 | 恢复商店 tab 展示，禁用支付并保留机制说明 | Playwright 商店回归 | `gh-pages` 必须发布 `build:chinese` 产物 |

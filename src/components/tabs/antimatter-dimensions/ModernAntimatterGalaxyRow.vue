@@ -37,8 +37,8 @@ export default {
       if (!Achievement(111).isUnlocked) reset.push("维度");
       if (!Achievement(143).isUnlocked) reset.push("维度提升");
       return reset.length === 0
-        ? "增强计数频率升级"
-        : `重置你的${makeEnumeration(reset)}以增强计数频率升级`;
+        ? "增强时间间隔升级"
+        : `重置你的${makeEnumeration(reset)}以增强时间间隔升级`;
     },
     sumText() {
       const parts = [Math.max(this.galaxies.normal, 0)];

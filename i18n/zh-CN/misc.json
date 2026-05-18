@@ -92,7 +92,7 @@
   ", but then the total effect will be added to\\n      a base value of 1 and then applied as a": "，但随后总效果将添加到\\n 基值 1，然后作为",
   "(for pausing/resuming autobuyers).\\nAdditionally, holding": "（用于暂停/恢复自动购买）。\\n此外，持有",
   "additively with itself": "与自身相加",
-  "After importing, will simulate 1,000,000 ticks of duration\\n          7.319 seconds each.": "导入后，将模拟 1,000,000 个持续时间\\n 7.319 秒的tick声。",
+  "After importing, will simulate 1,000,000 ticks of duration\\n          7.319 seconds each.": "导入后，将模拟 1,000,000 个持续时间\\n 7.319 秒的游戏刻。",
   "all multipliers are applied.": "应用所有倍率。",
   "all of these other effects are stacked together.": "所有这些其他效果叠加在一起。",
   "Base 1e140 IP, cost increment ×1e10 IP": "基础1e140 IP，花费增量×1e10 IP",

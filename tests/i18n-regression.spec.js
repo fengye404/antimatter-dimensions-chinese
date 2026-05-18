@@ -14,7 +14,7 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("选项");
     await expect(page.locator("body")).toContainText("补至 10 个");
     await expect(page.locator("body")).toContainText("购买 10 个维度的倍率");
-    await expect(page.locator("body")).toContainText("计数频率花费");
+    await expect(page.locator("body")).toContainText("时间间隔花费");
     await expect(page.locator("body")).not.toContainText("Buy 10 Dimension purchase multiplier");
     await expect(page.locator("body")).not.toContainText("Until 10");
     await expect(page.locator("body")).not.toContainText("Tickspeed Cost");

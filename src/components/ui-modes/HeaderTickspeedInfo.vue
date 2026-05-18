@@ -17,12 +17,12 @@ export default {
   },
   computed: {
     tickspeedDisplay() {
-      return `Total Tickspeed: ${format(this.tickspeed, 2, 3)} / sec`;
+      return `游戏刻速率：${format(this.tickspeed, 2, 3)} 次/秒`;
     },
     perUpgrade() {
-      if (InfinityChallenge(3).isRunning) return `Tickspeed upgrades give
-        ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)} to all ADs`;
-      return `ADs produce ${formatX(this.mult.reciprocal(), 2, 3)} faster per Tickspeed upgrade`;
+      if (InfinityChallenge(3).isRunning) return `每次时间间隔升级使所有反物质维度倍率乘以
+        ${formatX(1.05 + this.galaxyCount * 0.005, 3, 3)}`;
+      return `每次时间间隔升级使反物质维度生产速度提高 ${formatX(this.mult.reciprocal(), 2, 3)}`;
     },
   },
   methods: {

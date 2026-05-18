@@ -34,7 +34,7 @@ export default {
       return `每次升级加快 ${formatX(tickmult.reciprocal(), 2, 3)}。`;
     },
     tickspeedDisplay() {
-      return `计数频率：${format(this.tickspeed, 2, 3)} / 秒`;
+      return `游戏刻速率：${format(this.tickspeed, 2, 3)} 次/秒`;
     },
     continuumString() {
       return formatFloat(this.continuumValue, 2);
@@ -86,13 +86,13 @@ export default {
         onclick="buyTickSpeed()"
       >
         <span v-if="isContinuumActive">
-          计数频率连续体：{{ continuumString }}
+          时间间隔连续体：{{ continuumString }}
         </span>
         <span v-else-if="isEC9">
-          计数频率无法购买（EC 9）
+          EC 9 中无法购买时间间隔升级
         </span>
         <span v-else>
-          计数频率花费：{{ format(cost) }}
+          时间间隔花费：{{ format(cost) }}
         </span>
         <div
           v-if="hasTutorial"

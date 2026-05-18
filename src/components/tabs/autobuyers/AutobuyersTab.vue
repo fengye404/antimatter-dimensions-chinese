@@ -82,7 +82,7 @@ export default {
     <b>
       反物质维度自动购买器的间隔低于 {{ formatInt(100) }} 毫秒后，可以升级批量购买数量。
     </b>
-    <b v-if="hasInstant">间隔为“瞬间”的自动购买器会在每个游戏 tick 触发（{{ gameTickLength }}）。</b>
+    <b v-if="hasInstant">间隔为“瞬间”的自动购买器会在每个游戏刻触发（{{ gameTickLength }}）。</b>
     <RealityAutobuyerBox class="c-reality-pos" />
     <EternityAutobuyerBox class="c-eternity-pos" />
     <BigCrunchAutobuyerBox class="c-infinity-pos" />

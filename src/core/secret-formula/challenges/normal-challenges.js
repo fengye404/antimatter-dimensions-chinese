@@ -24,7 +24,7 @@ export const normalChallenges = [
     legacyId: 2,
     isQuickResettable: false,
     description:
-      () => "购买反物质维度或计数频率升级会暂停所有反物质维度的生产。" +
+      () => "购买反物质维度或时间间隔升级会暂停所有反物质维度的生产。" +
       `生产会在 ${formatInt(3)} 分钟内逐渐恢复正常。`,
     name: "第 2 反物质维度自动购买器",
     reward: "可升级的第 2 反物质维度自动购买器",
@@ -56,7 +56,7 @@ export const normalChallenges = [
     legacyId: 6,
     isQuickResettable: false,
     description:
-      () => `计数频率购买倍率从 ${formatX(1.080, 0, 3)} 开始，而不是 ${formatX(1.1245, 0, 3)}。`,
+      () => `时间间隔购买倍率从 ${formatX(1.080, 0, 3)} 开始，而不是 ${formatX(1.1245, 0, 3)}。`,
     name: "第 5 反物质维度自动购买器",
     reward: "可升级的第 5 反物质维度自动购买器",
     lockedAt: DC.D0,
@@ -96,10 +96,10 @@ export const normalChallenges = [
     id: 9,
     legacyId: 5,
     isQuickResettable: true,
-    description: () => `每当你购买计数频率升级或 ${formatInt(10)} 个某一反物质维度时，` +
+    description: () => `每当你购买时间间隔升级或 ${formatInt(10)} 个某一反物质维度时，` +
       "所有价格相同的其他项目都会提升到下一档价格。",
-    name: "计数频率自动购买器",
-    reward: "可升级的计数频率自动购买器",
+    name: "时间间隔自动购买器",
+    reward: "可升级的时间间隔自动购买器",
     lockedAt: DC.D0,
   },
   {

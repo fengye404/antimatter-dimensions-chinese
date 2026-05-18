@@ -4,7 +4,7 @@ import MultiplierBreakdownEntry from "./MultiplierBreakdownEntry";
 
 const MULT_TAB_OPTIONS = [
   { id: 0, key: "AM", text: "反物质产量" },
-  { id: 1, key: "tickspeed", text: "计数频率" },
+  { id: 1, key: "tickspeed", text: "游戏刻速率" },
   { id: 2, key: "AD", text: "反物质维度" },
   { id: 3, key: "IP", text: "无限点数" },
   { id: 4, key: "ID", text: "无限维度" },

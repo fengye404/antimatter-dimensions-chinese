@@ -33,7 +33,7 @@ export default {
       this.timeShards.copyFrom(Currency.timeShards);
       this.upgradeThreshold.copyFrom(FreeTickspeed.fromShards(Currency.timeShards.value).nextShards);
       this.shardsPerSecond.copyFrom(TimeDimension(1).productionPerRealSecond);
-      this.incomeType = EternityChallenge(7).isRunning ? "Eighth Infinity Dimensions" : "Time Shards";
+      this.incomeType = EternityChallenge(7).isRunning ? "第 8 无限维度" : "时间碎片";
       this.areAutobuyersUnlocked = Autobuyer.timeDimension(1).isUnlocked;
     },
     maxAll() {
@@ -54,35 +54,34 @@ export default {
         class="o-primary-btn--subtab-option"
         @click="maxAll"
       >
-        Max all
+        全部最大
       </PrimaryButton>
       <PrimaryButton
         v-if="areAutobuyersUnlocked"
         class="o-primary-btn--subtab-option"
         @click="toggleAllAutobuyers"
       >
-        Toggle all autobuyers
+        切换全部自动购买器
       </PrimaryButton>
     </div>
     <div>
       <p>
-        You have gained
-        <span class="c-time-dim-description__accent">{{ formatInt(totalUpgrades) }}</span> Tickspeed upgrades from
-        <span class="c-time-dim-description__accent">{{ format(timeShards, 2, 1) }}</span> Time Shards.
+        你已经通过
+        <span class="c-time-dim-description__accent">{{ format(timeShards, 2, 1) }}</span> 时间碎片获得了
+        <span class="c-time-dim-description__accent">{{ formatInt(totalUpgrades) }}</span> 次时间间隔升级。
       </p>
       <p>
-        Next Tickspeed upgrade at
-        <span class="c-time-dim-description__accent">{{ format(upgradeThreshold, 2, 1) }}</span>, increasing by
-        <span class="c-time-dim-description__accent">{{ formatX(multPerTickspeed, 2, 2) }}</span> per
-        Tickspeed upgrade gained.
+        下一次时间间隔升级需要
+        <span class="c-time-dim-description__accent">{{ format(upgradeThreshold, 2, 1) }}</span> 时间碎片；
+        每获得一次升级，需求都会乘以
+        <span class="c-time-dim-description__accent">{{ formatX(multPerTickspeed, 2, 2) }}</span>。
       </p>
     </div>
     <div>
-      The amount each additional upgrade requires will start
-      increasing above {{ formatInt(tickspeedSoftcap) }} Tickspeed upgrades.
+      超过 {{ formatInt(tickspeedSoftcap) }} 次时间间隔升级后，后续需求会开始额外增长。
     </div>
     <div>
-      You are getting {{ format(shardsPerSecond, 2, 0) }} {{ incomeType }} per second.
+      你每秒获得 {{ format(shardsPerSecond, 2, 0) }} {{ incomeType }}。
     </div>
     <div class="l-dimensions-container">
       <TimeDimensionRow
@@ -93,15 +92,15 @@ export default {
       />
     </div>
     <div>
-      Time Dimension costs jump at {{ format(costIncreases[0], 2, 2) }} and
-      {{ format(costIncreases[1]) }} Eternity Points,
+      时间维度花费会在 {{ format(costIncreases[0], 2, 2) }} 和
+      {{ format(costIncreases[1]) }} 永恒点数处跳涨，
       <br>
-      and costs increase much faster after {{ format(costIncreases[2]) }} Eternity Points.
+      并在 {{ format(costIncreases[2]) }} 永恒点数后增长得更快。
       <br>
       <div v-if="showLockedDimCostNote">
-        Hold shift to see the Eternity Point cost for locked Time Dimensions.
+        按住 Shift 可查看未解锁时间维度的永恒点数花费。
       </div>
-      Any 8th Time Dimensions purchased above {{ format(1e8) }} will not further increase the multiplier.
+      第 8 时间维度购买次数超过 {{ format(1e8) }} 后，不会继续提高倍率。
     </div>
   </div>
 </template>
