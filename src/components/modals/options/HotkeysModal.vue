@@ -255,6 +255,7 @@ export default {
 
 .c-modal-hotkeys__shift-description {
   text-align: left;
-  font-size: 1rem;
+  font-size: 1.15rem;
+  line-height: 1.55;
 }
 </style>

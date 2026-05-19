@@ -30,18 +30,8 @@
 }
 
 html[lang="zh-CN"] body,
-html[lang="zh-CN"] #page,
-html[lang="zh-CN"] #ui,
-html[lang="zh-CN"] button,
-html[lang="zh-CN"] input,
-html[lang="zh-CN"] select,
-html[lang="zh-CN"] textarea,
-html[lang="zh-CN"] .c-modal,
-html[lang="zh-CN"] .c-tooltip-content,
-html[lang="zh-CN"] .o-primary-btn,
-html[lang="zh-CN"] .o-tab-btn,
-html[lang="zh-CN"] .o-subtab-btn,
-html[lang="zh-CN"] .o-shop-button-button {
+html[lang="zh-CN"] body :where(*),
+html[lang="zh-CN"] :where(button, input, select, textarea) {
   font-family: var(--ad-cn-font-sans) !important;
 }
 
@@ -63,17 +53,62 @@ html[lang="zh-CN"] .c-shop-disclaimer {
   line-height: 1.45;
 }
 
+html[lang="zh-CN"] .o-primary-btn--dimension-reset,
+html[lang="zh-CN"] .o-primary-btn--id-auto,
+html[lang="zh-CN"] .c-multiplier-subtab-btn {
+  font-size: 1.18rem;
+  line-height: 1.45;
+}
+
+html[lang="zh-CN"] .c-modal-hotkeys__shift-description,
+html[lang="zh-CN"] .c-challenge-box,
+html[lang="zh-CN"] .c-challenge-box__reward-description--small-text {
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+html[lang="zh-CN"] .c-ttshop__save-load-text,
+html[lang="zh-CN"] .c-tt-amount {
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+html[lang="zh-CN"] .o-infinity-upgrade-btn,
+html[lang="zh-CN"] .o-infinity-upgrade-btn :where(span),
+html[lang="zh-CN"] .o-primary-btn--replicanti-upgrade,
+html[lang="zh-CN"] .o-primary-btn--replicanti-upgrade :where(span) {
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+html[lang="zh-CN"] .l-spacing {
+  line-height: 1.35;
+}
+
 html[lang="zh-CN"] code,
 html[lang="zh-CN"] pre,
 html[lang="zh-CN"] .CodeMirror,
+html[lang="zh-CN"] .CodeMirror *,
 html[lang="zh-CN"] .c-automator-block-row,
-html[lang="zh-CN"] .c-automator-docs-page__indented {
+html[lang="zh-CN"] .c-automator-block-row *,
+html[lang="zh-CN"] .c-automator-docs-page__indented,
+html[lang="zh-CN"] .c-automator-docs-page__indented * {
   font-family: var(--ad-cn-font-mono) !important;
+}
+
+html[lang="zh-CN"] .c-glyph-component,
+html[lang="zh-CN"] .c-glyph-component *,
+html[lang="zh-CN"] .o-celestial-nav__symbol {
+  font-family: Typewriter, serif !important;
 }
 
 html[lang="zh-CN"] .fa,
 html[lang="zh-CN"] .fas,
 html[lang="zh-CN"] .far,
-html[lang="zh-CN"] .fab {
+html[lang="zh-CN"] .fab,
+html[lang="zh-CN"] .fa::before,
+html[lang="zh-CN"] .fas::before,
+html[lang="zh-CN"] .far::before,
+html[lang="zh-CN"] .fab::before {
   font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome" !important;
 }

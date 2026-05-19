@@ -268,7 +268,7 @@ export default {
   font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.3;
   color: #071308;
   text-shadow: 0 0.1rem 0.2rem rgba(255, 255, 255, 50%);
   pointer-events: none;

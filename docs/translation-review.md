@@ -38,6 +38,7 @@
 | 46 | `src/core/galaxy.js`、`src/core/secret-formula/infinity/infinity-upgrades.js`、`CostDisplay.vue`、`BreakInfinityButton.vue` | 反物质星系、无限升级、花费标签和突破无限按钮仍有源码英文 | 星系需求、无限升级说明、通用花费标签、突破无限状态全部源头中文化 | 修复审计中高频出现的 `Cost`、`BREAK INFINITY`、无限升级长句英文 |
 | 47 | `src/components/tabs/options-visual/*`、`StatisticsTab.vue`、`MultiplierBreakdownEntry.vue`、`TimeTheoremShop.vue` | 选项下拉、统计标题、倍率拆解、时间定理显示仍有 `ALL`、`Clock`、`General`、`No Active Effects` 等英文 | 选项显示名、统计分区、倍率空状态、时间定理数量和提示文本源头中文化 | 将 `npm run audit:i18n` 可见英文候选清零，避免靠白名单隐藏真实 UI 英文 |
 | 48 | `ClassicAntimatterGalaxyRow.vue`、`ModernAntimatterGalaxyRow.vue`、`H2PModal.vue`、历史 i18n 词典 | `Remote Galaxy` 译为“远程星系”不符合游戏缩放语境 | 统一改为“极远星系/极远反物质星系”，与“遥远星系”形成递进关系 | “远程”容易被理解为远程操控；“极远”更贴合普通、遥远、极远的距离递进 |
+| 49 | `public/stylesheets/chinese-localization.css`、`NormalAchievement.vue`、`SecretAchievement.vue`、`HotkeysModal.vue`、`scripts/audit-i18n-visual-consistency.js` | 中文文本已翻译但部分区域仍使用 `Typewriter`、10px 小字号或过紧行高，侧边栏和 Modal 根节点也未被字体兜底覆盖 | 中文视觉层改为覆盖 `body` 普通 UI，保留图标/代码/符文特殊字体；成就、快捷键、挑战、无限升级、复制品升级等中文文本统一字号和行高；新增视觉审计质量门禁 | 解决“同一段里字体及大小不一致”的系统性问题，并用 Playwright 防止回归 |
 
 ### 2026-05-18 商店与运行时翻译重做
 
