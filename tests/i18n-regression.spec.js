@@ -22,11 +22,12 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("补至 10 个");
     await expect(page.locator("body")).toContainText("购买 10 个维度的倍率");
     await expect(page.locator("body")).toContainText("时间间隔花费");
-    await expect(page.locator("body")).toContainText("每秒游戏刻数");
+    await expect(page.locator("body")).toContainText("维度生产频率");
     await expect(page.locator("body")).not.toContainText("Buy 10 Dimension purchase multiplier");
     await expect(page.locator("body")).not.toContainText("Until 10");
     await expect(page.locator("body")).not.toContainText("Tickspeed Cost");
     await expect(page.locator("body")).not.toContainText("游戏刻速率");
+    await expect(page.locator("body")).not.toContainText("每秒游戏刻数");
   });
 
   test("renders core option panels with source-level Chinese labels", async({ page }) => {

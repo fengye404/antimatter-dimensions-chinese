@@ -34,7 +34,7 @@ export default {
       return `每次升级加快 ${formatX(tickmult.reciprocal(), 2, 3)}。`;
     },
     tickspeedDisplay() {
-      return `每秒游戏刻数：${format(this.tickspeed, 2, 3)} 次/秒`;
+      return `维度生产频率：${format(this.tickspeed, 2, 3)} 次/秒`;
     },
     continuumString() {
       return formatFloat(this.continuumValue, 2);

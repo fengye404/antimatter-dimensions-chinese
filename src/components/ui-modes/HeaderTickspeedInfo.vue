@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     tickspeedDisplay() {
-      return `每秒游戏刻数：${format(this.tickspeed, 2, 3)} 次/秒`;
+      return `维度生产频率：${format(this.tickspeed, 2, 3)} 次/秒`;
     },
     perUpgrade() {
       if (InfinityChallenge(3).isRunning) return `每次时间间隔升级使所有反物质维度倍率乘以
