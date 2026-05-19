@@ -31,6 +31,7 @@
 | 39 | `i18n/inject.js` 与 `tests/i18n-regression.spec.js` | GitHub Pages 上 `js/app.js`、`js/chunk-vendors.js`、CSS 使用固定 URL，浏览器可能继续执行旧 bundle，导致已修复弹窗仍显示英文 | 构建注入阶段为本地 JS/CSS 追加提交号版本参数，并新增 Playwright 断言 | 确保线上发布后用户拿到最新中文化 bundle，而不是缓存中的旧英文界面 |
 | 40 | `src/components/modals/catchup/*`、`src/core/secret-formula/catchup-resources.js`、`src/core/secret-formula/progress-checker.js` | “查看内容概要”弹窗的引导语、机制摘要和底部建议语仍有英文 | 内容概要组件、阶段显示名、全量机制摘要源头中文化，并纳入 Playwright 与可见英文审计 | 修复统计页弹窗漏审问题，保留内部英文 `name` 以免破坏 H2P 跳转 |
 | 41 | `src/components/tabs/*-achievements` 与 `src/core/chinese-achievement-i18n.js` | 成就卡片图片内嵌英文，tooltip 仍显示英文成就名、条件和奖励；成就 sprite 加载慢 | 卡片改为中文标题覆盖层，tooltip 组件层中文化，并禁用三张原版英文大 sprite | 图片内文字无法被 DOM 翻译引擎处理，源头中文覆盖同时减少成就页资源请求和解码卡顿 |
+| 42 | `src/components/tabs/autobuyers/*` 与 `scripts/audit-i18n-visible-text.js` | 自动购买器展开态仍显示 `Current interval`、`Current bulk`、`Complete the challenge to upgrade interval` | 自动购买器间隔、批量、升级按钮和触发提示源头中文化，并让回归/审计主动暴露第一层自动购买器详情 | 修复“折叠态审计通过但展开后露英文”的漏检路径 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

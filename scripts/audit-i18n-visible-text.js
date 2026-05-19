@@ -362,6 +362,23 @@ async function showSubtab(page, entry) {
   await page.waitForTimeout(350);
 }
 
+async function exposeAutobuyerDetails(page, entry) {
+  const isAutobuyerSubtab =
+    entry.tabName.includes("自动化") || entry.subtabName.includes("自动购买器");
+
+  if (!isAutobuyerSubtab) return;
+
+  await page.evaluate(() => {
+    const firstAutobuyer = player.auto.antimatterDims.all[0];
+    firstAutobuyer.isBought = true;
+    firstAutobuyer.isActive = true;
+    firstAutobuyer.bulk = 1;
+    player.auto.autobuyersOn = true;
+    GameUI.update();
+  });
+  await page.waitForTimeout(250);
+}
+
 async function showOptionModal(page, modal) {
   await page.evaluate(key => {
     Modal.hide();
@@ -481,6 +498,7 @@ async function main() {
 
       for (const entry of await visibleSubtabs(page)) {
         await showSubtab(page, entry);
+        await exposeAutobuyerDetails(page, entry);
         const visible = await collectVisibleEnglish(page, stage.title, entry.tabName, entry.subtabName);
         results.push(...visible);
         results.push(...await collectAttributeEnglish(page, stage.title, entry.tabName, entry.subtabName));

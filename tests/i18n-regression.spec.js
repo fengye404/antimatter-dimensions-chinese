@@ -74,6 +74,28 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("当前 ×2，下一级 ×4");
   });
 
+  test("localizes expanded autobuyer controls", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.Autobuyer && window.player && window.GameUI);
+
+    await page.evaluate(() => {
+      const firstAutobuyer = player.auto.antimatterDims.all[0];
+      firstAutobuyer.isBought = true;
+      firstAutobuyer.isActive = true;
+      firstAutobuyer.bulk = 1;
+      player.auto.autobuyersOn = true;
+      Tab.automation.autobuyers.show(true);
+      GameUI.update();
+    });
+
+    await expect(page.locator("body")).toContainText("当前间隔：0.50 秒");
+    await expect(page.locator("body")).toContainText("当前批量：×1");
+    await expect(page.locator("body")).toContainText("完成对应挑战后可升级间隔");
+    await expect(page.locator("body")).not.toContainText("Current interval");
+    await expect(page.locator("body")).not.toContainText("Current bulk");
+    await expect(page.locator("body")).not.toContainText("Complete the challenge to upgrade interval");
+  });
+
   test("uses a consistent Chinese UI font stack for localized text", async({ page }) => {
     await page.goto("/");
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");

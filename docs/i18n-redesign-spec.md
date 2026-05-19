@@ -238,6 +238,26 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 
 ## 2026-05-19 存档页属性文本与新闻兜底补充
 
+## 2026-05-19 自动购买器展开态补充
+
+### 问题
+
+用户抽查“自动化 / 自动购买器”时发现第一反物质维度自动购买器展开后仍出现 `Current interval`、`Current bulk` 和 `Complete the challenge to upgrade interval`。这些文本来自自动购买器内部共享子组件，并且只有在自动购买器已购买或解锁后才会显示，之前的可见文本审计只覆盖了折叠态入口，因此漏掉了这类展开态英文。
+
+### 设计
+
+1. `AutobuyerIntervalLabel.vue` 统一输出“当前间隔”“当前批量”“立即”“无限”等中文文案。
+2. `AutobuyerIntervalButton.vue` 和 `DimensionBulkButton.vue` 统一将升级按钮、花费和挑战门槛说明源头中文化。
+3. `AutobuyerBox.vue` 的触发状态提示使用中文资源名和中文句式。
+4. Playwright 回归直接构造第一反物质维度自动购买器的已购买状态，打开自动购买器页并断言展开态不再包含截图中的英文。
+5. `npm run audit:i18n` 在遍历自动购买器页时主动暴露第一层自动购买器详情，避免只扫到外层卡片。
+
+### 验收
+
+1. 自动购买器展开行显示“当前间隔：0.50 秒”“当前批量：×1”。
+2. 未完成挑战时按钮显示“完成对应挑战后可升级间隔”。
+3. 可见文本审计不再允许 `Current interval`、`Current bulk`、`Complete the challenge to upgrade interval` 这类内部控件英文残留。
+
 ### 问题
 
 选项-存档页仍有英文残留，但它们不在 `innerText` 中：自定义存档名的说明来自 `ach-tooltip` 属性，占位提示来自 `placeholder`。旧审计只扫可见文本节点，因此截图中的 `Set a custom name...` 和 `Custom save name` 会漏掉。新闻滚动条也存在同类问题：部分消息来自随机池，旧回归只固定检查少数新闻 ID，无法覆盖用户实际刷到的英文消息。

@@ -95,11 +95,11 @@ export default {
       switch (this.currMode) {
         case AUTO_ETERNITY_MODE.TIME:
           return this.nextTime > 0
-            ? `Will trigger in ${TimeSpan.fromSeconds(this.nextTime).toStringShort()}`
-            : "Will trigger ASAP";
+            ? `将在 ${TimeSpan.fromSeconds(this.nextTime).toStringShort()} 后触发`
+            : "将尽快触发";
         case AUTO_ETERNITY_MODE.X_HIGHEST:
         default:
-          return `Will trigger at ${format(this.nextValue, 2)} ${this.autobuyer.name === "Infinity" ? "IP" : "EP"}`;
+          return `达到 ${format(this.nextValue, 2)} ${this.autobuyer.name === "Infinity" ? "无限点数" : "永恒点数"} 时触发`;
       }
     }
   },
