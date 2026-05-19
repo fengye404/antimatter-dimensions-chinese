@@ -32,6 +32,11 @@
 | 40 | `src/components/modals/catchup/*`、`src/core/secret-formula/catchup-resources.js`、`src/core/secret-formula/progress-checker.js` | “查看内容概要”弹窗的引导语、机制摘要和底部建议语仍有英文 | 内容概要组件、阶段显示名、全量机制摘要源头中文化，并纳入 Playwright 与可见英文审计 | 修复统计页弹窗漏审问题，保留内部英文 `name` 以免破坏 H2P 跳转 |
 | 41 | `src/components/tabs/*-achievements` 与 `src/core/chinese-achievement-i18n.js` | 成就卡片图片内嵌英文，tooltip 仍显示英文成就名、条件和奖励；成就 sprite 加载慢 | 卡片改为中文标题覆盖层，tooltip 组件层中文化，并禁用三张原版英文大 sprite | 图片内文字无法被 DOM 翻译引擎处理，源头中文覆盖同时减少成就页资源请求和解码卡顿 |
 | 42 | `src/components/tabs/autobuyers/*` 与 `scripts/audit-i18n-visible-text.js` | 自动购买器展开态仍显示 `Current interval`、`Current bulk`、`Complete the challenge to upgrade interval` | 自动购买器间隔、批量、升级按钮和触发提示源头中文化，并让回归/审计主动暴露第一层自动购买器详情 | 修复“折叠态审计通过但展开后露英文”的漏检路径 |
+| 43 | `i18n/inject.js`、`public/index.html`、`scripts/build-chinese.sh` | 中文版构建仍向 `dist/index.html` 注入 `window.__AD_I18N__` 和 DOM 翻译引擎 | 构建后处理只保留标题、语言、资源版本号和 glossary 复制，并断言不再出现运行时翻译注入 | 按源码级中文化方向移除运行时依赖，减少线上“先英文后中文”和漏扫问题 |
+| 44 | `src/components/modals/H2PModal.vue` 与 `src/components/ui-modes/NewsTicker.vue` | H2P 条目名和新闻滚动条仍依赖运行时翻译字典 | H2P 使用源码内条目名映射和中文正文覆盖；新闻写入前使用源码级指定译文和中文 fallback | 解决 `build:master` 下仍露英文的问题，保证命令式写入 DOM 的文本也可测试 |
+| 45 | `src/core/dimboost.js`、`src/components/tabs/antimatter-dimensions/*`、`src/components/modals/*` | 维度提升按钮、需求文案、重置确认和确认开关仍混有英文 | 维度提升句式、需求行、确认弹窗、取消/确认按钮和“不要再显示”提示全部源头中文化 | 覆盖用户截图中的 `Reset your Dimensions`、`Reenable the Dimension Boost confirmation` 等漏翻文本 |
+| 46 | `src/core/galaxy.js`、`src/core/secret-formula/infinity/infinity-upgrades.js`、`CostDisplay.vue`、`BreakInfinityButton.vue` | 反物质星系、无限升级、花费标签和突破无限按钮仍有源码英文 | 星系需求、无限升级说明、通用花费标签、突破无限状态全部源头中文化 | 修复审计中高频出现的 `Cost`、`BREAK INFINITY`、无限升级长句英文 |
+| 47 | `src/components/tabs/options-visual/*`、`StatisticsTab.vue`、`MultiplierBreakdownEntry.vue`、`TimeTheoremShop.vue` | 选项下拉、统计标题、倍率拆解、时间定理显示仍有 `ALL`、`Clock`、`General`、`No Active Effects` 等英文 | 选项显示名、统计分区、倍率空状态、时间定理数量和提示文本源头中文化 | 将 `npm run audit:i18n` 可见英文候选清零，避免靠白名单隐藏真实 UI 英文 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

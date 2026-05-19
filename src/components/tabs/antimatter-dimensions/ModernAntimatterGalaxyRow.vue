@@ -29,7 +29,7 @@ export default {
   computed: {
     isDoomed: () => Pelle.isDoomed,
     dimName() {
-      return AntimatterDimension(this.requirement.tier).shortDisplayName;
+      return `第 ${formatInt(this.requirement.tier)} 反物质维度`;
     },
     buttonText() {
       if (this.lockText !== null) return this.lockText;
@@ -52,9 +52,9 @@ export default {
     },
     typeName() {
       switch (this.type) {
-        case GALAXY_TYPE.NORMAL: return "Antimatter Galaxies";
-        case GALAXY_TYPE.DISTANT: return "Distant Antimatter Galaxies";
-        case GALAXY_TYPE.REMOTE: return "Remote Antimatter Galaxies";
+        case GALAXY_TYPE.NORMAL: return "反物质星系";
+        case GALAXY_TYPE.DISTANT: return "遥远反物质星系";
+        case GALAXY_TYPE.REMOTE: return "远程反物质星系";
       }
       return undefined;
     },
@@ -64,15 +64,15 @@ export default {
     costScalingText() {
       switch (this.type) {
         case GALAXY_TYPE.DISTANT:
-          return `Each Galaxy is more expensive past ${quantifyInt("Galaxy", this.distantStart)}`;
+          return `超过 ${formatInt(this.distantStart)} 个星系后，每个星系都会更昂贵`;
         case GALAXY_TYPE.REMOTE: {
           const scalings = [
-            { type: "distant", function: "quadratic", amount: this.distantStart },
-            { type: "remote", function: "exponential", amount: this.remoteStart }
+            { type: "遥远", function: "平方", amount: this.distantStart },
+            { type: "远程", function: "指数", amount: this.remoteStart }
           ];
-          return `Increased Galaxy cost scaling: ${scalings.sort((a, b) => a.amount - b.amount)
-            .map(scaling => `${scaling.function} scaling past ${this.formatGalaxies(scaling.amount)} (${scaling.type})`)
-            .join(", ").capitalize()}`;
+          return `星系花费缩放增强：${scalings.sort((a, b) => a.amount - b.amount)
+            .map(scaling => `超过 ${this.formatGalaxies(scaling.amount)} 个后进入${scaling.function}缩放（${scaling.type}）`)
+            .join("，")}`;
         }
       }
       return undefined;
@@ -122,8 +122,8 @@ export default {
 
 <template>
   <div class="reset-container galaxy">
-    <h4>{{ typeName }} ({{ sumText }})</h4>
-    <span>Requires: {{ formatInt(requirement.amount) }} {{ dimName }} Antimatter D</span>
+    <h4>{{ typeName }}（{{ sumText }}）</h4>
+    <span>需要：{{ formatInt(requirement.amount) }} {{ dimName }}</span>
     <span v-if="hasIncreasedScaling">{{ costScalingText }}</span>
     <button
       :class="classObject"

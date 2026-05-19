@@ -156,11 +156,11 @@ export default {
         </button>
         <p class="timetheorems">
           <span class="c-tt-amount">
-            {{ quantify("Time Theorem", theoremAmount, 2, 0, formatTimeTheoremType) }}
+            {{ formatTimeTheoremType(theoremAmount, 2, 0) }} 时间定理
           </span>
           <span v-if="showST">
             <br>
-            {{ quantifyInt("Space Theorem", STamount) }}
+            {{ formatInt(STamount) }} 空间定理
           </span>
         </p>
         <div class="l-load-tree-area">
@@ -176,8 +176,8 @@ export default {
             <span
               v-if="hasTTGen"
               class="checkbox-margin"
-              ach-tooltip="This shows TT generation by default and total TT if you hold shift.
-                Check this box to swap this behavior."
+              ach-tooltip="默认显示时间定理生成速度；按住 Shift 时显示时间定理总数。
+                勾选此项可交换这两种显示方式。"
             >
               <input
                 v-model="invertTTgenDisplay"

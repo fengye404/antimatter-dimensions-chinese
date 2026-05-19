@@ -2,8 +2,6 @@
 import { openExternalLink } from "@/utility/open-external-link";
 import { STEAM } from "@/env";
 
-let cachedNewsTranslations;
-
 const GENERIC_NEWS_FALLBACKS = [
   "新闻：第九维度今日仍未被证实存在，相关部门建议继续购买第八维度。",
   "快讯：反物质新闻台确认，本条消息已经过中文化处理，没有英文残留。",
@@ -15,6 +13,21 @@ const GENERIC_NEWS_FALLBACKS = [
   "新闻：一位维度工程师表示，所有按钮都应该写得更清楚一点。"
 ];
 
+const NEWS_TEXT_OVERRIDES = new Map([
+  [
+    "If you see a news message, and then see it again later, does it become an olds message?",
+    "如果你看到一条新闻，过一会儿又看到它，那它会不会变成一条旧闻？"
+  ],
+  [
+    "There are no typos in any of these news messages. If you see a typo, the tpyo must be in your brain.",
+    "这些新闻消息里绝对没有错别字。如果你看到了错别字，那错别字一定长在你的脑子里。"
+  ],
+  [
+    "Good mornging. That was not a typo. The inventors of English made the typo.",
+    "早上好。刚才那个不是错别字，是英语的发明者把词造错了。"
+  ]
+]);
+
 function normalizeNewsText(value) {
   return String(value)
     .replace(/\\n/gu, " ")
@@ -24,20 +37,9 @@ function normalizeNewsText(value) {
     .trim();
 }
 
-function newsTranslations() {
-  if (cachedNewsTranslations) return cachedNewsTranslations;
-
-  const translations = window.__AD_I18N__?.translations;
-  if (!translations) return new Map();
-
-  cachedNewsTranslations = new Map(Object.entries(translations)
-    .map(([key, value]) => [normalizeNewsText(key), value]));
-  return cachedNewsTranslations;
-}
-
 function localizedNewsText(text) {
   const normalizedText = normalizeNewsText(text);
-  const translated = newsTranslations().get(normalizedText);
+  const translated = NEWS_TEXT_OVERRIDES.get(normalizedText);
   if (translated) {
     const normalizedTranslation = translated.replace(/\\n/gu, " ").replace(/\n/gu, " ");
     return hasVisibleEnglish(normalizedTranslation) ? fallbackNewsText(normalizedText) : normalizedTranslation;

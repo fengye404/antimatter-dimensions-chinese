@@ -15,12 +15,12 @@
 1. 商店 tab 在中文版中始终可见。
 2. 中文版不提供真实支付入口，但允许在本地免费购买原版商店项目。
 3. 商店页改为中文离线说明和本地免费商店，保留存档兼容显示。
-4. 翻译引擎继续作为非侵入式 UI 翻译层使用，并减少调试噪声。
+4. 中文化迁移到 `src/` 源码层和构建源文件，不再依赖 DOM 运行时翻译引擎。
 5. 增加可重复运行的 Playwright 回归脚本，用于检查首屏、商店页和核心文本的中文覆盖。
 
 ## 非目标
 
-1. 本阶段不重写游戏机制源码。
+1. 本阶段不改动核心数值公式和存档结构。
 2. 本阶段不连接任何国内支付、账号或云存档服务。
 3. 本阶段不自动机器翻译全部 `src/core/secret-formula/h2p.js` 长篇教程文本；长文本必须按术语表人工校对后逐步纳入。
 
@@ -63,7 +63,7 @@
 ## 验收标准
 
 1. 本次新增/修改的商店与测试文件通过定向 ESLint；全仓库 `npm run lint` 目前仍受上游既有 lint 债影响。
-2. `bash scripts/build-chinese.sh` 通过，`dist/index.html` 包含 `window.__AD_I18N__`。
+2. `bash scripts/build-chinese.sh` 通过，`dist/index.html` 不包含 `window.__AD_I18N__` 或运行时翻译引擎。
 3. Playwright 回归通过：
    - 页面标题为“反物质维度”。
    - 首屏核心操作文本出现中文。
@@ -75,9 +75,9 @@
 ## 后续翻译审查流程
 
 1. 运行 Playwright 回归，收集可见英文。
-2. 若英文来自固定 UI 文本，优先加入对应 `i18n/zh-CN/*.json`。
-3. 若英文来自商店或中文版定制页，优先在 Vue 组件中直接改中文。
-4. 若英文来自动态数字句式，补充 `i18n/regex-data.js` 正则规则。
+2. 若英文来自固定 UI 文本，优先在对应 `src/` 组件或数据源中直接中文化。
+3. 若英文来自商店或中文版定制页，继续在 Vue 组件中直接改中文。
+4. 若英文来自动态数字句式，优先改写生成句式的源码函数，而不是新增 DOM 翻译规则。
 5. 更新 `docs/translation-review.md`，记录术语和语义修正原因。
 
 ## 2026-05-19 阶段式审计补充
@@ -107,9 +107,19 @@
 
 本轮不再只依赖运行时字典。对于 Vue 模板拆分文本、长期显示的导航名称、核心机制说明和格式化函数，直接在源组件中中文化，以减少 DOM 翻译竞态和半句中英混排。
 
+### 源码级中文化迁移
+
+用户确认后，中文版迁移为源码级中文化：
+
+1. `src/` 中的 Vue 组件、机制文案函数、游戏数据库展示文案直接输出中文。
+2. `i18n/inject.js` 保留为构建后处理脚本，只负责 HTML 元数据、资源版本号和 glossary 复制。
+3. 构建产物不得包含 `window.__AD_I18N__`、`i18n/translation-engine.js` 或其他 DOM 扫描式翻译注入。
+4. 新闻、H2P、成就、商店、确认弹窗等命令式或 `v-html` 渲染路径必须在写入 DOM 前完成中文文本选择。
+5. 上游同步时，优先用源码 diff 重新应用中文化补丁；`i18n/zh-CN/*.json` 仅作为历史参考，不再作为线上运行时依赖。
+
 ### H2P 教程弹窗
 
-“游戏玩法”弹窗正文来自 `src/core/secret-formula/h2p.js`，并通过 `v-html` 整块渲染。运行时 DOM 翻译容易因为源码换行、字面量 `\n`、转义引号和 HTML 分隔导致大段正文漏翻。中文版在 `H2PModal.vue` 渲染前对正文分段做规范化匹配，再从 `howtoplay.json` 取中文译文。规范化需要处理真实换行、字面量 `\n`、转义引号和 HTML 标签，以保证旧翻译数据也能命中新版源码正文。
+“游戏玩法”弹窗正文来自 `src/core/secret-formula/h2p.js`，并通过 `v-html` 整块渲染。运行时 DOM 翻译容易因为源码换行、字面量 `\n`、转义引号和 HTML 分隔导致大段正文漏翻。中文版在 `H2PModal.vue` 中维护已经人工校对的中文正文覆盖和条目名映射；已覆盖条目直接输出中文，未覆盖条目会在审计报告中暴露，进入后续人工翻译队列。
 
 ### 首屏动态文本与新闻滚动条
 
@@ -117,13 +127,13 @@
 
 ### GitHub Pages 部署
 
-`gh-pages` 必须发布注入过中文词典和翻译引擎的 `dist/`。`master` 分支的 Pages 工作流使用 `npm run build:chinese`，该脚本先执行原版构建，再执行 `i18n/inject.js`。如果只运行 `npm run build:master`，线上会缺少大量运行时翻译，并可能继续展示旧的商店/新闻脚本残留。
+`gh-pages` 必须发布经过中文版构建后处理的 `dist/`。`master` 分支的 Pages 工作流使用 `npm run build:chinese`，该脚本先执行原版构建，再执行 `i18n/inject.js`。当前 `i18n/inject.js` 只处理标题、`lang`、静态资源版本号和辅助资源复制，不再注入 `window.__AD_I18N__` 或 DOM 翻译引擎。
 
 ### 发布缓存策略
 
 GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`js/chunk-vendors.js` 和样式文件。由于选项弹窗、快捷键列表等翻译已经进入 Vue bundle，如果用户继续执行旧 `app.js`，就会出现“源码已中文化但线上仍是一堆英文”的现象。
 
-`i18n/inject.js` 在注入中文翻译后读取 `dist/commit.json`，并为本地 JS/CSS 追加 `?v=<commit>` 版本参数。每次提交后重新构建都会生成新的资源 URL，确保 GitHub Pages 发布和用户浏览器都能拿到最新中文 bundle。
+`i18n/inject.js` 读取 `dist/commit.json`，并为本地 JS/CSS 追加 `?v=<commit>` 版本参数。每次提交后重新构建都会生成新的资源 URL，确保 GitHub Pages 发布和用户浏览器都能拿到最新中文 bundle。
 
 ### 审计口径
 
@@ -294,3 +304,28 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 1. 主界面顶部不再出现“游戏刻速率”。
 2. 首屏应出现“每秒游戏刻数”。
 3. `npm run test:e2e` 和 `npm run audit:i18n` 必须通过。
+
+## 2026-05-19 源码级中文化收口
+
+### 问题
+
+用户确认不再继续依赖运行时 DOM 翻译，希望将之前的翻译修复迁移到源码级。运行时方案虽然便于上游同步，但对 Vue 模板拆分文本、`v-html` 大段正文、属性 tooltip、新闻 `innerHTML` 写入、成就图片内嵌英文等场景覆盖不稳定，线上容易出现“本地修过但 GitHub Pages 仍有英文”的错觉。
+
+### 设计
+
+1. 中文文本优先落在 `src/` 源码组件、配置表和 `public/index.html` 模板中。
+2. `i18n/inject.js` 仅作为构建后处理：设置 `lang`、标题、描述、资源版本号，并复制术语表；不得注入 `window.__AD_I18N__` 或 DOM 翻译引擎。
+3. `scripts/build-chinese.sh` 在构建后断言 `dist/index.html` 不包含运行时翻译注入标记。
+4. `scripts/audit-i18n-visible-text.js` 负责真实浏览器审计，覆盖阶段推进、主要 Tab/Subtab、高频弹窗、属性文本、新闻抽样、自动购买器展开态和成就 tooltip。
+5. 保留少量产品名、缩写、货币和技术品牌白名单，但真实可见英文句子必须修复到源码层。
+
+### 维护影响
+
+源码级中文化会让上游同步时产生更多 `src/` diff，但换来更稳定的首屏、弹窗、属性和动态 UI 表现。后续同步上游时的维护流程是：先合并上游源码，再运行 `npm run build:chinese`、`npm run audit:i18n`、`npm run test:e2e`，根据审计报告补齐新增英文。不要修改 `dist/` 作为来源，也不要重新启用 DOM 翻译引擎。
+
+### 验收
+
+1. `npm run build:chinese` 通过，且构建产物不包含 `window.__AD_I18N__` 或 `translation-engine`。
+2. `npm run audit:i18n` 报告候选英文残留为 0。
+3. `npm run test:e2e` 全部通过。
+4. 商店 Tab 可见，本地免费购买可用，不连接支付后端。

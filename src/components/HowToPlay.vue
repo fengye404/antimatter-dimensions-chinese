@@ -46,7 +46,7 @@ export default {
         v-if="hasTutorial"
         class="h2p-tooltip"
       >
-        Click for info
+        点击查看玩法
       </div>
     </div>
     <div

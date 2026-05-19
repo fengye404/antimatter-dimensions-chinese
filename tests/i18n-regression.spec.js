@@ -148,6 +148,45 @@ test.describe("Chinese localization regression", () => {
     expect(assets.some(url => /\/js\/app\.js\?v=[a-f0-9]+/u.test(url))).toBe(true);
     expect(assets.some(url => /\/js\/chunk-vendors\.js\?v=[a-f0-9]+/u.test(url))).toBe(true);
     expect(assets.some(url => /\/stylesheets\/styles\.css\?v=[a-f0-9]+/u.test(url))).toBe(true);
+
+    const html = await page.content();
+    expect(html).not.toContain("__AD_I18N__");
+    expect(html).not.toContain("translation-engine");
+  });
+
+  test("localizes Dimension Boost buttons and confirmation controls", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.AntimatterDimension && window.Modal && window.GameUI);
+
+    await page.evaluate(() => {
+      player.dimensionBoosts = 1;
+      AntimatterDimension(5).amount = new Decimal(20);
+      player.options.confirmations.dimensionBoost = true;
+      Tab.dimensions.antimatter.show(true);
+      GameUI.update();
+    });
+
+    await expect(page.locator("body")).toContainText("维度提升（1）");
+    await expect(page.locator("body")).toContainText("需要：20 第 5 反物质维度");
+    await expect(page.locator("body")).toContainText("重置你的维度以解锁第 6 反物质维度");
+    await expect(page.locator("body")).not.toContainText("Reset your Dimensions");
+    await expect(page.locator("body")).not.toContainText("Dimension Boost (");
+    await expect(page.locator("body")).not.toContainText("Antimatter Galaxies (");
+    await expect(page.locator("body")).not.toContainText("Requires: 80 8th Antimatter D");
+
+    await page.evaluate(() => {
+      Modal.dimensionBoost.show({ bulk: true });
+      GameUI.update();
+    });
+
+    await expect(page.locator(".c-modal")).toContainText("你即将进行维度提升重置");
+    await expect(page.locator(".c-modal")).toContainText("这会重置你的反物质和反物质维度");
+    await expect(page.locator(".c-modal")).toContainText("不再显示此消息");
+    await expect(page.locator(".c-modal")).not.toContainText("Reenable the Dimension Boost confirmation");
+
+    await page.locator(".c-modal__confirmation-toggle").click();
+    await page.locator(".c-modal__confirmation-toggle__checkbox").hover();
+    await expect(page.locator(".c-modal__confirmation-toggle__tooltip")).toContainText("重新启用维度提升确认");
   });
 
   test("localizes the How to Play modal body instead of leaving large English paragraphs", async({ page }) => {

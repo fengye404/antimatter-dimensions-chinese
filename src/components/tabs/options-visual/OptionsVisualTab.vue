@@ -9,6 +9,7 @@ import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDro
 import UpdateRateSlider from "./UpdateRateSlider";
 
 const DISPLAY_TEXT = {
+  "ALL": "全部",
   "AMOLED": "AMOLED",
   "AMOLED Metro": "AMOLED 都市",
   "Bar": "条形",
@@ -17,6 +18,7 @@ const DISPLAY_TEXT = {
   "Brackets": "括号",
   "Cancer": "癌症",
   "Classic": "经典",
+  "Clock": "时钟",
   "Commas": "逗号",
   "Dark": "深色",
   "Dark Metro": "深色都市",
@@ -27,6 +29,7 @@ const DISPLAY_TEXT = {
   "Imperial": "英制",
   "Inverted": "反色",
   "Inverted Metro": "反色都市",
+  "Infinity": "无限",
   "Latest Resource": "最新资源",
   "Letters": "字母",
   "Logarithm": "对数",

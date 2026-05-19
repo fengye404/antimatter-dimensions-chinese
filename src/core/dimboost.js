@@ -85,9 +85,9 @@ export class DimBoost {
 
   static get lockText() {
     if (DimBoost.purchasedBoosts >= this.maxBoosts) {
-      if (Ra.isRunning) return "Locked (Ra's Reality)";
-      if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";
-      if (NormalChallenge(8).isRunning) return "Locked (8th Antimatter Dimension Autobuyer Challenge)";
+      if (Ra.isRunning) return "已锁定（Ra 的现实）";
+      if (InfinityChallenge(1).isRunning) return "已锁定（无限挑战 1）";
+      if (NormalChallenge(8).isRunning) return "已锁定（第 8 反物质维度自动购买器挑战）";
     }
     return null;
   }
@@ -130,26 +130,23 @@ export class DimBoost {
 
     let newUnlock = "";
     if (!allNDUnlocked && boosts < DimBoost.maxDimensionsUnlockable - 4) {
-      newUnlock = `unlock the ${boosts + 5}th Dimension`;
+      newUnlock = `解锁第 ${formatInt(boosts + 5)} 反物质维度`;
     } else if (boosts === 4 && !NormalChallenge(10).isRunning && !EternityChallenge(3).isRunning) {
-      newUnlock = "unlock Sacrifice";
+      newUnlock = "解锁维度牺牲";
     }
 
-    const formattedMultText = `give a ${formatX(DimBoost.power, 2, 1)} multiplier `;
-    let dimensionRange = `to the 1st Dimension`;
-    if (boosts > 0) dimensionRange = `to Dimensions 1-${Math.min(boosts + 1, 8)}`;
-    if (boosts >= DimBoost.maxDimensionsUnlockable - 1) dimensionRange = `to all Dimensions`;
+    const formattedMultText = `给予${dimensionBoostRangeText(boosts)} ${formatX(DimBoost.power, 2, 1)} 倍率`;
 
     let boostEffects;
     if (NormalChallenge(8).isRunning) boostEffects = newUnlock;
-    else if (newUnlock === "") boostEffects = `${formattedMultText} ${dimensionRange}`;
-    else boostEffects = `${newUnlock} and ${formattedMultText} ${dimensionRange}`;
+    else if (newUnlock === "") boostEffects = formattedMultText;
+    else boostEffects = `${newUnlock}，并${formattedMultText}`;
 
-    if (boostEffects === "") return "Dimension Boosts are currently useless";
+    if (boostEffects === "") return "维度提升目前没有效果";
     const areDimensionsKept = (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
       (!Pelle.isDoomed || PelleUpgrade.dimBoostResetsNothing.isBought);
-    if (areDimensionsKept) return boostEffects[0].toUpperCase() + boostEffects.substring(1);
-    return `Reset your Dimensions to ${boostEffects}`;
+    if (areDimensionsKept) return boostEffects;
+    return `重置你的维度以${boostEffects}`;
   }
 
   static get purchasedBoosts() {
@@ -171,6 +168,12 @@ export class DimBoost {
     if (InfinityUpgrade.skipReset1.isBought) return 1;
     return 0;
   }
+}
+
+function dimensionBoostRangeText(boosts) {
+  if (boosts >= DimBoost.maxDimensionsUnlockable - 1) return "所有反物质维度";
+  if (boosts > 0) return `第 1 至第 ${formatInt(Math.min(boosts + 1, 8))} 反物质维度`;
+  return "第 1 反物质维度";
 }
 
 // eslint-disable-next-line max-params

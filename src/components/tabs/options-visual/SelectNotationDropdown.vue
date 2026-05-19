@@ -1,15 +1,18 @@
 <script>
 const NOTATION_NAMES = {
+  "ALL": "全部",
   "Bar": "条形",
   "Blind": "盲文",
   "Blobs": "Blob",
   "Brackets": "括号",
   "Cancer": "癌症",
+  "Clock": "时钟",
   "Dots": "点号",
   "Emoji": "Emoji",
   "Engineering": "工程计数法",
   "Hex": "十六进制",
   "Imperial": "英制",
+  "Infinity": "无限",
   "Letters": "字母",
   "Logarithm": "对数",
   "Mixed engineering": "混合工程计数法",

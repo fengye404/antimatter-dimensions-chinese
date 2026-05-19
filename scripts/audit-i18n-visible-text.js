@@ -403,6 +403,19 @@ async function showCatchupModal(page) {
   await page.waitForTimeout(250);
 }
 
+async function showDimensionBoostModal(page) {
+  await page.evaluate(() => {
+    Modal.hide();
+    player.dimensionBoosts = 1;
+    AntimatterDimension(5).amount = new Decimal(20);
+    player.options.confirmations.dimensionBoost = true;
+    Tab.dimensions.antimatter.show(true);
+    Modal.dimensionBoost.show({ bulk: true });
+    GameUI.update();
+  });
+  await page.waitForTimeout(250);
+}
+
 async function collectH2PEnglish(page, stageTitle) {
   const results = [];
 
@@ -519,6 +532,16 @@ async function main() {
       await showCatchupModal(page);
       const catchupVisible = await collectVisibleEnglish(page, stage.title, "统计弹窗", "内容概要", ".c-modal.l-modal");
       results.push(...catchupVisible);
+
+      await showDimensionBoostModal(page);
+      const dimBoostVisible = await collectVisibleEnglish(
+        page,
+        stage.title,
+        "重置弹窗",
+        "维度提升确认",
+        ".c-modal.l-modal"
+      );
+      results.push(...dimBoostVisible);
 
       results.push(...await collectH2PEnglish(page, stage.title));
     }

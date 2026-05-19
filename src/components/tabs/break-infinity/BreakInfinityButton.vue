@@ -20,12 +20,12 @@ export default {
       };
     },
     tooltip() {
-      if (this.isEnslaved) return "...eons stacked on eons stacked on eons stacked on eons stacked on ...";
+      if (this.isEnslaved) return "...无数永恒叠在无数永恒之上，层层叠叠，永无止境...";
       return undefined;
     },
     text() {
-      if (this.isEnslaved) return "FEEL ETERNITY";
-      return this.isBroken ? "INFINITY IS BROKEN" : "BREAK INFINITY";
+      if (this.isEnslaved) return "感受永恒";
+      return this.isBroken ? "无限已突破" : "突破无限";
     }
   },
   methods: {

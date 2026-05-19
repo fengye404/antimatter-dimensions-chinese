@@ -14,16 +14,16 @@ export default {
   },
   computed: {
     topLabel() {
-      return `You are about to do a Dimension Boost Reset`;
+      return "你即将进行维度提升重置";
     },
     message() {
-      const keepDimensions = Perk.antimatterNoReset.canBeApplied || Achievement(111).canBeApplied ||
-        PelleUpgrade.dimBoostResetsNothing.isBought
-        ? `not actually reset anything due to an upgrade you have which prevents Antimatter and Antimatter Dimensions
-          from being reset in this situation. You will still gain the multiplier from the Boost, as usual.`
-        : `reset your Antimatter and Antimatter Dimensions. Are you sure you want to do this?`;
+      if (Perk.antimatterNoReset.canBeApplied || Achievement(111).canBeApplied ||
+        PelleUpgrade.dimBoostResetsNothing.isBought) {
+        return `由于你拥有可防止本次重置清空反物质和反物质维度的升级，本次维度提升实际上不会重置任何内容。
+          你仍会照常获得维度提升倍率。`;
+      }
 
-      return `This will ${keepDimensions}`;
+      return "这会重置你的反物质和反物质维度。你确定要这样做吗？";
     },
   },
   methods: {

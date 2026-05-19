@@ -345,7 +345,7 @@ export default {
       const formatFn = resource.isBase
         ? x => format(x, 2, 2)
         : x => formatX(x, 2, 2);
-      return `Dilation Effect: Exponent${formatPow(this.dilationExponent, 2, 3)}
+      return `膨胀效果：指数${formatPow(this.dilationExponent, 2, 3)}
         (${formatFn(beforeMult, 2, 2)} ➜ ${formatFn(afterMult, 2, 2)})`;
     },
     isRecent(date) {
@@ -386,14 +386,14 @@ export default {
           <PrimaryToggleButton
             v-if="hasSeenPowers && allowPowerToggle"
             v-model="replacePowers"
-            v-tooltip="'Change Display for Power effects'"
+            v-tooltip="'切换幂次效果的显示方式'"
             off="^N"
             on="×N"
             class="o-primary-btn c-change-display-btn"
           />
           <i
             v-if="groups.length > 1"
-            v-tooltip="'Change Multiplier Grouping'"
+            v-tooltip="'切换倍率分组方式'"
             class="o-primary-btn c-change-display-btn fas fa-arrows-rotate"
             @click="changeGroup"
           />
@@ -403,7 +403,7 @@ export default {
         v-if="isEmpty"
         class="c-no-effect"
       >
-        No Active Effects
+        没有生效中的效果
         <br>
         <br>
         {{ disabledText }}

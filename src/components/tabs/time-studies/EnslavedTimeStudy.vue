@@ -57,7 +57,7 @@ export default {
       ... you ... have great potential ...
       <br>
       <br>
-      Cost: {{ format(-enslavedTT) }} Time Theorems
+      花费：{{ format(-enslavedTT) }} 时间定理
     </span>
   </button>
 </template>

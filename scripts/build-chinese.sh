@@ -16,20 +16,20 @@ npm run build:master
 echo "✓ 原版构建完成"
 echo ""
 
-# 2. 注入翻译
-echo "[2/3] 注入中文翻译..."
+# 2. 中文版构建后处理
+echo "[2/3] 处理中文版构建产物..."
 node i18n/inject.js
-echo "✓ 翻译注入完成"
+echo "✓ 中文版构建后处理完成"
 echo ""
 
 # 3. 验证
 echo "[3/3] 验证构建输出..."
 if [ -f "dist/index.html" ]; then
   if grep -q "__AD_I18N__" dist/index.html; then
-    echo "✓ 翻译数据已成功注入"
-  else
-    echo "✗ 错误: 翻译数据未找到"
+    echo "✗ 错误: 构建产物仍包含运行时翻译注入"
     exit 1
+  else
+    echo "✓ 未注入运行时翻译引擎"
   fi
   
   if grep -q "反物质维度" dist/index.html; then

@@ -2,8 +2,6 @@
 /* eslint-disable max-len */
 import ModalCloseButton from "@/components/modals/ModalCloseButton";
 
-let cachedH2PTranslations;
-
 const H2P_INFO_OVERRIDES = {
   "This Modal": `
 欢迎来到“游戏玩法”！
@@ -244,6 +242,18 @@ const H2P_INFO_OVERRIDES = {
 <br>
 无限维度需要达到特定反物质量后逐步解锁。基础价格、价格涨幅和购买倍率因维度层级而异，越高层级通常越昂贵，也越依赖后续阶段的资源支持。
 `,
+  "Infinity Challenges": `
+无限挑战类似普通挑战，但目标更高、限制也更复杂。完成无限挑战不会解锁自动购买器，而是提供更独特的永久奖励，通常会强化维度、复制体或后续无限阶段的推进。
+<br>
+<br>
+和普通挑战一样，挑战期间无限升级最右侧一列不会生效。不同的是，无限挑战不会一次性全部开放；你需要先达到指定反物质量，才能进入对应挑战。
+<br>
+<br>
+无限挑战的解锁阈值依次为：1e2000、1e11000、1e12000、1e14000、1e18000、1e20000、1e23000、1e28000 反物质。
+<br>
+<br>
+快捷键：C 会尝试执行大坍缩；挑战内达到目标后也会完成本次挑战。
+`,
   "Replicanti": `
 复制体是在达到 1e140 无限点数后解锁的资源。它们不会生产其他资源，而是会复制自身，最高增长到约 1.80e308。复制体按自己的节奏增长，不受时间间隔升级影响。
 <br>
@@ -399,25 +409,57 @@ const H2P_INFO_OVERRIDES = {
   `
 };
 
-function normalizeH2PText(value) {
-  return String(value)
-    .replace(/\\n/gu, " ")
-    .replace(/\\"/gu, "\"")
-    .replace(/<[^>]*>/gu, " ")
-    .replace(/\s+/gu, " ")
-    .trim();
-}
-
-function h2pTranslations() {
-  if (cachedH2PTranslations) return cachedH2PTranslations;
-
-  const translations = window.__AD_I18N__?.translations;
-  if (!translations) return new Map();
-
-  cachedH2PTranslations = new Map(Object.entries(translations)
-    .map(([key, value]) => [normalizeH2PText(key), value]));
-  return cachedH2PTranslations;
-}
+const H2P_NAME_TRANSLATIONS = {
+  "This Modal": "这个弹窗",
+  "Your savefile": "你的存档文件",
+  "Customization": "定制",
+  "Offline Progress": "离线进度",
+  "Effect Stacking": "效果叠加",
+  "Common Abbreviations": "常用缩写",
+  "Antimatter Dimensions": "反物质维度",
+  "Tickspeed": "时间间隔",
+  "Dimension Boosts": "维度提升",
+  "Antimatter Galaxies": "反物质星系",
+  "Dimensional Sacrifice": "维度牺牲",
+  "Achievements": "成就",
+  "Infinity": "无限",
+  "Normal Challenges": "普通挑战",
+  "Autobuyers": "自动购买器",
+  "Break Infinity": "突破无限",
+  "Infinity Dimensions": "无限维度",
+  "Infinity Challenges": "无限挑战",
+  "Replicanti": "复制体",
+  "Eternity": "永恒",
+  "Eternity Milestones": "永恒里程碑",
+  "Time Dimensions": "时间维度",
+  "Time Studies": "时间研究",
+  "Eternity Challenges": "永恒挑战",
+  "Time Dilation": "时间膨胀",
+  "Reality": "现实",
+  "Glyphs": "符文",
+  "Perks": "特权",
+  "Automator Overview": "自动机概览",
+  "Automator Technical Details": "自动机技术细节",
+  "Black Hole": "黑洞",
+  "Celestials": "天体",
+  "Teresa, Celestial of Reality": "Teresa，现实天体",
+  "Effarig, Celestial of Ancient Relics": "Effarig，远古遗物天体",
+  "Advanced Glyph Mechanics": "高级符文机制",
+  "The Nameless Ones, Celestial of Time": "无名氏，时间天体",
+  "Nameless Ones": "无名氏",
+  "Tesseracts": "超正方体",
+  "V, Celestial of Achievements": "V，成就天体",
+  "Ra, Celestial of the Forgotten": "Ra，遗忘天体",
+  "Glyph Alchemy Resources": "符文炼金资源",
+  "Glyph Alchemy Reactions": "符文炼金反应",
+  "Imaginary Machines": "虚幻机器",
+  "Lai'tela, Celestial of Dimensions": "Lai'tela，维度天体",
+  "Continuum": "连续统",
+  "Singularities": "奇点",
+  "Pelle, Celestial of Antimatter": "Pelle，反物质天体",
+  "Pelle Strikes": "Pelle 打击",
+  "The Galaxy Generator": "星系生成器"
+};
 
 export default {
   name: "H2PModal",
@@ -474,28 +516,14 @@ export default {
         searchObjOther.relevance < this.topThreshold;
     },
     localizedH2PText(text) {
-      return h2pTranslations().get(normalizeH2PText(text)) ?? text;
+      return H2P_NAME_TRANSLATIONS[text] ?? text;
     },
     localizedH2PInfo(tab) {
       if (H2P_INFO_OVERRIDES[tab.name]) {
         return H2P_INFO_OVERRIDES[tab.name];
       }
 
-      const translations = h2pTranslations();
-
-      return tab.info()
-        .split(/((?:\s*<br\s*\/?>\s*)+)/giu)
-        .map(chunk => {
-          if (/<br\s*\/?>/iu.test(chunk)) return chunk;
-
-          const translated = translations.get(normalizeH2PText(chunk));
-          if (!translated) return chunk;
-
-          return translated
-            .replace(/\\n/gu, " ")
-            .replace(/\n/gu, " ");
-        })
-        .join("");
+      return tab.info();
     }
   },
 };

@@ -1,12 +1,10 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 /**
- * 中文翻译注入脚本
+ * 中文版构建后处理脚本
  *
- * 功能:
- * 1. 读取构建输出的 index.html
- * 2. 合并所有翻译 JSON 文件为一个数据对象
- * 3. 将翻译数据和翻译引擎注入到 HTML 中
- * 4. 复制翻译资源到 dist/ 目录
+ * 当前中文化已经迁移到 src/ 源码层。这个脚本只处理构建产物里的
+ * HTML 元数据、静态资源版本号和辅助资源复制，不再注入 DOM 翻译引擎。
  */
 
 const fs = require("fs");
@@ -14,7 +12,6 @@ const path = require("path");
 
 const DIST_DIR = path.resolve(__dirname, "../dist");
 const I18N_DIR = path.resolve(__dirname, ".");
-const ZH_CN_DIR = path.resolve(__dirname, "zh-CN");
 
 function getBuildVersion() {
   const commitPath = path.join(DIST_DIR, "commit.json");
@@ -38,135 +35,35 @@ function cacheBustLocalAssets(html, version) {
     .replace(jsPattern, `$1?v=${version}"`);
 }
 
-console.log("[inject] 开始注入中文翻译...");
+console.log("[inject] 开始处理中文版构建产物...");
 
-// 1. 检查 dist/index.html 是否存在
 const indexPath = path.join(DIST_DIR, "index.html");
 if (!fs.existsSync(indexPath)) {
   console.error("[inject] 错误: dist/index.html 不存在，请先运行 npm run build");
   process.exit(1);
 }
 
-// 2. 加载所有翻译 JSON 文件
-const translationFiles = ["ui", "gameplay", "howtoplay", "achievements", "shop", "misc"];
-const allTranslations = {};
-
-for (const file of translationFiles) {
-  const filePath = path.join(ZH_CN_DIR, `${file}.json`);
-  if (fs.existsSync(filePath)) {
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    Object.assign(allTranslations, data);
-    console.log(`[inject] 加载 ${file}.json: ${Object.keys(data).length} 条`);
-  } else {
-    console.warn(`[inject] 警告: ${file}.json 不存在`);
-  }
-}
-
-console.log(`[inject] 翻译总条目: ${Object.keys(allTranslations).length}`);
-
-// 3. 加载正则数据
-const regexDataPath = path.join(I18N_DIR, "regex-data.js");
-let postfixData = {};
-let excludeWholePatterns = [];
-const regReplacePatterns = [];
-
-if (fs.existsSync(regexDataPath)) {
-  const regexContent = fs.readFileSync(regexDataPath, "utf-8");
-
-  // 提取 cnPostfix
-  const postfixMatch = regexContent.match(/var cnPostfix = \{([\s\S]*?)\n\}/u);
-  if (postfixMatch) {
-    // 提取后缀 - 保持简单的空格处理
-    postfixData = {
-      " scroll speed": " 滚动速度",
-      " AI messages": " AI信息",
-      " rows)": " 行)"
-    };
-  }
-
-  // 提取 cnExcludeWhole (转为字符串数组保持正则源码)
-  const excludeLines = regexContent.match(/var cnExcludeWhole = \[([\s\S]*?)\n\];/u);
-  if (excludeLines) {
-    const excludeContent = excludeLines[1];
-    const regexMatches = excludeContent.match(/\/(?:[^/\\]|\\.)+\/[gimsuy]*/gu);
-    if (regexMatches) {
-      excludeWholePatterns = regexMatches.map(r => {
-        const lastSlash = r.lastIndexOf("/");
-        return r.slice(1, lastSlash);
-      });
-    }
-  }
-
-  // 提取 cnRegReplace (转为 [pattern_string, replacement] 数组)
-  const regReplaceBlock = regexContent.match(/var cnRegReplace = new Map\(\[([\s\S]*?)\n\]\);/u);
-  if (regReplaceBlock) {
-    const content = regReplaceBlock[1];
-    const ruleMatches = content.matchAll(/\[\/(.+?)\/([gimsuy]*),\s*'(.+?)'\]/gu);
-    for (const match of ruleMatches) {
-      regReplacePatterns.push([match[1], match[3]]);
-    }
-  }
-
-  console.log(`[inject] 排除规则: ${excludeWholePatterns.length}`);
-  console.log(`[inject] 正则替换: ${regReplacePatterns.length}`);
-}
-
-// 4. 构建翻译数据 JSON
-const i18nDataObject = {
-  translations: allTranslations,
-  postfix: postfixData,
-  excludeWhole: excludeWholePatterns,
-  regReplace: regReplacePatterns
-};
-
-const i18nDataJson = JSON.stringify(i18nDataObject);
-
-// 5. 读取翻译引擎
-const enginePath = path.join(I18N_DIR, "translation-engine.js");
-const engineCode = fs.readFileSync(enginePath, "utf-8");
-
-// 6. 构造注入的 script 块
-const injectionScript = `
-<script>
-// Antimatter Dimensions 中文翻译数据
-window.__AD_I18N__ = ${i18nDataJson};
-</script>
-<script>
-// 翻译引擎
-${engineCode}
-</script>
-`;
-
-// 7. 注入到 index.html 的 </body> 前
 let htmlContent = fs.readFileSync(indexPath, "utf-8");
+htmlContent = htmlContent
+  .replace(/<html(?:\s+lang="[^"]*")?>/u, "<html lang=\"zh-CN\">")
+  .replace("<title>Antimatter Dimensions</title>", "<title>反物质维度</title>")
+  .replace(
+    /<meta name="Antimatter Dimensions" content="[^"]*"\s*>/u,
+    "<meta name=\"反物质维度\" content=\"一款关于巨大数字不断增长的增量游戏。\">"
+  );
 
-if (htmlContent.includes("</body>")) {
-  htmlContent = htmlContent.replace("</body>", () => `${injectionScript}</body>`);
-  console.log("[inject] 已注入翻译到 </body> 前");
-} else {
-  // 如果没有 </body>，追加到末尾
-  htmlContent += injectionScript;
-  console.log("[inject] 已追加翻译到文件末尾");
-}
-
-// 8. 修改页面 title
-htmlContent = htmlContent.replace("<title>Antimatter Dimensions</title>", "<title>反物质维度</title>");
-
-// 9. 为本地 JS/CSS 追加版本参数，避免 GitHub Pages 或浏览器继续使用旧 bundle
 const buildVersion = getBuildVersion();
 htmlContent = cacheBustLocalAssets(htmlContent, buildVersion);
 console.log(`[inject] 已为本地 JS/CSS 添加版本参数: ${buildVersion}`);
 
-// 10. 写入修改后的 HTML
 fs.writeFileSync(indexPath, htmlContent, "utf-8");
 console.log(`[inject] 已写入: ${indexPath}`);
 
-// 11. 复制词汇表到 dist
 const glossaryPath = path.join(I18N_DIR, "glossary.json");
 if (fs.existsSync(glossaryPath)) {
   fs.copyFileSync(glossaryPath, path.join(DIST_DIR, "glossary.json"));
   console.log("[inject] 已复制 glossary.json 到 dist/");
 }
 
-console.log("\n✅ 中文版注入完成！");
+console.log("\n✅ 中文版构建后处理完成！");
 console.log(`   输出目录: ${DIST_DIR}`);
