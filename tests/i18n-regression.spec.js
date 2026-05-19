@@ -41,6 +41,16 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("快捷键：");
     await expect(page.locator("body")).toContainText("离线模拟游戏刻数量");
     await expect(page.locator("body")).not.toContainText("Hotkeys:");
+
+    await page.evaluate(() => Tab.options.saving.show(true));
+    await expect(page.locator("body")).toContainText("存档名称：");
+    await expect(page.locator("body")).toContainText("导出存档");
+    await expect(page.locator(".c-custom-save-name__input")).toHaveAttribute("placeholder", "自定义存档名");
+    await expect(page.locator("[ach-tooltip*='设置自定义名称']")).toHaveAttribute(
+      "ach-tooltip",
+      "设置自定义名称（最多 16 个字母、数字、空格或连字符）"
+    );
+    await expect(page.locator("body")).not.toContainText("Save file name");
   });
 
   test("keeps the localized shop tab visible and enables free local purchases", async({ page }) => {
@@ -225,13 +235,39 @@ test.describe("Chinese localization regression", () => {
     await page.goto("/");
     await page.waitForFunction(() => window.GameDatabase && document.querySelector(".c-news-ticker")?.__vue__);
 
-    await page.evaluate(() => {
-      nextNewsMessageId = "a294";
+    await page.evaluate(id => {
+      nextNewsMessageId = id;
       document.querySelector(".c-news-ticker").__vue__.prepareNextMessage();
-    });
+    }, "a294");
 
     await expect(page.locator(".c-news-line")).toContainText("如果你看到一条新闻");
     await expect(page.locator(".c-news-line")).not.toContainText("If you see a news message");
+
+    await page.evaluate(id => {
+      nextNewsMessageId = id;
+      document.querySelector(".c-news-ticker").__vue__.prepareNextMessage();
+    }, "a273");
+
+    await expect(page.locator(".c-news-line")).toContainText("这些新闻消息里绝对没有错别字");
+    await expect(page.locator(".c-news-line")).not.toContainText("There are no typos");
+    await expect(page.locator(".c-news-line")).not.toContainText("tpyo");
+
+    const newsSamples = await page.evaluate(() => {
+      const localize = window.__AD_LOCALIZE_NEWS_TEXT__;
+      const htmlToText = html => {
+        const node = document.createElement("div");
+        node.innerHTML = html;
+        return node.innerText || node.textContent || "";
+      };
+      return GameDatabase.news
+        .filter((item, index) => index < 80 || ["a273", "a294", "ai63"].includes(item.id) || index % 41 === 0)
+        .map(item => htmlToText(localize(item.text)));
+    });
+
+    for (const text of newsSamples) {
+      const stripped = text.replace(/\b(?:AD|IP|EP|RM|TT|STD|UI|NASA|Discord|News)\b|break_news\.js/gu, "");
+      expect(stripped).not.toMatch(/[A-Za-z]{3,}/u);
+    }
   });
 
   test("localizes achievement cards and avoids heavy English achievement sprites", async({ page }) => {

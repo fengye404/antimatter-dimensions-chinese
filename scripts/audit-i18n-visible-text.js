@@ -225,6 +225,60 @@ async function collectVisibleEnglish(page, stage, tab, subtab, rootSelector = "b
     .map(text => ({ stage, tab, subtab, text }));
 }
 
+async function collectAttributeEnglish(page, stage, tab, subtab, rootSelector = "body") {
+  const values = await page.evaluate(selector => {
+    const root = document.querySelector(selector);
+    if (!root) return [];
+    return [...root.querySelectorAll("[ach-tooltip], [placeholder], [aria-label], [title]")]
+      .filter(node => {
+        const rect = node.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      })
+      .flatMap(node => ["ach-tooltip", "placeholder", "aria-label", "title"]
+        .map(attr => node.getAttribute(attr))
+        .filter(Boolean));
+  }, rootSelector);
+
+  return values
+    .map(normalizeText)
+    .filter(shouldKeepCandidate)
+    .map(text => ({ stage, tab, subtab: `${subtab} / 属性提示`, text }));
+}
+
+async function collectNewsTickerEnglish(page, stage) {
+  const lines = await page.evaluate(() => {
+    const localize = window.__AD_LOCALIZE_NEWS_TEXT__;
+    if (!localize || !window.GameDatabase?.news) return [];
+
+    const htmlToText = html => {
+      const node = document.createElement("div");
+      node.innerHTML = html;
+      return node.innerText || node.textContent || "";
+    };
+
+    const sampleIds = new Set([
+      "a1", "a2", "a3", "a4", "a5", "a22", "a50", "a100", "a150", "a200", "a236", "a244", "a271",
+      "a273", "a276", "a294", "a400", "a500", "a600", "a700", "ai1", "ai20", "ai40", "ai63"
+    ]);
+
+    return GameDatabase.news
+      .filter((item, index) => sampleIds.has(item.id) || index < 80 || index % 37 === 0)
+      .map(item => {
+        try {
+          return htmlToText(localize(item.text));
+        } catch (error) {
+          return "";
+        }
+      })
+      .filter(Boolean);
+  });
+
+  return lines
+    .map(normalizeText)
+    .filter(shouldKeepCandidate)
+    .map(text => ({ stage, tab: "新闻滚动条", subtab: "抽样消息", text }));
+}
+
 async function collectAchievementTooltipEnglish(page, stage, tab, subtab) {
   const results = [];
   const cells = page.locator(".l-achievement-grid__cell");
@@ -373,7 +427,7 @@ function renderReport(results) {
     "",
     "本报告由 `npm run audit:i18n` 生成，用真实浏览器遍历主要游戏阶段和可见 Tab/Subtab。",
     "报告还会主动打开一组高频选项弹窗，以覆盖点击后才出现的设置说明。",
-    "为避免随机新闻污染审计结果，新闻滚动条由专门 E2E 覆盖，本报告不统计新闻文本。",
+    "报告会检查可见文本、常见属性提示，并对新闻滚动条进行确定性抽样，避免随机消息漏审。",
     "命中项不是自动判错清单，专有名词、缩写和浏览器品牌可能允许保留英文；其余应进入翻译修复队列。",
     "",
     `候选英文残留总数：${results.length}`,
@@ -429,15 +483,19 @@ async function main() {
         await showSubtab(page, entry);
         const visible = await collectVisibleEnglish(page, stage.title, entry.tabName, entry.subtabName);
         results.push(...visible);
+        results.push(...await collectAttributeEnglish(page, stage.title, entry.tabName, entry.subtabName));
         if (entry.tabName.includes("成就") || entry.subtabName.includes("成就")) {
           results.push(...await collectAchievementTooltipEnglish(page, stage.title, entry.tabName, entry.subtabName));
         }
       }
 
+      results.push(...await collectNewsTickerEnglish(page, stage.title));
+
       for (const modal of OPTION_MODALS) {
         await showOptionModal(page, modal);
         const visible = await collectVisibleEnglish(page, stage.title, "选项弹窗", modal.title, ".c-modal.l-modal");
         results.push(...visible);
+        results.push(...await collectAttributeEnglish(page, stage.title, "选项弹窗", modal.title, ".c-modal.l-modal"));
       }
 
       await showCatchupModal(page);

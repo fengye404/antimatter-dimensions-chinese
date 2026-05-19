@@ -235,3 +235,24 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 2. 悬浮成就 34 时显示“反正也不需要它”“在没有任何第 8 反物质维度的情况下到达无限”“第 1 到第 7 维度增强 2%”。
 3. 成就页首轮请求不得包含 `normal achievements.png`、`cancer achievements.png`、`secret achievements.png`。
 4. `npm run test:e2e` 和 `npm run audit:i18n` 必须通过。
+
+## 2026-05-19 存档页属性文本与新闻兜底补充
+
+### 问题
+
+选项-存档页仍有英文残留，但它们不在 `innerText` 中：自定义存档名的说明来自 `ach-tooltip` 属性，占位提示来自 `placeholder`。旧审计只扫可见文本节点，因此截图中的 `Set a custom name...` 和 `Custom save name` 会漏掉。新闻滚动条也存在同类问题：部分消息来自随机池，旧回归只固定检查少数新闻 ID，无法覆盖用户实际刷到的英文消息。
+
+### 设计
+
+1. 存档页高频按钮、存档名称、占位符和 tooltip 改为组件层中文，避免依赖运行时 DOM 二次替换。
+2. 新闻滚动条在写入 `innerHTML` 前统一走 `localizedNewsText()`，先查中文词条；如果翻译结果或原文仍含明显英文，则回退到稳定的中文新闻句子。
+3. `localizedNewsText()` 暴露为 `window.__AD_LOCALIZE_NEWS_TEXT__`，供审计和 E2E 对新闻数据库进行确定性抽样。
+4. `npm run audit:i18n` 扩展为同时扫描可见元素的 `ach-tooltip`、`placeholder`、`aria-label`、`title` 属性，并抽样检查新闻池。
+5. Playwright 回归固定覆盖用户截图中的存档页 tooltip、输入框占位符、`There are no typos...` 新闻，以及一批新闻池样本。
+
+### 验收
+
+1. 选项-存档页不得再出现 `Set a custom name`、`Custom save name`。
+2. 新闻滚动条不得再显示用户截图中的 `There are no typos...` 英文消息。
+3. `npm run test:e2e` 必须全部通过。
+4. `npm run audit:i18n` 的候选英文残留必须为 0。

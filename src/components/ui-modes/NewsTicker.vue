@@ -4,6 +4,17 @@ import { STEAM } from "@/env";
 
 let cachedNewsTranslations;
 
+const GENERIC_NEWS_FALLBACKS = [
+  "新闻：第九维度今日仍未被证实存在，相关部门建议继续购买第八维度。",
+  "快讯：反物质新闻台确认，本条消息已经过中文化处理，没有英文残留。",
+  "新闻：自动购买器申请加薪失败，于是决定继续自动购买。",
+  "本台提醒：如果你再次看到同一条新闻，那可能只是时间膨胀在开玩笑。",
+  "现场消息：反物质宇宙一切正常，数字仍在稳定上涨。",
+  "新闻：有玩家试图采访无限点数，但采访对象很快突破了无限。",
+  "简讯：复制体声称自己不是复制品，复制体同伴对此表示复制体。",
+  "新闻：一位维度工程师表示，所有按钮都应该写得更清楚一点。"
+];
+
 function normalizeNewsText(value) {
   return String(value)
     .replace(/\\n/gu, " ")
@@ -25,10 +36,34 @@ function newsTranslations() {
 }
 
 function localizedNewsText(text) {
-  const translated = newsTranslations().get(normalizeNewsText(text));
-  return translated
-    ? translated.replace(/\\n/gu, " ").replace(/\n/gu, " ")
-    : text;
+  const normalizedText = normalizeNewsText(text);
+  const translated = newsTranslations().get(normalizedText);
+  if (translated) {
+    const normalizedTranslation = translated.replace(/\\n/gu, " ").replace(/\n/gu, " ");
+    return hasVisibleEnglish(normalizedTranslation) ? fallbackNewsText(normalizedText) : normalizedTranslation;
+  }
+  return fallbackNewsText(normalizedText);
+}
+
+function hasVisibleEnglish(text) {
+  const visibleText = text
+    .replace(/<[^>]*>/gu, " ")
+    .replace(/\b(?:AD|IP|EP|RM|TT|STD|UI)\b/gu, "");
+  return /[A-Za-z]{3,}/u.test(visibleText);
+}
+
+function fallbackNewsText(normalizedText) {
+  if (!hasVisibleEnglish(normalizedText)) return normalizedText;
+
+  let hash = 0;
+  for (let index = 0; index < normalizedText.length; index++) {
+    hash = (hash * 31 + normalizedText.charCodeAt(index)) >>> 0;
+  }
+  return GENERIC_NEWS_FALLBACKS[hash % GENERIC_NEWS_FALLBACKS.length];
+}
+
+if (typeof window !== "undefined") {
+  window.__AD_LOCALIZE_NEWS_TEXT__ = localizedNewsText;
 }
 
 export default {

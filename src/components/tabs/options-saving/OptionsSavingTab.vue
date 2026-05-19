@@ -35,14 +35,13 @@ export default {
   },
   computed: {
     modalTooltip() {
-      return `The game will detect certain situations where you might not want to overwrite your cloud save, and show
-        you a modal with more information if this is ON.`;
+      return "开启后，游戏会在可能不应覆盖云端存档时弹出说明窗口，提醒你确认。";
     },
     overwriteTooltip() {
-      if (this.showCloudModal) return "This setting does nothing since the modal is being shown.";
+      if (this.showCloudModal) return "由于冲突提示弹窗已开启，此设置暂时不会生效。";
       return this.forceCloudOverwrite
-        ? `Your local save will always overwrite your cloud save no matter what.`
-        : `Save conflicts will prevent your local save from being saved to the cloud.`;
+        ? "本地存档将始终覆盖云端存档。"
+        : "出现存档冲突时，本地存档不会写入云端。";
     },
     STEAM() {
       return STEAM;
@@ -107,8 +106,7 @@ export default {
       if (this.canModifySeed) {
         Modal.modifySeed.show();
       } else {
-        Modal.message.show(`You cannot modify your seed any more. Glyph RNG has already been used to generate
-          at least one Glyph on this run.`);
+        Modal.message.show("你已经在本轮生成过至少一个符文，不能再修改符文随机种子。");
       }
     }
   }
@@ -124,21 +122,21 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.export()"
         >
-          Export save
+          导出存档
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.import.show()"
         >
-          Import save
+          导入存档
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.hardReset.show()"
         >
-          RESET THE GAME
+          重置游戏
         </OptionsButton>
       </div>
       <div class="l-options-grid__row">
@@ -147,14 +145,14 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.save(false, true)"
         >
-          Save game
+          保存游戏
         </OptionsButton>
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.loadGame.show()"
         >
-          Choose save
+          选择存档
         </OptionsButton>
         <AutosaveIntervalSlider
           :min="10"
@@ -167,7 +165,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameStorage.exportAsFile()"
         >
-          Export save as file
+          导出存档为文件
         </OptionsButton>
         <OptionsButton
           class="c-file-import-button"
@@ -179,7 +177,7 @@ export default {
             accept=".txt"
             @change="importAsFile"
           >
-          <label for="file">Import save from file</label>
+          <label for="file">从文件导入存档</label>
         </OptionsButton>
         <PrimaryToggleButton
           v-model="showTimeSinceSave"
@@ -195,7 +193,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.backupWindows.show()"
         >
-          Open Automatic Save Backup Menu
+          打开自动保存备份菜单
         </OptionsButton>
         <SaveFileName />
       </div>
@@ -206,7 +204,7 @@ export default {
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="Modal.enterSpeedrun.show()"
         >
-          Start Speedrun
+          开始速通
         </OptionsButton>
         <OptionsButton
           v-if="inSpeedrun"
@@ -216,7 +214,7 @@ export default {
           }"
           @click="openSeedModal()"
         >
-          Change Glyph RNG Seed
+          修改符文随机种子
         </OptionsButton>
       </div>
       <OpenModalHotkeysButton />
@@ -225,13 +223,13 @@ export default {
       v-if="cloudAvailable"
       class="c-cloud-options-header"
     >
-      <span v-if="hideGoogleName">Logged in to Google <i>(name hidden)</i></span>
-      <span v-else-if="loggedIn">Logged in as {{ userName }}</span>
-      <span v-else>Not logged in</span>
+      <span v-if="hideGoogleName">已登录 Google <i>（名称已隐藏）</i></span>
+      <span v-else-if="loggedIn">已登录为 {{ userName }}</span>
+      <span v-else>未登录</span>
     </h2>
     <div v-if="loggedIn">
-      <span v-if="cloudEnabled">Cloud Saving will occur automatically every 10 minutes.</span>
-      <span v-else>Cloud Saving has been disabled on this save.</span>
+      <span v-if="cloudEnabled">云存档会每 10 分钟自动保存一次。</span>
+      <span v-else>此存档已禁用云存档。</span>
     </div>
     <div
       v-if="cloudAvailable"
@@ -245,23 +243,23 @@ export default {
           v-if="loggedIn"
           onclick="GameOptions.logout()"
         >
-          Disconnect Google Account and disable Cloud Saving
+          断开 Google 账号并禁用云存档
         </OptionsButton>
         <OptionsButton
           v-else
-          v-tooltip="'This will connect your Google Account to your Antimatter Dimensions savefiles'"
+          v-tooltip="'将你的 Google 账号连接到反物质维度存档。'"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
           onclick="GameOptions.login()"
         >
-          Login with Google to enable Cloud Saving
+          使用 Google 登录并启用云存档
         </OptionsButton>
         <PrimaryToggleButton
           v-if="loggedIn"
           v-model="hideGoogleName"
-          v-tooltip="'This will hide your Google Account name from the UI for privacy. Saving/loading is unaffected.'"
+          v-tooltip="'为保护隐私，在界面中隐藏你的 Google 账号名称；保存和读取不受影响。'"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Hide Google Account name:"
+          label="隐藏 Google 账号名称："
         />
       </div>
       <div
@@ -272,19 +270,19 @@ export default {
           onclick="GameOptions.cloudSave()"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
         >
-          Cloud save
+          保存到云端
         </OptionsButton>
         <OptionsButton
           onclick="GameOptions.cloudLoad()"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
         >
-          Cloud load
+          从云端读取
         </OptionsButton>
         <PrimaryToggleButton
           v-model="syncSaveIntervals"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Force local save before cloud saving:"
+          label="云存档前强制本地保存："
         />
       </div>
       <div
@@ -295,21 +293,21 @@ export default {
           v-model="cloudEnabled"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Automatic cloud saving/loading:"
+          label="自动云端保存/读取："
         />
         <PrimaryToggleButton
           v-model="showCloudModal"
           v-tooltip="modalTooltip"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Show modal if possible saving conflict:"
+          label="可能冲突时显示弹窗："
         />
         <PrimaryToggleButton
           v-model="forceCloudOverwrite"
           v-tooltip="overwriteTooltip"
           class="o-primary-btn--option l-options-grid__button"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          label="Force cloud saving despite conflicts:"
+          label="冲突时仍强制云存档："
         />
       </div>
     </div>
