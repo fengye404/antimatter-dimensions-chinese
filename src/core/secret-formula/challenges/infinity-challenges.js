@@ -79,7 +79,7 @@ export const infinityChallenges = [
     effect: () => Currency.matter.value.clampMin(1),
     formatEffect: value => `/${format(value, 1, 2)}`,
     reward: {
-      description: "基于游戏刻速率提高无限维度倍率",
+      description: "基于每秒游戏刻数提高无限维度倍率",
       effect: () => Tickspeed.perSecond.pow(0.0005),
       formatEffect: value => formatX(value, 2, 2)
     },

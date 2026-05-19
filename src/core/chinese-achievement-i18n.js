@@ -273,7 +273,7 @@ const TERM_REPLACEMENTS = [
   ["Replicanti Galaxies", "复制体星系"],
   ["Replicanti Galaxy", "复制体星系"],
   ["Replicanti", "复制体"],
-  ["Tickspeed", "计数频率"],
+  ["Tickspeed", "时间间隔"],
   ["Big Crunch", "大坍缩"],
   ["Glyphs", "符文"],
   ["Glyph", "符文"],
