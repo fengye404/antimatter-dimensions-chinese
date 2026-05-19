@@ -31,6 +31,13 @@ export default {
       inSpeedrun: false,
       creditsClosed: false,
       canModifySeed: false,
+      githubEnabled: false,
+      githubHasToken: false,
+      githubGistId: "",
+      githubGistUrl: "",
+      githubLastSyncAt: 0,
+      githubLastError: "",
+      githubIsSyncing: false,
     };
   },
   computed: {
@@ -82,8 +89,61 @@ export default {
       this.inSpeedrun = player.speedrun.isActive;
       this.canModifySeed = Speedrun.canModifySeed();
       this.creditsClosed = GameEnd.creditsEverClosed;
+      this.updateGitHubStatus();
       if (!this.loggedIn) return;
       this.userName = Cloud.user.displayName;
+    },
+    updateGitHubStatus() {
+      const status = GitHubBackup.getStatus();
+      this.githubEnabled = status.enabled;
+      this.githubHasToken = status.hasToken;
+      this.githubGistId = status.gistId;
+      this.githubGistUrl = status.gistUrl;
+      this.githubLastSyncAt = status.lastSyncAt;
+      this.githubLastError = status.lastError;
+      this.githubIsSyncing = status.isSyncing;
+    },
+    formatGitHubSyncTime(timestamp) {
+      if (!timestamp) return "尚未备份";
+      return new Date(timestamp).toLocaleString();
+    },
+    saveGitHubSettings() {
+      const token = this.$refs.githubToken.value.trim();
+      const gistId = this.$refs.githubGistId.value.trim();
+      const enabled = this.$refs.githubEnabled.checked;
+      if (!token && !this.githubHasToken) {
+        Modal.message.show("请先填写 GitHub 令牌。建议使用只允许代码片段读写的细粒度令牌。");
+        return;
+      }
+      GitHubBackup.configure({ token, gistId, enabled });
+      this.$refs.githubToken.value = "";
+      this.updateGitHubStatus();
+      GameUI.notify.info("GitHub 备份设置已保存");
+    },
+    async syncGitHubNow() {
+      try {
+        await GitHubBackup.syncNow("manual-sync");
+      } catch (error) {
+        Modal.message.show(error.message);
+      } finally {
+        this.updateGitHubStatus();
+      }
+    },
+    async restoreFromGitHub() {
+      try {
+        await GitHubBackup.restoreLatest();
+      } catch (error) {
+        Modal.message.show(error.message);
+      } finally {
+        this.updateGitHubStatus();
+      }
+    },
+    clearGitHubSettings() {
+      GitHubBackup.clear();
+      this.$refs.githubToken.value = "";
+      this.$refs.githubGistId.value = "";
+      this.updateGitHubStatus();
+      GameUI.notify.info("GitHub 备份设置已清除");
     },
     importAsFile(event) {
       // This happens if the file dialog is canceled instead of a file being selected
@@ -219,6 +279,75 @@ export default {
       </div>
       <OpenModalHotkeysButton />
     </div>
+    <div class="c-github-backup-panel">
+      <h3>GitHub 自动备份</h3>
+      <p>
+        将当前存档自动备份到你的 GitHub 代码片段。请使用只允许代码片段读写的令牌；
+        私密代码片段适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
+      </p>
+      <div class="c-github-backup-panel__status">
+        状态：
+        <b>{{ githubEnabled ? "已启用" : "未启用" }}</b>
+        <span>令牌：{{ githubHasToken ? "已保存" : "未保存" }}</span>
+        <span>上次备份：{{ formatGitHubSyncTime(githubLastSyncAt) }}</span>
+      </div>
+      <div
+        v-if="githubGistUrl"
+        class="c-github-backup-panel__gist"
+      >
+        备份链接：<a
+          :href="githubGistUrl"
+          target="_blank"
+          rel="noopener"
+        >{{ githubGistUrl }}</a>
+      </div>
+      <div
+        v-if="githubLastError"
+        class="c-github-backup-panel__error"
+      >
+        最近错误：{{ githubLastError }}
+      </div>
+      <div class="c-github-backup-panel__form">
+        <input
+          ref="githubToken"
+          class="c-github-backup-panel__input"
+          type="password"
+          autocomplete="off"
+          placeholder="GitHub 令牌（保存后不会再次显示）"
+        >
+        <input
+          ref="githubGistId"
+          class="c-github-backup-panel__input"
+          type="text"
+          :placeholder="githubGistId || '备份代码片段 ID（留空会自动创建）'"
+        >
+        <label class="c-github-backup-panel__toggle">
+          <input
+            ref="githubEnabled"
+            type="checkbox"
+            :checked="githubEnabled"
+          >
+          启用自动备份（最多每 5 分钟上传一次）
+        </label>
+      </div>
+      <div class="c-github-backup-panel__actions">
+        <OptionsButton @click="saveGitHubSettings()">
+          保存 GitHub 设置
+        </OptionsButton>
+        <OptionsButton
+          :class="{ 'o-primary-btn--disabled': githubIsSyncing }"
+          @click="syncGitHubNow()"
+        >
+          立即备份到 GitHub
+        </OptionsButton>
+        <OptionsButton @click="restoreFromGitHub()">
+          从 GitHub 恢复
+        </OptionsButton>
+        <OptionsButton @click="clearGitHubSettings()">
+          清除 GitHub 设置
+        </OptionsButton>
+      </div>
+    </div>
     <h2
       v-if="cloudAvailable"
       class="c-cloud-options-header"
@@ -313,3 +442,50 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.c-github-backup-panel {
+  width: min(110rem, calc(100% - 4rem));
+  border: 0.1rem solid var(--color-good);
+  border-radius: var(--var-border-radius, 0.5rem);
+  margin: 2rem auto;
+  padding: 1.5rem;
+  line-height: 1.55;
+}
+
+.c-github-backup-panel__status,
+.c-github-backup-panel__actions,
+.c-github-backup-panel__form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.c-github-backup-panel__input {
+  width: 32rem;
+  max-width: 100%;
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border: 0.1rem solid var(--color-good);
+  border-radius: var(--var-border-radius, 0.4rem);
+  padding: 0.6rem;
+}
+
+.c-github-backup-panel__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.c-github-backup-panel__gist,
+.c-github-backup-panel__error {
+  margin-top: 1rem;
+}
+
+.c-github-backup-panel__error {
+  color: var(--color-bad);
+}
+</style>

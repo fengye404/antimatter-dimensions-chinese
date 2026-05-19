@@ -31,6 +31,12 @@
 - **存档桥接**：通过 WKWebView 的 JavaScript Bridge 将游戏存档桥接到 iOS 本地文件系统
 - **离线支持**：所有 Web 资源打包到 App Bundle 内，无需网络即可运行
 
+#### PWA / GitHub 备份
+
+- **PWA 路线**：在不使用 Apple Developer 账号的情况下，优先把 GitHub Pages 版本作为可添加到主屏幕的 Web App 使用
+- **云备份**：支持通过 GitHub Gist 自动备份 `dimensionSave` 和本地备份槽数据
+- **安全边界**：Token 由用户自行提供并保存在本机浏览器；推荐只授予 Gist 读写权限。secret Gist 只是不公开索引，不等同于端到端加密私有存储
+
 ### 开发规范
 
 - **Spec 驱动开发**：所有设计决策和技术方案先写文档，沉淀到 `docs/` 目录
@@ -63,4 +69,5 @@ antimatter-dimensions-chinese/
 
 1. **M1 - 项目初始化**：Fork 仓库、集成翻译文件、建立文档结构
 2. **M2 - 翻译集成与修复**：源码级中文化、审查并修复翻译质量
-3. **M3 - iOS App 开发**：Swift/WKWebView 包装、存档桥接、App Store 发布准备
+3. **M3 - PWA 与 GitHub 备份**：移动端免签使用、Gist 自动备份、离线缓存与恢复引导
+4. **M4 - iOS App 开发**：Swift/WKWebView 包装、存档桥接、App Store 发布准备

@@ -260,6 +260,7 @@ export const GameStorage = {
       saves: this.saves
     };
     localStorage.setItem(this.localStorageKey, GameSaveSerializer.serialize(root));
+    GitHubBackup.queueAutoSync(manual ? "manual-save" : "auto-save");
     if (!silent) GameUI.notify.info("Game saved");
   },
 
@@ -275,6 +276,7 @@ export const GameStorage = {
       date: Date.now(),
     };
     localStorage.setItem(this.backupTimeKey(this.currentSlot), GameSaveSerializer.serialize(this.lastBackupTimes));
+    GitHubBackup.queueAutoSync("backup-save");
   },
 
   // Does not actually load, but returns an object which is meant to be passed on to loadPlayerObject()
