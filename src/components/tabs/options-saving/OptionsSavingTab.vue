@@ -111,8 +111,12 @@ export default {
       const token = this.$refs.githubToken.value.trim();
       const gistId = this.$refs.githubGistId.value.trim();
       const enabled = this.$refs.githubEnabled.checked;
-      if (!token && !this.githubHasToken) {
-        Modal.message.show("请先填写 GitHub Token。建议使用只允许 Gist 读写的细粒度 Token。");
+      if (enabled && !token && !this.githubHasToken) {
+        Modal.message.show("启用自动备份前，请先填写 GitHub Token。建议使用只允许 Gist 读写的细粒度 Token。");
+        return;
+      }
+      if (!enabled && !token && !this.githubHasToken && !gistId && !this.githubGistId) {
+        Modal.message.show("请填写 GitHub Token，或填写已有的 Gist ID 用于恢复。");
         return;
       }
       GitHubBackup.configure({ token, gistId, enabled });
@@ -284,6 +288,7 @@ export default {
       <p>
         将当前存档自动备份到你的 GitHub Gist。请使用只允许 Gist 读写的 Token；
         secret Gist 适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
+        如果 Token 过期或丢失，可以重新创建 Token；如果只是恢复已有备份，也可以只填 Gist ID 后点击恢复。
       </p>
       <div class="c-github-backup-panel__status">
         状态：
@@ -327,7 +332,7 @@ export default {
             type="checkbox"
             :checked="githubEnabled"
           >
-          启用自动备份（最多每 5 分钟上传一次）
+          启用自动备份（跟随游戏本地自动保存）
         </label>
       </div>
       <div class="c-github-backup-panel__actions">

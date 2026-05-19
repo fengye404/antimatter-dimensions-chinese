@@ -11,6 +11,183 @@ function corsHeaders() {
 }
 
 test.describe("GitHub Gist backup", () => {
+  test("restores an existing Gist backup even when the token was lost", async({ page }) => {
+    const restoredSave = "restored-save-without-token";
+    const gistContent = JSON.stringify({
+      schema: 1,
+      app: "antimatter-dimensions-chinese",
+      reason: "manual-sync",
+      saveKey: "dimensionTestSave",
+      saves: {
+        dimensionTestSave: restoredSave
+      }
+    });
+
+    await page.route("https://api.github.com/gists/mock-gist-id", async route => {
+      expect(route.request().headers().authorization).toBeUndefined();
+      await route.fulfill({
+        status: 200,
+        headers: corsHeaders(),
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: "mock-gist-id",
+          "html_url": "https://gist.github.com/mock/mock-gist-id",
+          files: {
+            [GIST_FILE_NAME]: {
+              filename: GIST_FILE_NAME,
+              content: gistContent,
+              truncated: false
+            }
+          }
+        })
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.GameUI);
+    await page.evaluate(() => {
+      Tab.options.saving.show(true);
+      GameUI.update();
+    });
+
+    await page.getByPlaceholder("Gist ID（留空会自动创建）").fill("mock-gist-id");
+    await page.getByRole("button", { name: "保存 GitHub 设置" }).click();
+    await page.evaluate(() => localStorage.setItem("dimensionTestSave", "broken-save"));
+
+    await page.getByRole("button", { name: "从 GitHub 恢复" }).click();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("dimensionTestSave"))).toBe(restoredSave);
+  });
+
+  test("restores truncated API responses from the Gist raw file URL", async({ page }) => {
+    const restoredSave = "restored-save-from-raw-url";
+    const gistContent = JSON.stringify({
+      schema: 1,
+      app: "antimatter-dimensions-chinese",
+      reason: "manual-sync",
+      saveKey: "dimensionTestSave",
+      saves: {
+        dimensionTestSave: restoredSave
+      }
+    });
+
+    await page.route("https://api.github.com/gists/mock-gist-id", async route => {
+      await route.fulfill({
+        status: 200,
+        headers: corsHeaders(),
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: "mock-gist-id",
+          "html_url": "https://gist.github.com/mock/mock-gist-id",
+          files: {
+            [GIST_FILE_NAME]: {
+              filename: GIST_FILE_NAME,
+              content: "",
+              truncated: true,
+              "raw_url": "https://gist.githubusercontent.com/mock/raw/save.json"
+            }
+          }
+        })
+      });
+    });
+
+    await page.route("https://gist.githubusercontent.com/mock/raw/save.json", async route => {
+      await route.fulfill({
+        status: 200,
+        headers: corsHeaders(),
+        contentType: "application/json",
+        body: gistContent
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.GameUI);
+    await page.evaluate(() => {
+      Tab.options.saving.show(true);
+      GameUI.update();
+    });
+
+    await page.getByPlaceholder("Gist ID（留空会自动创建）").fill("mock-gist-id");
+    await page.getByRole("button", { name: "保存 GitHub 设置" }).click();
+    await page.evaluate(() => localStorage.setItem("dimensionTestSave", "broken-save"));
+
+    await page.getByRole("button", { name: "从 GitHub 恢复" }).click();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("dimensionTestSave"))).toBe(restoredSave);
+  });
+
+  test("follows the local autosave cadence without an extra five-minute throttle", async({ page }) => {
+    const syncs = [];
+
+    await page.route("https://api.github.com/**", async route => {
+      const request = route.request();
+      const method = request.method();
+
+      if (method === "OPTIONS") {
+        await route.fulfill({ status: 204, headers: corsHeaders() });
+        return;
+      }
+
+      expect(request.headers().authorization).toBe("Bearer ghp_mock_token");
+
+      if ((method === "POST" || method === "PATCH") && request.url().includes("/gists")) {
+        const body = JSON.parse(request.postData());
+        syncs.push({
+          method,
+          content: body.files[GIST_FILE_NAME].content
+        });
+
+        await route.fulfill({
+          status: method === "POST" ? 201 : 200,
+          headers: corsHeaders(),
+          contentType: "application/json",
+          body: JSON.stringify({
+            id: "mock-gist-id",
+            "html_url": "https://gist.github.com/mock/mock-gist-id",
+            files: {
+              [GIST_FILE_NAME]: {
+                filename: GIST_FILE_NAME,
+                content: body.files[GIST_FILE_NAME].content
+              }
+            }
+          })
+        });
+        return;
+      }
+
+      await route.fulfill({
+        status: 404,
+        headers: corsHeaders(),
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Unexpected mocked GitHub request" })
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.GameStorage && window.GameUI);
+    await page.evaluate(() => {
+      Tab.options.saving.show(true);
+      GameUI.update();
+    });
+
+    await page.getByPlaceholder("GitHub Token（保存后不会再次显示）").fill("ghp_mock_token");
+    await page.locator(".c-github-backup-panel__toggle input").check();
+    await page.getByRole("button", { name: "保存 GitHub 设置" }).click();
+
+    await page.evaluate(() => GameStorage.save());
+    await expect.poll(() => syncs.length).toBe(1);
+    await expect.poll(() => page.evaluate(() => {
+      const config = JSON.parse(localStorage.getItem("adChineseGithubBackupConfig"));
+      return config.gistId;
+    })).toBe("mock-gist-id");
+
+    await page.evaluate(() => GameStorage.save());
+    await expect.poll(() => syncs.length, { timeout: 5000 }).toBe(2);
+
+    expect(syncs[0].method).toBe("POST");
+    expect(JSON.parse(syncs[0].content).reason).toBe("auto-save");
+    expect(syncs[1].method).toBe("PATCH");
+    expect(JSON.parse(syncs[1].content).reason).toBe("auto-save");
+  });
+
   test("creates a backup and restores it through the options UI", async({ page }) => {
     let gistContent = "";
     let createRequestBody = null;

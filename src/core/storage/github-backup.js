@@ -1,6 +1,5 @@
 const CONFIG_KEY = "adChineseGithubBackupConfig";
 const DEFAULT_FILE_NAME = "antimatter-dimensions-chinese-save.json";
-const MIN_AUTO_SYNC_INTERVAL = 5 * 60 * 1000;
 
 function loadConfig() {
   try {
@@ -47,16 +46,20 @@ function makePayload(reason) {
   };
 }
 
-async function githubFetch(path, options = {}) {
+function githubFetch(path, options = {}) {
   const config = loadConfig();
   if (!config.token) throw new Error("尚未保存 GitHub Token。");
 
+  return githubFetchWithOptionalToken(path, config.token, options);
+}
+
+async function githubFetchWithOptionalToken(path, token, options = {}) {
   const response = await fetch(`https://api.github.com${path}`, {
     ...options,
     headers: {
       Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${config.token}`,
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(options.headers ?? {})
     }
   });
@@ -69,10 +72,21 @@ async function githubFetch(path, options = {}) {
   return response.json();
 }
 
+async function gistFileContent(file) {
+  if (!file) throw new Error("Gist 中没有找到中文版存档文件。");
+  if (!file.truncated && file.content) return file.content;
+  if (!file.raw_url) throw new Error("Gist 文件过大且没有可读取的原始文件链接。");
+
+  const response = await fetch(file.raw_url);
+  if (!response.ok) throw new Error(`Gist 原始文件读取失败：${response.status}`);
+  return response.text();
+}
+
 export const GitHubBackup = {
   config: loadConfig(),
   isSyncing: false,
   queuedTimer: null,
+  queuedReason: "",
 
   get enabled() {
     return Boolean(this.config.enabled);
@@ -119,10 +133,15 @@ export const GitHubBackup = {
 
   queueAutoSync(reason = "auto-save") {
     this.config = loadConfig();
-    if (!this.enabled || !this.hasToken || this.isSyncing) return;
-    if (Date.now() - (this.config.lastSyncAt || 0) < MIN_AUTO_SYNC_INTERVAL) return;
+    if (!this.enabled || !this.hasToken) return;
+    this.queuedReason = reason;
+    if (this.isSyncing) return;
     clearTimeout(this.queuedTimer);
-    this.queuedTimer = setTimeout(() => this.syncNow(reason), 1500);
+    this.queuedTimer = setTimeout(() => {
+      const queuedReason = this.queuedReason || reason;
+      this.queuedReason = "";
+      this.syncNow(queuedReason).catch(() => undefined);
+    }, 1500);
   },
 
   async syncNow(reason = "manual") {
@@ -164,20 +183,18 @@ export const GitHubBackup = {
       throw error;
     } finally {
       this.isSyncing = false;
+      if (this.queuedReason) this.queueAutoSync(this.queuedReason);
     }
   },
 
   async restoreLatest() {
     this.config = loadConfig();
-    if (!this.hasToken) throw new Error("请先保存 GitHub Token。");
     if (!this.config.gistId) throw new Error("尚未关联 GitHub Gist。");
 
-    const gist = await githubFetch(`/gists/${this.config.gistId}`);
+    const gist = await githubFetchWithOptionalToken(`/gists/${this.config.gistId}`, this.config.token);
     const file = gist.files?.[this.fileName] ?? Object.values(gist.files ?? {})
       .find(item => item.filename === this.fileName);
-    if (!file?.content) throw new Error("Gist 中没有找到中文版存档文件。");
-
-    const payload = JSON.parse(file.content);
+    const payload = JSON.parse(await gistFileContent(file));
     if (payload.app !== "antimatter-dimensions-chinese" || payload.schema !== 1) {
       throw new Error("Gist 文件格式不属于反物质维度中文版备份。");
     }
