@@ -55,4 +55,4 @@ Gist 中写入 `antimatter-dimensions-chinese-save.json`：
 1. 增加上传前口令加密。
 2. 增加冲突检测：比较 Gist `savedAt` 和本地最后保存时间。
 3. 增加 PWA 离线缓存和启动时恢复引导。
-4. 增加自动备份状态的 Playwright 网络 mock 回归。
+4. 已增加 GitHub Gist 创建和恢复流程的 Playwright 网络 mock 回归。

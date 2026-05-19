@@ -112,6 +112,9 @@ const TEXT_ALLOWLIST = [
   /^Google$/u,
   /^Discord$/u,
   /^GitHub$/u,
+  /^Gist$/u,
+  /^secret$/u,
+  /^Token$/u,
   /^PlayFab$/u,
   /^Antimatter Dimensions$/u,
   /^Teresa$/u,
@@ -148,7 +151,7 @@ const TEXT_ALLOWLIST = [
 
 const ALLOWED_ENGLISH_TOKENS = [
   "AD", "AM", "AMOLED", "EP", "IP", "RM", "STD", "TT", "Emoji", "OAuth", "Steam", "Google", "Discord",
-  "GitHub", "PlayFab", "Android", "JavaScript", "DLC",
+  "GitHub", "Gist", "secret", "Token", "PlayFab", "Android", "JavaScript", "DLC",
   "Antimatter Dimensions", "Teresa", "Effarig", "Ra", "Pelle", "Chrome", "Firefox", "Safari", "Edge",
   "SHIFT", "Shift", "ALT", "Alt", "CTRL", "Ctrl", "ENTER", "ESC", "TAB", "ON", "OFF", "Blob", "AI", "Kms",
   "Cookie", "Qa", "Qt", "Sp", "No", "EC", "NC", "ID", "BH", "DT", "TP", "eyJ", "In19", "fX0=", "fQ=="

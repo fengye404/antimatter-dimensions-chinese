@@ -49,7 +49,7 @@ function makePayload(reason) {
 
 async function githubFetch(path, options = {}) {
   const config = loadConfig();
-  if (!config.token) throw new Error("尚未保存 GitHub 令牌。");
+  if (!config.token) throw new Error("尚未保存 GitHub Token。");
 
   const response = await fetch(`https://api.github.com${path}`, {
     ...options,
@@ -127,7 +127,7 @@ export const GitHubBackup = {
 
   async syncNow(reason = "manual") {
     this.config = loadConfig();
-    if (!this.hasToken) throw new Error("请先保存 GitHub 令牌。");
+    if (!this.hasToken) throw new Error("请先保存 GitHub Token。");
     if (this.isSyncing) return;
 
     this.isSyncing = true;
@@ -169,17 +169,17 @@ export const GitHubBackup = {
 
   async restoreLatest() {
     this.config = loadConfig();
-    if (!this.hasToken) throw new Error("请先保存 GitHub 令牌。");
-    if (!this.config.gistId) throw new Error("尚未关联 GitHub 代码片段。");
+    if (!this.hasToken) throw new Error("请先保存 GitHub Token。");
+    if (!this.config.gistId) throw new Error("尚未关联 GitHub Gist。");
 
     const gist = await githubFetch(`/gists/${this.config.gistId}`);
     const file = gist.files?.[this.fileName] ?? Object.values(gist.files ?? {})
       .find(item => item.filename === this.fileName);
-    if (!file?.content) throw new Error("代码片段中没有找到中文版存档文件。");
+    if (!file?.content) throw new Error("Gist 中没有找到中文版存档文件。");
 
     const payload = JSON.parse(file.content);
     if (payload.app !== "antimatter-dimensions-chinese" || payload.schema !== 1) {
-      throw new Error("代码片段文件格式不属于反物质维度中文版备份。");
+      throw new Error("Gist 文件格式不属于反物质维度中文版备份。");
     }
 
     for (const [key, value] of Object.entries(payload.saves ?? {})) {

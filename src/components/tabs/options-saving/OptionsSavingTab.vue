@@ -112,7 +112,7 @@ export default {
       const gistId = this.$refs.githubGistId.value.trim();
       const enabled = this.$refs.githubEnabled.checked;
       if (!token && !this.githubHasToken) {
-        Modal.message.show("请先填写 GitHub 令牌。建议使用只允许代码片段读写的细粒度令牌。");
+        Modal.message.show("请先填写 GitHub Token。建议使用只允许 Gist 读写的细粒度 Token。");
         return;
       }
       GitHubBackup.configure({ token, gistId, enabled });
@@ -282,20 +282,20 @@ export default {
     <div class="c-github-backup-panel">
       <h3>GitHub 自动备份</h3>
       <p>
-        将当前存档自动备份到你的 GitHub 代码片段。请使用只允许代码片段读写的令牌；
-        私密代码片段适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
+        将当前存档自动备份到你的 GitHub Gist。请使用只允许 Gist 读写的 Token；
+        secret Gist 适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
       </p>
       <div class="c-github-backup-panel__status">
         状态：
         <b>{{ githubEnabled ? "已启用" : "未启用" }}</b>
-        <span>令牌：{{ githubHasToken ? "已保存" : "未保存" }}</span>
+        <span>Token：{{ githubHasToken ? "已保存" : "未保存" }}</span>
         <span>上次备份：{{ formatGitHubSyncTime(githubLastSyncAt) }}</span>
       </div>
       <div
         v-if="githubGistUrl"
         class="c-github-backup-panel__gist"
       >
-        备份链接：<a
+        Gist：<a
           :href="githubGistUrl"
           target="_blank"
           rel="noopener"
@@ -313,13 +313,13 @@ export default {
           class="c-github-backup-panel__input"
           type="password"
           autocomplete="off"
-          placeholder="GitHub 令牌（保存后不会再次显示）"
+          placeholder="GitHub Token（保存后不会再次显示）"
         >
         <input
           ref="githubGistId"
           class="c-github-backup-panel__input"
           type="text"
-          :placeholder="githubGistId || '备份代码片段 ID（留空会自动创建）'"
+          :placeholder="githubGistId || 'Gist ID（留空会自动创建）'"
         >
         <label class="c-github-backup-panel__toggle">
           <input
