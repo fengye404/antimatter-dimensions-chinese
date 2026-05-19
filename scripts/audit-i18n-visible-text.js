@@ -416,6 +416,27 @@ async function showDimensionBoostModal(page) {
   await page.waitForTimeout(250);
 }
 
+async function showAwayProgressModal(page, hasProgress) {
+  await page.evaluate(progress => {
+    Modal.hide();
+    const playerBefore = JSON.parse(JSON.stringify(player));
+    const playerAfter = progress ? JSON.parse(JSON.stringify(player)) : playerBefore;
+
+    if (progress) {
+      playerAfter.antimatter = new Decimal(playerBefore.antimatter || 0).plus(1000);
+      playerAfter.dimensionBoosts = (playerBefore.dimensionBoosts || 0) + 1;
+    }
+
+    Modal.awayProgress.show({
+      playerBefore,
+      playerAfter,
+      seconds: 10 * 3600 + 19 * 60 + 32
+    });
+    GameUI.update();
+  }, hasProgress);
+  await page.waitForTimeout(250);
+}
+
 async function collectH2PEnglish(page, stageTitle) {
   const results = [];
 
@@ -542,6 +563,24 @@ async function main() {
         ".c-modal.l-modal"
       );
       results.push(...dimBoostVisible);
+
+      await showAwayProgressModal(page, false);
+      results.push(...await collectVisibleEnglish(
+        page,
+        stage.title,
+        "离线弹窗",
+        "无变化",
+        ".c-modal.l-modal"
+      ));
+
+      await showAwayProgressModal(page, true);
+      results.push(...await collectVisibleEnglish(
+        page,
+        stage.title,
+        "离线弹窗",
+        "资源变化",
+        ".c-modal.l-modal"
+      ));
 
       results.push(...await collectH2PEnglish(page, stage.title));
     }

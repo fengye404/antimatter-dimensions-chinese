@@ -329,3 +329,23 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 2. `npm run audit:i18n` 报告候选英文残留为 0。
 3. `npm run test:e2e` 全部通过。
 4. 商店 Tab 可见，本地免费购买可用，不连接支付后端。
+
+## 2026-05-19 离线进度弹窗补漏
+
+### 问题
+
+进游戏后如果触发离线结算，离线进度弹窗仍显示 `While you were away... Nothing happened.`；有资源增长时，条目模板也会显示 `increased from ... to ...`。这类文案来自 `AwayProgressModal.vue` 和 `AwayProgressEntry.vue` 的源码模板，并且只会在离线模拟结束后出现，旧审计没有主动触发该路径。
+
+### 设计
+
+1. 离线弹窗标题统一改为“你离开了……期间获得了”或“你离开了……什么都没有发生”。
+2. 离线资源增长条目统一用中文句式“从 A 提高到 B”，黑洞激活条目统一显示“激活了 N 次”。
+3. 启动时较长离线模拟的进度条改为“离线进度模拟 / 游戏刻 / 加速 / 跳过”。
+4. 秘密成就 36 的名称和描述同步改为源码级中文，避免 tooltip 或成就列表继续出现英文。
+5. 审计脚本在每个阶段主动打开无变化和有变化两种离线弹窗，Playwright 回归固定断言截图里的英文不再出现。
+
+### 验收
+
+1. 离线弹窗不得出现 `While you were away`、`Nothing happened`、`increased from`。
+2. 较长离线模拟进度条不得出现 `Offline Progress Simulation`、`Speed up`、`SKIP`。
+3. `npm run audit:i18n` 必须覆盖离线弹窗路径并保持候选英文残留为 0。

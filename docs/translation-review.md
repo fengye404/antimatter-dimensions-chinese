@@ -213,6 +213,7 @@ chs.js 包含以下五个主要部分：
 | 统计 / 倍率明细 / 时间定理 | 修复高频说明文本和日期格式 | 可见文本审计 | 保留主题名、STD、IP/EP 等缩写 |
 | 游戏玩法弹窗 | 将关键玩法正文改为整段中文覆盖，并把 H2P 页签纳入审计 | Playwright H2P 回归 + 可见文本审计 | 修复“效果叠加”、无限、复制体、时间研究、现实、符文、黑洞等正文混杂英文 |
 | 选项-存档页 / 新闻滚动条 | 源头中文化存档页按钮、占位符、tooltip，并为新闻池增加中文兜底 | Playwright 固定新闻 + 属性审计 + 新闻抽样审计 | 修复 `Set a custom name`、`Custom save name`、`There are no typos...` 等属性和随机文本漏检 |
+| 离线进度弹窗 / 启动模拟进度条 | 将离线回来标题、资源变化条目、无变化文案、隐藏提示、离线模拟进度条按钮改为源码级中文 | Playwright 离线弹窗回归 + 可见文本审计主动造离线弹窗 | 修复 `While you were away...`、`Nothing happened`、`increased from`、`Offline Progress Simulation` 等启动路径英文 |
 
 ---
 

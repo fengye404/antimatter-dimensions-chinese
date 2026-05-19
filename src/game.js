@@ -994,19 +994,17 @@ export function simulateTime(seconds, real, fast) {
         asyncEntry: doneSoFar => {
           GameIntervals.stop();
           ui.$viewModel.modal.progressBar = {
-            label: "Offline Progress Simulation",
-            info: () => `The game is being run at a lower accuracy in order to quickly calculate the resources you
-              gained while you were away. See the How To Play entry on "Offline Progress" for technical details. If
-              you are impatient and want to get back to the game sooner, you can click the "Speed up" button to
-              simulate the rest of the time with half as many ticks (down to a minimum of ${formatInt(500)} ticks
-              remaining). The "SKIP" button will instead use all the remaining offline time in ${formatInt(10)}
-              ticks.`,
-            progressName: "Ticks",
+            label: "离线进度模拟",
+            info: () => `游戏正在以较低精度快速计算你离线期间获得的资源。更详细的技术说明可以查看“游戏玩法”里的
+              “离线进度”条目。如果你想更快回到游戏，可以点击“加速”，用一半数量的剩余游戏刻继续模拟
+              （最低保留 ${formatInt(500)} 个剩余游戏刻）。“跳过”则会把所有剩余离线时间压缩到
+              ${formatInt(10)} 个游戏刻中完成。`,
+            progressName: "游戏刻",
             current: doneSoFar,
             max: ticks,
             startTime: Date.now(),
             buttons: [{
-              text: "Speed up",
+              text: "加速",
               condition: (current, max) => max - current > 500,
               click: () => {
                 const newRemaining = Math.clampMin(Math.floor(progress.remaining / 2), 500);
@@ -1020,7 +1018,7 @@ export function simulateTime(seconds, real, fast) {
               }
             },
             {
-              text: "SKIP",
+              text: "跳过",
               condition: (current, max) => max - current > 10,
               click: () => {
                 // We jump to 10 from the end (condition guarantees there are at least 10 left).

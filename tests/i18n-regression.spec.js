@@ -294,6 +294,42 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).not.toContainText("Modify Visible Tabs");
   });
 
+  test("localizes away progress modal states", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Modal && window.player && window.Decimal);
+
+    await page.evaluate(() => {
+      const playerBefore = JSON.parse(JSON.stringify(player));
+      const playerAfter = JSON.parse(JSON.stringify(player));
+      playerAfter.antimatter = new Decimal(playerBefore.antimatter || 0).plus(1000);
+      playerAfter.dimensionBoosts = (playerBefore.dimensionBoosts || 0) + 1;
+      Modal.awayProgress.show({ playerBefore, playerAfter, seconds: 10 * 3600 + 19 * 60 + 32 });
+      GameUI.update();
+    });
+
+    const modal = page.locator(".c-modal");
+    await expect(modal).toContainText("你离开了");
+    await expect(modal).toContainText("期间获得了");
+    await expect(modal).toContainText("反物质");
+    await expect(modal).toContainText("从");
+    await expect(modal).toContainText("提高到");
+    await expect(modal).toContainText("提示：点击某个条目可以以后隐藏它。");
+    await expect(modal).not.toContainText("While you were away");
+    await expect(modal).not.toContainText("increased from");
+
+    await page.evaluate(() => {
+      Modal.hide();
+      const playerBefore = JSON.parse(JSON.stringify(player));
+      const playerAfter = playerBefore;
+      Modal.awayProgress.show({ playerBefore, playerAfter, seconds: 10 * 3600 + 19 * 60 + 32 });
+      GameUI.update();
+    });
+
+    await expect(modal).toContainText("什么都没有发生");
+    await expect(modal).not.toContainText("While you were away");
+    await expect(modal).not.toContainText("Nothing happened");
+  });
+
   test("localizes imperative news ticker messages", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.GameDatabase && document.querySelector(".c-news-ticker")?.__vue__);

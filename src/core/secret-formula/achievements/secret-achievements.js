@@ -134,8 +134,8 @@ export const secretAchievements = [
   },
   {
     id: 36,
-    name: "While you were away... Nothing happened.",
-    description: "See nothing happen while you were away."
+    name: "你离开的时候……什么都没有发生。",
+    description: "看到你离开期间什么都没有发生。"
   },
   {
     id: 37,

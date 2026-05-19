@@ -37,16 +37,26 @@ export default {
     headerText() {
       const timeDisplay = TimeSpan.fromSeconds(this.seconds).toString();
       if (this.nothingHappened || !this.somethingHappened) {
-        return `While you were away for ${timeDisplay}... Nothing happened.`;
+        return `你离开了 ${timeDisplay}……什么都没有发生。`;
       }
-      return `While you were away for ${timeDisplay}: `;
+      return `你离开了 ${timeDisplay}，期间获得了：`;
     },
+  },
+  watch: {
+    playerBefore: "resetProgressState",
+    playerAfter: "resetProgressState",
+    seconds: "resetProgressState",
   },
   mounted() {
     this.$nextTick(() => {
       // After all the children have been loaded, check if somethingHappened - if not, give them the achievement!
       if (this.nothingHappened || !this.somethingHappened) SecretAchievement(36).unlock();
     });
+  },
+  methods: {
+    resetProgressState() {
+      this.somethingHappened = false;
+    },
   },
 };
 </script>
@@ -69,7 +79,7 @@ export default {
         @something-happened="somethingHappened = true"
       />
     </div>
-    <span v-if="!nothingHappened && somethingHappened">Note: Click an entry to hide it in the future.</span>
+    <span v-if="!nothingHappened && somethingHappened">提示：点击某个条目可以以后隐藏它。</span>
   </ModalWrapper>
 </template>
 
