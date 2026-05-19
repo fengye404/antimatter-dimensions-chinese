@@ -1,7 +1,4 @@
 import { RebuyableMechanicState } from "./game-mechanics";
-import { SteamRuntime } from "@/steam";
-
-import Payments from "./payments";
 
 export const shop = {};
 
@@ -17,7 +14,7 @@ export const ShopPurchaseData = {
   },
 
   get isIAPEnabled() {
-    return Cloud.loggedIn && this.availableSTD >= 0 && player.IAP.enabled;
+    return player.IAP.enabled;
   },
 
   // We also allow for respecs if it's been at least 3 days since the last one
@@ -174,24 +171,33 @@ class ShopPurchaseState extends RebuyableMechanicState {
     return this.config.formatEffect?.(effect) || formatX(effect, 2, 0);
   }
 
-  async purchase() {
-    if (!this.canBeBought) return false;
+  purchase() {
     if (GameEnd.creditsEverClosed) return false;
     if (this.config.instantPurchase && ui.$viewModel.modal.progressBar) return false;
 
-    const cosmeticId = this.config.key === "singleCosmeticSet"
-      ? GlyphAppearanceHandler.chosenFromModal?.id
-      : undefined;
+    player.IAP.enabled = true;
+    this.purchases++;
 
-    // Contact the purchase provider to verify the purchase
-    const success = SteamRuntime.isActive
-      ? await SteamRuntime.purchaseShopItem(this.config.key, this.cost, cosmeticId)
-      : await Payments.buyUpgrade(this.config.key, cosmeticId);
-    if (!success) return false;
+    if (this.config.key === "singleCosmeticSet") {
+      const selectedSet = GlyphAppearanceHandler.chosenFromModal?.id;
+      const fallbackSet = GlyphAppearanceHandler.lockedSets[0];
+      const setToUnlock = selectedSet ?? fallbackSet;
+      if (setToUnlock && !ShopPurchaseData.unlockedCosmetics.includes(setToUnlock)) {
+        ShopPurchaseData.unlockedCosmetics.push(setToUnlock);
+      }
+      GlyphAppearanceHandler.chosenFromModal = null;
+      GlyphAppearanceHandler.applyNotification();
+    }
 
-    if (player.IAP.enabled) Speedrun.setSTDUse(true);
+    if (this.config.key === "allCosmeticSets") {
+      ShopPurchaseData.unlockedCosmetics = Object.keys(GameDatabase.reality.glyphCosmeticSets);
+      GlyphAppearanceHandler.applyNotification();
+    }
+
     if (this.config.instantPurchase) this.config.onPurchase();
     GameUI.update();
+    GameStorage.save();
+    GameUI.notify.success("已免费购买商店项目。", 5000);
     return true;
   }
 }

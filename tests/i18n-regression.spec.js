@@ -43,18 +43,23 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).not.toContainText("Hotkeys:");
   });
 
-  test("keeps the localized shop tab visible and disables payments", async({ page }) => {
+  test("keeps the localized shop tab visible and enables free local purchases", async({ page }) => {
     await page.goto("/");
     await expect(page.getByText("商店", { exact: true }).first()).toBeVisible();
     await page.getByText("商店", { exact: true }).first().click();
 
     const text = await visibleText(page);
     expect(text).toContain("中文版说明");
-    expect(text).toContain("不提供购买入口");
-    expect(text).toContain("中文版已禁用购买");
+    expect(text).toContain("可直接免费购买");
+    expect(text).toContain("免费购买不会消耗 STD");
+    expect(text).toContain("免费购买（原价：30 STD）");
+    expect(text).not.toContain("中文版已禁用购买");
     expect(text).not.toContain("Buy More");
     expect(text).not.toContain("Login with Google");
     expect(text).not.toContain("In-app Purchases");
+
+    await page.getByRole("button", { name: /免费购买（原价：30 STD）/u }).first().click();
+    await expect(page.locator("body")).toContainText("当前 ×2，下一级 ×4");
   });
 
   test("uses a consistent Chinese UI font stack for localized text", async({ page }) => {

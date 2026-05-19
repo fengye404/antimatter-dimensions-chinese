@@ -40,6 +40,7 @@
 | 20 | `src/components/tabs/shop/ShopButton.vue` | 商店项目说明仍为英文，按钮可尝试购买 | 项目说明中文化，购买按钮永久禁用 | 保留存档兼容展示，但阻断支付后端调用 |
 | 21 | `i18n/inject.js` | 构建时会加载 `shop-hack.js` 自动发放 STD | 不再加载任何商店货币注入脚本 | 自动发放 STD 会污染平衡和测试结果 |
 | 22 | `i18n/translation-engine.js` | Vue 首次渲染前启动可能漏扫，空白 trim 后格式易丢 | 等待 `#ui` mount，保留前后空白，周期重扫 | 提升动态 UI 文本覆盖率 |
+| 23 | `src/core/shop.js`、`ShopTab.vue`、`ShopButton.vue` | 中文版商店按钮被永久禁用，用户无法体验原版商店加成 | 改为本地免费购买：不扣 STD、不访问支付后端、点击后直接增加购买次数并启用加成 | 按项目目标允许中文版自由购买，同时避免真实支付和后端依赖 |
 
 ### 高优先级
 

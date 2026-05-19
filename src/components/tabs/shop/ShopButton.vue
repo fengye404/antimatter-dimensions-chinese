@@ -50,8 +50,9 @@ export default {
     lockText() {
       return LOCK_TEXT[this.purchase.lockText] ?? this.purchase.lockText;
     },
-    purchaseUnavailableText() {
-      return "中文版已禁用购买";
+    purchaseButtonText() {
+      if (this.allSetsUnlocked) return "所有套装已解锁";
+      return `免费购买（原价：${this.cost} STD）`;
     },
   },
   methods: {
@@ -63,6 +64,9 @@ export default {
     },
     formatSetCount() {
       return `${this.lockedCount} 个套装`;
+    },
+    purchaseItem() {
+      this.purchase.purchase();
     },
   },
 };
@@ -88,10 +92,12 @@ export default {
       <span v-else>将解锁 {{ formatSetCount() }}</span>
     </div>
     <button
-      class="o-shop-button-button o-shop-button-button--disabled"
-      disabled
+      class="o-shop-button-button"
+      :class="{ 'o-shop-button-button--disabled': allSetsUnlocked }"
+      :disabled="allSetsUnlocked"
+      @click="purchaseItem"
     >
-      {{ purchaseUnavailableText }}（原价：{{ cost }} STD）
+      {{ purchaseButtonText }}
       <img
         src="images/std_coin.png"
         class="o-shop-button-button__img"
@@ -126,11 +132,13 @@ export default {
   align-items: center;
   justify-content: center;
   font-family: inherit;
-  background: turquoise;
+  color: black;
+  background: var(--color-good);
   border: none;
   border-radius: var(--var-border-radius, 0.5rem);
   margin: 0 auto;
   padding: 0.5rem 1.2rem;
+  cursor: pointer;
 }
 
 .o-shop-button-button--disabled {

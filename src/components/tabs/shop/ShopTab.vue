@@ -18,7 +18,7 @@ export default {
       return ShopPurchase.all;
     },
     iapStatusText() {
-      return this.IAPsEnabled ? "原版付费加成当前已启用" : "原版付费加成当前未启用";
+      return this.IAPsEnabled ? "免费商店加成当前已启用" : "免费商店加成当前未启用";
     },
   },
   methods: {
@@ -35,8 +35,8 @@ export default {
   <div class="tab shop">
     <section class="c-shop-disclaimer">
       <strong>中文版说明：</strong>
-      本构建保留原版商店页面作为机制说明和兼容展示，不提供购买入口，也不会发放免费 STD 币。
-      游戏数值仍按原版无微交易平衡设计，正常游玩不需要任何商店加成。
+      中文版商店不连接 Google、Steam 或支付后端。下方项目可直接免费购买，用于本地游玩和测试；
+      购买记录保存在当前存档中，不会产生任何真实交易。
     </section>
 
     <section class="c-shop-panel">
@@ -44,14 +44,14 @@ export default {
       <p>{{ iapStatusText }}</p>
       <p>
         当前本地记录：{{ availableSTD }} STD 可用，{{ spentSTD }} STD 已使用。
-        若从原版导入带有商店记录的存档，页面会继续显示这些记录，但中文版不会连接 Google、Steam 或支付后端。
+        免费购买不会消耗 STD；若从原版导入带有商店记录的存档，页面也会继续显示这些记录。
       </p>
     </section>
 
     <section class="c-shop-panel c-shop-panel--muted">
       <h2>原版商店项目预览</h2>
       <p>
-        下方项目仅用于说明原版商店曾经提供的效果。按钮已在中文版中禁用，避免离线包误触支付或改变游戏平衡。
+        下方项目保留原版商店效果，但按钮已改为本地免费购买。多次点击可重复购买可叠加项目。
       </p>
     </section>
 
