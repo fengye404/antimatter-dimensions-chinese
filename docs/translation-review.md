@@ -37,6 +37,7 @@
 | 45 | `src/core/dimboost.js`、`src/components/tabs/antimatter-dimensions/*`、`src/components/modals/*` | 维度提升按钮、需求文案、重置确认和确认开关仍混有英文 | 维度提升句式、需求行、确认弹窗、取消/确认按钮和“不要再显示”提示全部源头中文化 | 覆盖用户截图中的 `Reset your Dimensions`、`Reenable the Dimension Boost confirmation` 等漏翻文本 |
 | 46 | `src/core/galaxy.js`、`src/core/secret-formula/infinity/infinity-upgrades.js`、`CostDisplay.vue`、`BreakInfinityButton.vue` | 反物质星系、无限升级、花费标签和突破无限按钮仍有源码英文 | 星系需求、无限升级说明、通用花费标签、突破无限状态全部源头中文化 | 修复审计中高频出现的 `Cost`、`BREAK INFINITY`、无限升级长句英文 |
 | 47 | `src/components/tabs/options-visual/*`、`StatisticsTab.vue`、`MultiplierBreakdownEntry.vue`、`TimeTheoremShop.vue` | 选项下拉、统计标题、倍率拆解、时间定理显示仍有 `ALL`、`Clock`、`General`、`No Active Effects` 等英文 | 选项显示名、统计分区、倍率空状态、时间定理数量和提示文本源头中文化 | 将 `npm run audit:i18n` 可见英文候选清零，避免靠白名单隐藏真实 UI 英文 |
+| 48 | `ClassicAntimatterGalaxyRow.vue`、`ModernAntimatterGalaxyRow.vue`、`H2PModal.vue`、历史 i18n 词典 | `Remote Galaxy` 译为“远程星系”不符合游戏缩放语境 | 统一改为“极远星系/极远反物质星系”，与“遥远星系”形成递进关系 | “远程”容易被理解为远程操控；“极远”更贴合普通、遥远、极远的距离递进 |
 
 ### 2026-05-18 商店与运行时翻译重做
 

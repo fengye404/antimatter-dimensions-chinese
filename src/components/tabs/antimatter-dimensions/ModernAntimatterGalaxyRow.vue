@@ -54,7 +54,7 @@ export default {
       switch (this.type) {
         case GALAXY_TYPE.NORMAL: return "反物质星系";
         case GALAXY_TYPE.DISTANT: return "遥远反物质星系";
-        case GALAXY_TYPE.REMOTE: return "远程反物质星系";
+        case GALAXY_TYPE.REMOTE: return "极远反物质星系";
       }
       return undefined;
     },
@@ -68,7 +68,7 @@ export default {
         case GALAXY_TYPE.REMOTE: {
           const scalings = [
             { type: "遥远", function: "平方", amount: this.distantStart },
-            { type: "远程", function: "指数", amount: this.remoteStart }
+            { type: "极远", function: "指数", amount: this.remoteStart }
           ];
           return `星系花费缩放增强：${scalings.sort((a, b) => a.amount - b.amount)
             .map(scaling => `超过 ${this.formatGalaxies(scaling.amount)} 个后进入${scaling.function}缩放（${scaling.type}）`)

@@ -309,7 +309,7 @@ export const realityUpgrades = [
     checkRequirement: () =>
       Replicanti.galaxies.total + player.galaxies + player.dilation.totalTachyonGalaxies >= 2800,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    description: () => `Remote Antimatter Galaxy scaling is moved to ${formatInt(1e5)} galaxies`,
+    description: () => `极远反物质星系缩放推迟到 ${formatInt(1e5)} 个星系后开始`,
     effect: 1e5
   },
   {
