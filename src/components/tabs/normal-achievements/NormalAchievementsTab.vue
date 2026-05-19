@@ -149,10 +149,10 @@ export default {
     </div>
     <div class="c-achievements-tab__header c-achievements-tab__header--multipliers">
       <span v-if="isDoomed">
-        All Achievement multipliers have been disabled<SwapAchievementImagesButton />
+        所有成就倍率已被禁用<SwapAchievementImagesButton />
       </span>
       <span v-else>
-        Achievements provide a multiplier to<SwapAchievementImagesButton />
+        成就提供倍率加成给<SwapAchievementImagesButton />
         <div v-html="boostText" />
       </span>
     </div>
@@ -164,17 +164,15 @@ export default {
       class="c-achievements-tab__header"
     >
       <div v-if="achCountdown > 0">
-        Automatically gain the next missing Achievement in
-        {{ timeDisplayNoDecimals(achCountdown) }}<span v-if="!isAutoAchieveActive"> once Auto is turned on</span>.
-        (left-to-right, top-to-bottom)
+        将在 {{ timeDisplayNoDecimals(achCountdown) }} 后自动获得下一个缺失成就<span v-if="!isAutoAchieveActive">，启用自动成就后生效</span>。
+        （从左到右、从上到下）
       </div>
       <div v-else-if="missingAchievements !== 0">
-        Automatically gain the next missing Achievement as soon as you enable Auto Achievements.
-        (left-to-right, top-to-bottom)
+        启用自动成就后会立刻获得下一个缺失成就。（从左到右、从上到下）
       </div>
       <div v-if="totalCountdown > 0">
-        You will regain all remaining achievements after {{ timeDisplayNoDecimals(totalCountdown) }} if Auto
-        Achievement <span v-if="isAutoAchieveActive">stays enabled</span><span v-else>is turned on</span>.
+        如果自动成就<span v-if="isAutoAchieveActive">保持开启</span><span v-else>被开启</span>，将在
+        {{ timeDisplayNoDecimals(totalCountdown) }} 后取回所有剩余成就。
       </div>
       <br>
     </div>

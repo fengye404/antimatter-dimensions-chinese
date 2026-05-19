@@ -1,5 +1,6 @@
 <script>
 import HintText from "@/components/HintText";
+import { secretAchievementText } from "@/core/chinese-achievement-i18n";
 
 export default {
   name: "SecretAchievement",
@@ -49,6 +50,12 @@ export default {
         "o-achievement__indicator--locked": !this.isUnlocked
       };
     },
+    displayName() {
+      return secretAchievementText(this.achievement, "name");
+    },
+    displayDescription() {
+      return secretAchievementText(this.achievement, "description");
+    }
   },
   beforeDestroy() {
     clearTimeout(this.mouseOverInterval);
@@ -82,6 +89,12 @@ export default {
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
+    <div
+      v-if="isUnlocked"
+      class="o-achievement__zh-title"
+    >
+      {{ displayName }}
+    </div>
     <HintText
       type="achievements"
       class="l-hint-text--achievement"
@@ -91,13 +104,13 @@ export default {
     <div class="o-achievement__tooltip">
       <template v-if="isMouseOver">
         <div class="o-achievement__tooltip__name">
-          {{ config.name }} (S{{ id }})
+          {{ displayName }} (S{{ id }})
         </div>
         <div
           v-if="isUnlocked"
           class="o-achievement__tooltip__description"
         >
-          {{ config.description }}
+          {{ displayDescription }}
         </div>
       </template>
     </div>
@@ -109,3 +122,34 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.o-achievement--secret {
+  background-image: none !important;
+}
+
+.o-achievement__zh-title {
+  display: flex;
+  width: calc(100% - 1.2rem);
+  height: calc(100% - 1.2rem);
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #071308;
+  text-shadow: 0 0.1rem 0.2rem rgba(255, 255, 255, 50%);
+  pointer-events: none;
+}
+
+.o-achievement__indicator {
+  z-index: 2;
+}
+</style>

@@ -214,3 +214,24 @@ GitHub Pages 与浏览器都可能短时间缓存固定 URL 的 `js/app.js`、`j
 1. `npm run test:e2e` 必须全部通过。
 2. `npm run audit:i18n` 的候选英文残留必须为 0。
 3. 用户截图中的 `These effects are typically...`、`Hotkey:`、`Dimension Boost`、`Infinity Dimension` 等正文残留不得再出现在已覆盖玩法页中。
+
+## 2026-05-19 成就页中文化与性能补充
+
+### 问题
+
+普通成就和秘密成就的卡片贴图来自原版 sprite：`normal achievements.png`、`cancer achievements.png`、`secret achievements.png`。这些图片本身包含英文成就名，因此运行时翻译无法处理；同时普通成就 sprite 体积较大，进入成就页时会触发额外加载和解码，造成明显卡顿。
+
+### 设计
+
+1. 成就卡片不再依赖原版英文 sprite 展示标题，中文版在卡片上直接渲染中文成就名。
+2. 普通成就和秘密成就 tooltip 在组件层读取中文 helper，不再等待 DOM 翻译引擎二次扫描。
+3. 中文版禁用普通、癌症和秘密成就的大 sprite 背景，只保留卡片状态色、奖励星标和完成状态图标。
+4. 成就页标题、自动成就倒计时、奖励说明等高频文字源头中文化。
+5. 可见英文审计增加成就悬浮提示扫描，Playwright 回归断言成就页不会请求三张大英文 sprite。
+
+### 验收
+
+1. 普通成就卡片显示中文标题，不再露出图片内英文。
+2. 悬浮成就 34 时显示“反正也不需要它”“在没有任何第 8 反物质维度的情况下到达无限”“第 1 到第 7 维度增强 2%”。
+3. 成就页首轮请求不得包含 `normal achievements.png`、`cancer achievements.png`、`secret achievements.png`。
+4. `npm run test:e2e` 和 `npm run audit:i18n` 必须通过。

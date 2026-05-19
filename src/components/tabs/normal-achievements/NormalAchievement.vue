@@ -1,4 +1,5 @@
 <script>
+import { normalAchievementText } from "@/core/chinese-achievement-i18n";
 import wordShift from "@/core/word-shift";
 
 import EffectDisplay from "@/components/EffectDisplay";
@@ -90,20 +91,20 @@ export default {
     },
     // The garble templates themselves can be static, and shouldn't be recreated every render tick
     garbledNameTemplate() {
-      return this.makeGarbledTemplate(this.config.name);
+      return this.makeGarbledTemplate(normalAchievementText(this.achievement, "name"));
     },
     garbledIDTemplate() {
       return this.makeGarbledTemplate(this.displayId);
     },
     garbledDescriptionTemplate() {
-      return this.makeGarbledTemplate(this.config.description);
+      return this.makeGarbledTemplate(normalAchievementText(this.achievement, "description"));
     },
     achievedTime() {
       if (!player.speedrun.isActive) return null;
-      if (this.achievementTime === undefined) return "Not Achieved yet";
+      if (this.achievementTime === undefined) return "尚未达成";
       return this.achievementTime === 0
-        ? "Given at Speedrun start"
-        : `Achieved after ${TimeSpan.fromMilliseconds(this.achievementTime).toStringShort()}`;
+        ? "速通开始时获得"
+        : `用时 ${TimeSpan.fromMilliseconds(this.achievementTime).toStringShort()} 达成`;
     }
   },
   beforeDestroy() {
@@ -117,9 +118,13 @@ export default {
       this.showUnlockState = player.options.showHintText.achievementUnlockStates;
       this.realityUnlocked = PlayerProgress.realityUnlocked();
 
-      this.processedName = this.processText(this.config.name, this.garbledNameTemplate);
+      this.processedName = this.processText(normalAchievementText(this.achievement, "name"), this.garbledNameTemplate);
       this.processedId = this.processText(this.displayId, this.garbledIDTemplate);
-      this.processedDescription = this.processText(this.config.description, this.garbledDescriptionTemplate);
+      this.processedDescription = this.processText(
+        normalAchievementText(this.achievement, "description"),
+        this.garbledDescriptionTemplate
+      );
+      this.processedReward = normalAchievementText(this.achievement, "reward");
 
       // This uses key-swapping to force the garbled achievements to re-render their text, because otherwise they
       // would remain static. Keys for non-garbled achievements won't change, and all keys remain unique.
@@ -180,6 +185,9 @@ export default {
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
+    <div class="o-achievement__zh-title">
+      {{ processedName }}
+    </div>
     <HintText
       :key="garbleKey"
       type="achievements"
@@ -203,7 +211,7 @@ export default {
             v-if="!isObscured"
             :class="{ 'o-pelle-disabled': isDisabled }"
           >
-            Reward: {{ config.reward }}
+            奖励：{{ processedReward }}
             <EffectDisplay
               v-if="config.formatEffect"
               br
@@ -238,6 +246,52 @@ export default {
 .o-achievement-time {
   font-weight: bold;
   color: var(--color-accent);
+}
+
+.o-achievement--normal,
+.o-achievement--cancer {
+  background-image: none !important;
+}
+
+.o-achievement__zh-title {
+  display: flex;
+  width: calc(100% - 1.2rem);
+  height: calc(100% - 1.2rem);
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #071308;
+  text-shadow: 0 0.1rem 0.2rem rgba(255, 255, 255, 50%);
+  pointer-events: none;
+}
+
+.o-achievement--locked .o-achievement__zh-title,
+.o-achievement--waiting .o-achievement__zh-title {
+  color: #272727;
+  text-shadow: 0 0.1rem 0.15rem rgba(255, 255, 255, 35%);
+}
+
+.o-achievement--disabled .o-achievement__zh-title {
+  color: #f4d5d5;
+  text-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 45%);
+}
+
+.o-achievement--hidden .o-achievement__zh-title {
+  display: none;
+}
+
+.o-achievement__indicator,
+.o-achievement__reward {
+  z-index: 2;
 }
 
 .o-achievement--disabled {

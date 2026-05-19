@@ -233,4 +233,32 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator(".c-news-line")).toContainText("如果你看到一条新闻");
     await expect(page.locator(".c-news-line")).not.toContainText("If you see a news message");
   });
+
+  test("localizes achievement cards and avoids heavy English achievement sprites", async({ page }) => {
+    const requestedPaths = [];
+    page.on("request", request => requestedPaths.push(decodeURIComponent(new URL(request.url()).pathname)));
+
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab);
+    await page.evaluate(() => Tab.achievements.normal.show(true));
+
+    await expect(page.locator("body")).toContainText("从零开始");
+    await expect(page.locator("body")).toContainText("反正也不需要它");
+    await expect(page.locator("body")).not.toContainText("You gotta start somewhere");
+
+    await page.locator(".l-achievement-grid__cell").nth(19).hover();
+    await expect(page.locator(".o-achievement__tooltip").filter({ hasText: "反正也不需要它" })).toContainText(
+      "在没有任何第 8 反物质维度的情况下到达无限"
+    );
+    await expect(page.locator(".o-achievement__tooltip").filter({ hasText: "反正也不需要它" })).toContainText(
+      "第 1 到第 7 维度增强 2%"
+    );
+
+    await page.evaluate(() => Tab.achievements.secret.show(true));
+    await expect(page.locator("body")).toContainText("秘密成就是可选目标");
+
+    expect(requestedPaths).not.toContain("/images/normal achievements.png");
+    expect(requestedPaths).not.toContain("/images/cancer achievements.png");
+    expect(requestedPaths).not.toContain("/images/secret achievements.png");
+  });
 });

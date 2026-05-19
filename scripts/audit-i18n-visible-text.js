@@ -225,6 +225,28 @@ async function collectVisibleEnglish(page, stage, tab, subtab, rootSelector = "b
     .map(text => ({ stage, tab, subtab, text }));
 }
 
+async function collectAchievementTooltipEnglish(page, stage, tab, subtab) {
+  const results = [];
+  const cells = page.locator(".l-achievement-grid__cell");
+  const count = Math.min(await cells.count(), 24);
+
+  for (let index = 0; index < count; index++) {
+    await cells.nth(index).hover();
+    await page.waitForTimeout(80);
+    const tooltipLines = await page.evaluate(() => [...document.querySelectorAll(".o-achievement__tooltip")]
+      .map(node => node.innerText)
+      .filter(Boolean)
+      .flatMap(text => text.split(/\n+/u)));
+
+    results.push(...tooltipLines
+      .map(normalizeText)
+      .filter(shouldKeepCandidate)
+      .map(text => ({ stage, tab, subtab: `${subtab} / 悬浮提示`, text })));
+  }
+
+  return results;
+}
+
 async function waitForGame(page) {
   await page.waitForFunction(() => window.Tabs && window.GameUI && document.querySelector("#ui"));
   await stabilizeNewsTicker(page);
@@ -407,6 +429,9 @@ async function main() {
         await showSubtab(page, entry);
         const visible = await collectVisibleEnglish(page, stage.title, entry.tabName, entry.subtabName);
         results.push(...visible);
+        if (entry.tabName.includes("成就") || entry.subtabName.includes("成就")) {
+          results.push(...await collectAchievementTooltipEnglish(page, stage.title, entry.tabName, entry.subtabName));
+        }
       }
 
       for (const modal of OPTION_MODALS) {
