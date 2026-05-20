@@ -29,9 +29,22 @@ test.describe("Mobile modern UI", () => {
       };
     });
     expect(containerMetrics.marginLeft).toBe("0px");
-    expect(containerMetrics.overflowY).toMatch(/auto|scroll/u);
+    expect(containerMetrics.overflowY).toBe("visible");
     expect(containerMetrics.width).toBeLessThanOrEqual(viewport.width + 1);
     expect(containerMetrics.scrollWidth).toBeLessThanOrEqual(containerMetrics.clientWidth + 2);
+
+    const pageScrollMetrics = await page.evaluate(() => ({
+      bodyOverflowY: getComputedStyle(document.body).overflowY,
+      htmlOverflowY: getComputedStyle(document.documentElement).overflowY,
+      scrollHeight: document.scrollingElement.scrollHeight,
+      clientHeight: document.scrollingElement.clientHeight,
+    }));
+    expect(pageScrollMetrics.bodyOverflowY).toBe("auto");
+    expect(pageScrollMetrics.htmlOverflowY).toBe("auto");
+    expect(pageScrollMetrics.scrollHeight).toBeGreaterThan(pageScrollMetrics.clientHeight);
+
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
 
     const dimensionRow = page.locator(".l-dimension-row-antimatter-dim").first();
     await expect(dimensionRow).toBeVisible();
