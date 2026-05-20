@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>反物质维度</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111014">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="反物质维度" content="一款关于巨大数字不断增长的增量游戏。">
+  <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="stylesheets/fontawesome/css/all.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror/codemirror.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror/show-hint.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror/lint.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror/panda-syntax.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror/liquibyte.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/vue-sfc-classes.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/ad-slider-component.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/glyphs.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/styles.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/automator.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/time-studies.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/tooltips.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/vis-network.css?v=d975726d32c9">
+  <link rel="stylesheet" type="text/css" href="stylesheets/chinese-localization.css?v=d975726d32c9">
+<script defer src="js/chunk-vendors.js?v=d975726d32c9"></script><script defer src="js/app.js?v=d975726d32c9"></script></head>
+
+<body>
+  <div id="browser-warning">
+    你的浏览器不受支持。
+    <br>
+    请更新到较新的浏览器。
+  </div>
+  <div id="loading"></div>
+  <div id="ui"></div>
+  <div id="background-animations">
+    <div class="videocontainer videocontainer--background">
+      <video muted loop preload="none" id="stars">
+        <source src="images/stars-bg.webm" type="video/webm">
+      </video>
+    </div>
+    <div id="snow" style="display: none;"></div>
+  </div>
+  <div class="videocontainer">
+    <video preload="none" muted id="realityanimbg" style="opacity: 0; display: none;">
+      <source src="images/realityanimbg.webm" type="video/webm">
+    </video>
+  </div>
+  <div id="performance-stats" class="c-performance-stats" style="display: none;"></div>
+</body>
+<script>
+  // We use an IE only document variable to check here to force it to show the browser warning.
+  // For some reason, IE really does *not* want to cooperate, even when you have a file as a <script> that you load
+  // in the body.
+  // Other browsers will be checked whenever window.onload is ran.
+  if (document.documentMode) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("browser-warning").style.display = "flex";
+  }
+</script>
+</html>
