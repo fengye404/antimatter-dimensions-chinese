@@ -1,0 +1,469 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		077D0EEE53D62CE6F99F79F7 /* AntimatterDimensionsChineseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA08F77A39CCE8924E76095 /* AntimatterDimensionsChineseApp.swift */; };
+		0F7BFBD280D380AD99F69256 /* PendingImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C17D9E05B1E7331260EDED /* PendingImport.swift */; };
+		2073EFB1CB5333A0303ECE17 /* SaveEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2F6A8E25F59953D608C2DE /* SaveEnvelope.swift */; };
+		3A2FBFAC1610EDBD3D719303 /* SaveStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332F1542F22298615ADE4021 /* SaveStoreTests.swift */; };
+		7A0CA647518BC54A2D04F104 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C8EF77348E71C8C29BF7A6 /* RootView.swift */; };
+		993927370B6F91DAF3FF38B8 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 23CB3C19ECF380A681CC79FE /* Web */; };
+		A255CB750F849557514C68F7 /* GameWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C98E39123ADEA75CB22D5 /* GameWebView.swift */; };
+		A3C2E46DD7CC9163E5E943A9 /* WebViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EE52A060030D36FFA1CE83 /* WebViewCoordinator.swift */; };
+		A9E830114662A1E22E91788F /* NativeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA50654AA28D420CDB7FEF /* NativeBridge.swift */; };
+		DB161966B2BFD75C02D63AEC /* SaveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926325FF11F3073DD1B70F14 /* SaveStore.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4EBE46ECAE09E3CEB84DC9B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDD5F65340EC9015C1C0A527 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68CF683939D8547BC8AAC996;
+			remoteInfo = AntimatterDimensionsChinese;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03C8EF77348E71C8C29BF7A6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		23CB3C19ECF380A681CC79FE /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Web; path = AntimatterDimensionsChinese/Resources/Web; sourceTree = SOURCE_ROOT; };
+		25C17D9E05B1E7331260EDED /* PendingImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingImport.swift; sourceTree = "<group>"; };
+		2C2F6A8E25F59953D608C2DE /* SaveEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEnvelope.swift; sourceTree = "<group>"; };
+		332F1542F22298615ADE4021 /* SaveStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveStoreTests.swift; sourceTree = "<group>"; };
+		3AA08F77A39CCE8924E76095 /* AntimatterDimensionsChineseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AntimatterDimensionsChineseApp.swift; sourceTree = "<group>"; };
+		44248BED7053C73176922472 /* AntimatterDimensionsChineseTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AntimatterDimensionsChineseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E9C98E39123ADEA75CB22D5 /* GameWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWebView.swift; sourceTree = "<group>"; };
+		61EE52A060030D36FFA1CE83 /* WebViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCoordinator.swift; sourceTree = "<group>"; };
+		7EDA50654AA28D420CDB7FEF /* NativeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeBridge.swift; sourceTree = "<group>"; };
+		926325FF11F3073DD1B70F14 /* SaveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveStore.swift; sourceTree = "<group>"; };
+		AE2685A862ED34A90E6070E5 /* AntimatterDimensionsChinese.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AntimatterDimensionsChinese.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		07D64289F9DA2C43EBE687EF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				03C8EF77348E71C8C29BF7A6 /* RootView.swift */,
+			);
+			name = UI;
+			path = AntimatterDimensionsChinese/UI;
+			sourceTree = "<group>";
+		};
+		0E87093FEB454A4DE8A7C535 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				5E9C98E39123ADEA75CB22D5 /* GameWebView.swift */,
+				7EDA50654AA28D420CDB7FEF /* NativeBridge.swift */,
+				25C17D9E05B1E7331260EDED /* PendingImport.swift */,
+				61EE52A060030D36FFA1CE83 /* WebViewCoordinator.swift */,
+			);
+			name = WebView;
+			path = AntimatterDimensionsChinese/WebView;
+			sourceTree = "<group>";
+		};
+		44C0B37EAE6BCADCE3BDA69C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE2685A862ED34A90E6070E5 /* AntimatterDimensionsChinese.app */,
+				44248BED7053C73176922472 /* AntimatterDimensionsChineseTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		51C2D54DEAECB9158C7FEF17 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				2C2F6A8E25F59953D608C2DE /* SaveEnvelope.swift */,
+				926325FF11F3073DD1B70F14 /* SaveStore.swift */,
+			);
+			name = Storage;
+			path = AntimatterDimensionsChinese/Storage;
+			sourceTree = "<group>";
+		};
+		9E9CD3C99DE3413E30C6BE85 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3AA08F77A39CCE8924E76095 /* AntimatterDimensionsChineseApp.swift */,
+			);
+			name = App;
+			path = AntimatterDimensionsChinese/App;
+			sourceTree = "<group>";
+		};
+		EA5678B87C0D3AD2DD4C9CA6 /* AntimatterDimensionsChineseTests */ = {
+			isa = PBXGroup;
+			children = (
+				332F1542F22298615ADE4021 /* SaveStoreTests.swift */,
+			);
+			path = AntimatterDimensionsChineseTests;
+			sourceTree = "<group>";
+		};
+		EE46C211366265871F115897 = {
+			isa = PBXGroup;
+			children = (
+				23CB3C19ECF380A681CC79FE /* Web */,
+				EA5678B87C0D3AD2DD4C9CA6 /* AntimatterDimensionsChineseTests */,
+				9E9CD3C99DE3413E30C6BE85 /* App */,
+				51C2D54DEAECB9158C7FEF17 /* Storage */,
+				07D64289F9DA2C43EBE687EF /* UI */,
+				0E87093FEB454A4DE8A7C535 /* WebView */,
+				44C0B37EAE6BCADCE3BDA69C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		68CF683939D8547BC8AAC996 /* AntimatterDimensionsChinese */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66284FFE28FB5204DB2A3BC0 /* Build configuration list for PBXNativeTarget "AntimatterDimensionsChinese" */;
+			buildPhases = (
+				1C25D3806A78B4908F66E349 /* Sources */,
+				6F0CE418D2E6B861ED02226D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AntimatterDimensionsChinese;
+			packageProductDependencies = (
+			);
+			productName = AntimatterDimensionsChinese;
+			productReference = AE2685A862ED34A90E6070E5 /* AntimatterDimensionsChinese.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DBB3264117D5758B4BB5F25C /* AntimatterDimensionsChineseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62B02E53C726F4CC81EB6361 /* Build configuration list for PBXNativeTarget "AntimatterDimensionsChineseTests" */;
+			buildPhases = (
+				357220BA177C0AE05646136D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0BB7363250083B0647180268 /* PBXTargetDependency */,
+			);
+			name = AntimatterDimensionsChineseTests;
+			packageProductDependencies = (
+			);
+			productName = AntimatterDimensionsChineseTests;
+			productReference = 44248BED7053C73176922472 /* AntimatterDimensionsChineseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BDD5F65340EC9015C1C0A527 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					68CF683939D8547BC8AAC996 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8C05554C68D601BA7D3007FB /* Build configuration list for PBXProject "AntimatterDimensionsChinese" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EE46C211366265871F115897;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 44C0B37EAE6BCADCE3BDA69C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				68CF683939D8547BC8AAC996 /* AntimatterDimensionsChinese */,
+				DBB3264117D5758B4BB5F25C /* AntimatterDimensionsChineseTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F0CE418D2E6B861ED02226D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				993927370B6F91DAF3FF38B8 /* Web in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1C25D3806A78B4908F66E349 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				077D0EEE53D62CE6F99F79F7 /* AntimatterDimensionsChineseApp.swift in Sources */,
+				A255CB750F849557514C68F7 /* GameWebView.swift in Sources */,
+				A9E830114662A1E22E91788F /* NativeBridge.swift in Sources */,
+				0F7BFBD280D380AD99F69256 /* PendingImport.swift in Sources */,
+				7A0CA647518BC54A2D04F104 /* RootView.swift in Sources */,
+				2073EFB1CB5333A0303ECE17 /* SaveEnvelope.swift in Sources */,
+				DB161966B2BFD75C02D63AEC /* SaveStore.swift in Sources */,
+				A3C2E46DD7CC9163E5E943A9 /* WebViewCoordinator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		357220BA177C0AE05646136D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A2FBFAC1610EDBD3D719303 /* SaveStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0BB7363250083B0647180268 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68CF683939D8547BC8AAC996 /* AntimatterDimensionsChinese */;
+			targetProxy = F4EBE46ECAE09E3CEB84DC9B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		089955496AF43D4A5EE5215D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = AntimatterDimensionsChinese/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fengye.antimatterdimensionschinese;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8BF889B29778F906FD18438B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fengye.antimatterdimensionschinese.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AntimatterDimensionsChinese.app/AntimatterDimensionsChinese";
+			};
+			name = Release;
+		};
+		A906EAF2668BD9F740D6A4E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		AC02BEB9EE50D32830265985 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		E2131D7B374AE7F8AFD7D968 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fengye.antimatterdimensionschinese.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AntimatterDimensionsChinese.app/AntimatterDimensionsChinese";
+			};
+			name = Debug;
+		};
+		F282485C3C0175505E21D9C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = AntimatterDimensionsChinese/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fengye.antimatterdimensionschinese;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62B02E53C726F4CC81EB6361 /* Build configuration list for PBXNativeTarget "AntimatterDimensionsChineseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2131D7B374AE7F8AFD7D968 /* Debug */,
+				8BF889B29778F906FD18438B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		66284FFE28FB5204DB2A3BC0 /* Build configuration list for PBXNativeTarget "AntimatterDimensionsChinese" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F282485C3C0175505E21D9C0 /* Debug */,
+				089955496AF43D4A5EE5215D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8C05554C68D601BA7D3007FB /* Build configuration list for PBXProject "AntimatterDimensionsChinese" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A906EAF2668BD9F740D6A4E3 /* Debug */,
+				AC02BEB9EE50D32830265985 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BDD5F65340EC9015C1C0A527 /* Project object */;
+}

@@ -1,0 +1,57 @@
+name: AntimatterDimensionsChinese
+options:
+  bundleIdPrefix: com.fengye
+  deploymentTarget:
+    iOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.1.0"
+targets:
+  AntimatterDimensionsChinese:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: AntimatterDimensionsChinese/App
+      - path: AntimatterDimensionsChinese/WebView
+      - path: AntimatterDimensionsChinese/Storage
+      - path: AntimatterDimensionsChinese/UI
+      - path: AntimatterDimensionsChinese/Resources/Web
+        type: folder
+        buildPhase: resources
+        optional: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fengye.antimatterdimensionschinese
+        INFOPLIST_FILE: AntimatterDimensionsChinese/Info.plist
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_TESTABILITY: YES
+  AntimatterDimensionsChineseTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: AntimatterDimensionsChineseTests
+    dependencies:
+      - target: AntimatterDimensionsChinese
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fengye.antimatterdimensionschinese.tests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  AntimatterDimensionsChinese:
+    shared: true
+    build:
+      targets:
+        AntimatterDimensionsChinese: all
+        AntimatterDimensionsChineseTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - AntimatterDimensionsChineseTests

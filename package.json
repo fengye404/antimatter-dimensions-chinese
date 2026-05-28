@@ -7,6 +7,7 @@
     "build:steam-development": "node build/pre-build.js && vue-cli-service build --mode steam-development",
     "build:steam-release": "node build/pre-build.js && vue-cli-service build --mode steam-release",
     "build:chinese": "npm run build:master && node i18n/inject.js",
+    "build:ios": "npm run build:chinese && bash ios/scripts/sync-web-assets.sh && xcodegen --spec ios/project.yml",
     "lint": "vue-cli-service lint",
     "test:e2e": "playwright test",
     "audit:i18n": "node scripts/audit-i18n-visible-text.js",

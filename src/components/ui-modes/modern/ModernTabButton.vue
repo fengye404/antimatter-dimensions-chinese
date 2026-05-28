@@ -32,6 +32,21 @@ export default {
     },
     isCurrentTab() {
       return this.tab.isOpen;
+    },
+    mobileIcon() {
+      return {
+        dimensions: "Ω",
+        automation: "⏱",
+        challenges: "◇",
+        infinity: "∞",
+        eternity: "Δ",
+        reality: "◈",
+        celestials: "✦",
+        achievements: "<i class='fas fa-trophy'></i>",
+        statistics: "<i class='fas fa-clipboard-list'></i>",
+        options: "<i class='fas fa-file-lines'></i>",
+        shop: "<i class='fas fa-store'></i>"
+      }[this.tab.key] ?? "•";
     }
   },
   methods: {
@@ -67,6 +82,10 @@ export default {
       class="l-tab-btn-inner"
       @click="tab.show(true)"
     >
+      <span
+        class="mobile-tab-icon"
+        v-html="mobileIcon"
+      />
       {{ tabName }}
       <div
         v-if="hasNotification"
@@ -105,6 +124,10 @@ export default {
 </template>
 
 <style scoped>
+.mobile-tab-icon {
+  display: none;
+}
+
 .o-tab-btn::before {
   content: "";
   width: 0;

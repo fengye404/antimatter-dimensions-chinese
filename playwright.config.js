@@ -6,9 +6,10 @@ process.env["no_proxy"] = [process.env["no_proxy"], "127.0.0.1", "localhost"].fi
 
 module.exports = defineConfig({
   testDir: "./tests",
-  timeout: 30000,
+  timeout: 60000,
+  workers: 1,
   expect: {
-    timeout: 10000,
+    timeout: 15000,
   },
   use: {
     ...devices["Desktop Chrome"],

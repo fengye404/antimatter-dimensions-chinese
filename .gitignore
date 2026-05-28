@@ -1,9 +1,13 @@
 dist
 .tmp
+ios/AntimatterDimensionsChinese/Resources/Web/*
+!ios/AntimatterDimensionsChinese/Resources/Web/.gitkeep
 
 .vscode
 .idea
 node_modules
 test-results
+tests/screenshots/
 .eslintrc.js
 .DS_Store
+ios/DerivedData

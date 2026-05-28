@@ -16,7 +16,9 @@ test.describe("Mobile modern UI", () => {
     const sidebarBox = await page.locator(".c-modern-sidebar").boundingBox();
     expect(sidebarBox).not.toBeNull();
     expect(sidebarBox.y).toBeGreaterThan(viewport.height - 120);
-    expect(sidebarBox.width).toBeGreaterThanOrEqual(viewport.width - 1);
+    expect(sidebarBox.x).toBeGreaterThanOrEqual(0);
+    expect(sidebarBox.x + sidebarBox.width).toBeLessThanOrEqual(viewport.width + 1);
+    expect(sidebarBox.width).toBeGreaterThanOrEqual(viewport.width - 40);
 
     const containerMetrics = await page.locator(".game-container").evaluate(element => {
       const style = getComputedStyle(element);
