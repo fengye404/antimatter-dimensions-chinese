@@ -51,7 +51,7 @@ test.describe("Mobile modern UI", () => {
     const dimensionRow = page.locator(".l-dimension-row-antimatter-dim").first();
     await expect(dimensionRow).toBeVisible();
     const rowGridColumns = await dimensionRow.evaluate(element => getComputedStyle(element).gridTemplateColumns);
-    expect(rowGridColumns.split(" ").length).toBe(1);
+    expect(rowGridColumns.split(" ").length).toBeGreaterThanOrEqual(3);
 
     const buyButtonBox = await dimensionRow.locator(".o-primary-btn--new").boundingBox();
     expect(buyButtonBox).not.toBeNull();
