@@ -61,5 +61,17 @@ test.describe("Mobile modern UI", () => {
     const activeSubtabsBox = await page.locator(".c-modern-sidebar .o-tab-btn--active .subtabs").boundingBox();
     expect(activeSubtabsBox).not.toBeNull();
     expect(activeSubtabsBox.y + activeSubtabsBox.height).toBeLessThanOrEqual(sidebarBox.y + 1);
+
+    const resetButtonBoxes = await page.locator(".reset-container .o-primary-btn--dimension-reset")
+      .evaluateAll(elements => elements.map(element => {
+        const rect = element.getBoundingClientRect();
+        return {
+          top: rect.top,
+          bottom: rect.bottom,
+        };
+      }));
+    for (const resetButtonBox of resetButtonBoxes) {
+      expect(resetButtonBox.bottom).toBeLessThanOrEqual(sidebarBox.y);
+    }
   });
 });
