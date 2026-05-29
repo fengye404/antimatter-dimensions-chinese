@@ -74,4 +74,90 @@ test.describe("Mobile modern UI", () => {
       expect(resetButtonBox.bottom).toBeLessThanOrEqual(sidebarBox.y);
     }
   });
+
+  test("keeps secondary tabs usable without desktop-width overflow", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.GameUI);
+
+    const checks = [
+      {
+        name: "achievements",
+        show: () => window.Tab.achievements.normal.show(true),
+        target: ".l-achievement-grid",
+      },
+      {
+        name: "options-saving",
+        show: () => window.Tab.options.saving.show(true),
+        target: ".l-options-grid",
+      },
+      {
+        name: "options-visual",
+        show: () => window.Tab.options.visual.show(true),
+        target: ".l-options-grid",
+      },
+      {
+        name: "automation",
+        show: () => window.Tab.automation.autobuyers.show(true),
+        target: ".l-autobuyers-tab",
+      },
+      {
+        name: "challenges",
+        show: () => window.Tab.challenges.normal.show(true),
+        target: ".l-challenge-grid",
+      },
+      {
+        name: "shop",
+        show: () => window.Tab.shop.show(true),
+        target: ".l-shop-buttons-container",
+      },
+    ];
+
+    for (const check of checks) {
+      await page.evaluate(check.show);
+      await page.waitForTimeout(200);
+      await page.evaluate(() => window.scrollTo(0, 0));
+
+      const metrics = await page.evaluate(selector => {
+        const viewportWidth = window.innerWidth;
+        const nav = document.querySelector(".c-modern-sidebar").getBoundingClientRect();
+        const target = document.querySelector(selector).getBoundingClientRect();
+        const scroller = document.scrollingElement;
+        const visibleInteractiveElements = [...document.querySelectorAll(
+          "button, input, .o-primary-btn, .l-achievement-grid__cell, .l-challenge-grid__cell"
+        )]
+          .filter(element => {
+            const rect = element.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
+          })
+          .map(element => {
+            const rect = element.getBoundingClientRect();
+            return {
+              left: rect.left,
+              right: rect.right,
+              bottom: rect.bottom,
+            };
+          });
+        return {
+          targetLeft: target.left,
+          targetRight: target.right,
+          scrollWidth: scroller.scrollWidth,
+          clientWidth: scroller.clientWidth,
+          navTop: nav.top,
+          visibleInteractiveElements,
+          viewportWidth,
+        };
+      }, check.target);
+
+      expect(metrics.targetLeft, `${check.name} target should not overflow left`).toBeGreaterThanOrEqual(-1);
+      expect(metrics.targetRight, `${check.name} target should not overflow right`).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+      expect(metrics.scrollWidth, `${check.name} document should not horizontally scroll`)
+        .toBeLessThanOrEqual(metrics.clientWidth + 2);
+
+      for (const element of metrics.visibleInteractiveElements) {
+        expect(element.left, `${check.name} interactive element should stay on screen`).toBeGreaterThanOrEqual(-1);
+        expect(element.right, `${check.name} interactive element should stay on screen`)
+          .toBeLessThanOrEqual(metrics.viewportWidth + 1);
+      }
+    }
+  });
 });
