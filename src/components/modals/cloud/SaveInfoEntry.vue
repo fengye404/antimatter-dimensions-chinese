@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     timePlayed() {
-      return `Time Played: ${TimeSpan.fromMilliseconds(this.saveData.realTimePlayed).toString()}`;
+      return `游玩时间：${TimeSpan.fromMilliseconds(this.saveData.realTimePlayed).toString()}`;
     },
     // Note that all of the four following entries have Pelle-specific resources at the highest priority, which
     // will generally lead to most of them being overridden almost immediately after Dooming (or practically close
@@ -35,7 +35,7 @@ export default {
     antimatter() {
       return this.compareLayeredValues(
         ["pelleAM", "totalAntimatter"],
-        ["Total Doomed Antimatter:", "Total Antimatter:"],
+        ["末日反物质总量：", "反物质总量："],
         [format, format],
         ""
       );
@@ -43,15 +43,15 @@ export default {
     prestigeCount() {
       return this.compareLayeredValues(
         ["remnants", "realities", "eternities", "infinities"],
-        ["Remnants:", "Realities:", "Eternities:", "Infinities:"],
+        ["残余物：", "现实次数：", "永恒次数：", "无限次数："],
         [format, this.formatSmall, this.formatSmall, this.formatSmall],
-        "(No prestige layers reached yet.)"
+        "（尚未到达任何重置层级。）"
       );
     },
     prestigeResource() {
       return this.compareLayeredValues(
         ["realityShards", "imaginaryMachines", "realityMachines", "eternityPoints", "infinityPoints"],
-        ["Reality Shards:", "Reality Machines:", "Reality Machines:", "Eternity Points:", "Infinity Points:"],
+        ["现实碎片：", "虚幻机器：", "现实机器：", "永恒点数：", "无限点数："],
         [format, x => formatMachines(this.saveData.realityMachines, x), format, format, format],
         ""
       );
@@ -60,7 +60,7 @@ export default {
     extraProgressIndicator() {
       return this.compareLayeredValues(
         ["pelleLore", "bestLevel", "dilatedTime"],
-        ["Your Reality is Doomed.", "Best Glyph Level:", "Dilated Time:"],
+        ["你的现实已经走向末日。", "最高 Glyph 等级：", "膨胀时间："],
         [() => "", formatInt, format],
         ""
       );
@@ -132,13 +132,13 @@ export default {
 
 <template>
   <div class="l-modal-options__save-record">
-    <h3>{{ saveType }} <span v-if="saveId">(Slot #{{ saveId + 1 }}):</span></h3>
+    <h3>{{ saveType }} <span v-if="saveId">（栏位 #{{ saveId + 1 }}）：</span></h3>
     <span v-if="showName">
       <span v-if="name">
-        Save Name: {{ name }}
+        存档名称：{{ name }}
       </span>
       <span v-else>
-        Unnamed Save
+        未命名存档
       </span>
       <br>
     </span>

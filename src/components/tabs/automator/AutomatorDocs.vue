@@ -66,14 +66,14 @@ export default {
       return this.fullScreen ? "fa-compress-arrows-alt" : "fa-expand-arrows-alt";
     },
     fullScreenTooltip() {
-      return this.fullScreen ? "Exit full screen" : "Expand to full screen";
+      return this.fullScreen ? "退出全屏" : "展开为全屏";
     },
     errorTooltip() {
-      return `Your script has ${quantify("error", this.errorCount)}`;
+      return `当前脚本有 ${formatInt(this.errorCount)} 个错误`;
     },
     nameTooltip() {
       return this.isNameTooLong
-        ? `Names cannot be longer than ${formatInt(AutomatorData.MAX_ALLOWED_SCRIPT_NAME_LENGTH)} characters!`
+        ? `名称不能超过 ${formatInt(AutomatorData.MAX_ALLOWED_SCRIPT_NAME_LENGTH)} 个字符！`
         : "";
     },
     currentScriptID: {
@@ -107,8 +107,8 @@ export default {
     },
     importTooltip() {
       return this.canMakeNewScript
-        ? "Import single automator script or data"
-        : "You have too many scripts to import another!";
+        ? "导入单个自动机脚本或数据"
+        : "脚本数量已达上限，无法继续导入！";
     },
     currentEditorScriptName() {
       return this.scripts.find(s => s.id === this.currentScriptID).name;
@@ -143,9 +143,9 @@ export default {
       const toExport = AutomatorBackend.exportCurrentScriptContents();
       if (toExport) {
         copyToClipboard(toExport);
-        GameUI.notify.automator("Exported current Automator script to your clipboard");
+        GameUI.notify.automator("已将当前自动机脚本复制到剪贴板");
       } else {
-        GameUI.notify.error("Could not export blank Automator script!");
+        GameUI.notify.error("空白自动机脚本无法导出！");
       }
     },
     importScript() {
@@ -179,7 +179,7 @@ export default {
       // suppress the error modal instead
       if (this.isBlock && BlockAutomator.hasUnparsableCommands(this.currentScript) && this.currentScript !== "") {
         AutomatorBackend.changeModes(this.currentScriptID);
-        Modal.message.show("Some script commands were unrecognizable - defaulting to text editor.");
+        Modal.message.show("部分脚本命令无法识别，已切换到文本编辑器。");
       }
 
       this.$nextTick(() => {
@@ -242,13 +242,13 @@ export default {
     <div class="c-automator__controls l-automator__controls">
       <div class="l-automator-button-row">
         <AutomatorButton
-          v-tooltip="'Automator Introduction'"
+          v-tooltip="'自动机介绍'"
           class="fa-circle-info"
           :class="activePanelClass(panelEnum.INTRO_PAGE)"
           @click="infoPaneID = panelEnum.INTRO_PAGE"
         />
         <AutomatorButton
-          v-tooltip="'Scripting Information'"
+          v-tooltip="'脚本命令说明'"
           class="fa-list"
           :class="activePanelClass(panelEnum.COMMANDS)"
           @click="infoPaneID = panelEnum.COMMANDS"
@@ -261,19 +261,19 @@ export default {
           @click="infoPaneID = panelEnum.ERRORS"
         />
         <AutomatorButton
-          v-tooltip="'Extended Data Transfer'"
+          v-tooltip="'扩展数据导入导出'"
           class="fa-window-restore"
           :class="activePanelClass(panelEnum.DATA_TRANSFER)"
           @click="infoPaneID = panelEnum.DATA_TRANSFER"
         />
         <AutomatorButton
-          v-tooltip="'View recently executed commands'"
+          v-tooltip="'查看最近执行的命令'"
           class="fa-eye"
           :class="activePanelClass(panelEnum.EVENTS)"
           @click="infoPaneID = panelEnum.EVENTS"
         />
         <AutomatorButton
-          v-tooltip="'Modify defined constants'"
+          v-tooltip="'修改已定义常量'"
           class="fa-book"
           :class="activePanelClass(panelEnum.CONSTANTS)"
           @click="infoPaneID = panelEnum.CONSTANTS"
@@ -307,7 +307,7 @@ export default {
       </div>
       <div class="l-automator-button-row">
         <AutomatorButton
-          v-tooltip="'Export single automator script'"
+          v-tooltip="'导出当前自动机脚本'"
           class="fa-file-export"
           @click="exportScript"
         />
@@ -333,7 +333,7 @@ export default {
               </template>
             </ExpandingControlBox>
             <AutomatorButton
-              v-tooltip="'Rename script'"
+              v-tooltip="'重命名脚本'"
               class="far fa-edit"
               @click="rename"
             />
@@ -349,7 +349,7 @@ export default {
           >
         </div>
         <AutomatorButton
-          v-tooltip="'Delete this script'"
+          v-tooltip="'删除此脚本'"
           class="fas fa-trash"
           @click="deleteScript"
         />

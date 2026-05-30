@@ -1,6 +1,29 @@
 <script>
 import GlyphTooltipEffect from "@/components/GlyphTooltipEffect";
 
+const GLYPH_TYPE_NAMES = {
+  power: "力量",
+  infinity: "无限",
+  replication: "复制",
+  time: "时间",
+  dilation: "膨胀",
+  effarig: "Effarig",
+  reality: "现实",
+  cursed: "诅咒",
+  companion: "同伴"
+};
+
+const GLYPH_RARITY_NAMES = {
+  Celestial: "天界",
+  Transcendent: "超越",
+  Mythical: "神话",
+  Legendary: "传说",
+  Epic: "史诗",
+  Rare: "稀有",
+  Uncommon: "优秀",
+  Common: "普通"
+};
+
 export default {
   name: "GlyphTooltip",
   components: {
@@ -106,16 +129,16 @@ export default {
       };
     },
     description() {
-      const glyphName = `${this.type.capitalize()}`;
+      const glyphName = GLYPH_TYPE_NAMES[this.type] ?? this.type.capitalize();
       switch (this.type) {
         case "companion":
-          return "Companion Glyph";
+          return "同伴 Glyph";
         case "cursed":
-          return "Cursed Glyph";
+          return "诅咒 Glyph";
         case "reality":
-          return `Pure Glyph of ${glyphName}`;
+          return `纯净${glyphName} Glyph`;
         default:
-          return `${this.rarityInfo.name} Glyph of ${glyphName}`;
+          return `${GLYPH_RARITY_NAMES[this.rarityInfo.name] ?? this.rarityInfo.name}${glyphName} Glyph`;
       }
     },
     isLevelCapped() {
@@ -127,7 +150,7 @@ export default {
     rarityText() {
       if (!GlyphTypes[this.type].hasRarity) return "";
       const strength = Pelle.isDoomed ? Pelle.glyphStrength : this.strength;
-      return `| Rarity:
+      return `| 稀有度：
         <span style="color: ${this.descriptionStyle.color}">${formatRarity(strengthToRarity(strength))}</span>`;
     },
     levelText() {
@@ -140,7 +163,7 @@ export default {
       const color = this.isLevelCapped
         ? "#ff4444"
         : (this.isLevelBoosted ? "#44FF44" : undefined);
-      return `Level: <span style="color: ${color}">
+      return `等级：<span style="color: ${color}">
               ${arrow}${formatInt(this.effectiveLevel)}${arrow}
               </span>`;
     },
@@ -231,7 +254,7 @@ export default {
       const powerText = `${format(this.sacrificeReward, 2, 2)}`;
       const isCurrentAction = this.currentAction === "sacrifice";
       return `<span style="font-weight: ${isCurrentAction ? "bold" : ""};">
-              Sacrifice: ${powerText}
+              献祭：${powerText}
               </span>`;
     },
     refineText() {
@@ -239,18 +262,18 @@ export default {
       if (!AlchemyResource[this.type].isUnlocked) return "";
       let refinementText = `${format(this.uncappedRefineReward, 2, 2)} ${GLYPH_SYMBOLS[this.type]}`;
       if (this.uncappedRefineReward !== this.refineReward) {
-        refinementText += ` (Actual value due to cap: ${format(this.refineReward, 2, 2)} ${GLYPH_SYMBOLS[this.type]})`;
+        refinementText += `（受上限影响，实际为：${format(this.refineReward, 2, 2)} ${GLYPH_SYMBOLS[this.type]}）`;
       }
       const isCurrentAction = this.currentAction === "refine";
       return `<span style="font-weight: ${isCurrentAction ? "bold" : ""};">
-              Refine: ${refinementText}
+              精炼：${refinementText}
               </span>`;
     },
     scoreText() {
       if (this.type === "companion" || this.type === "cursed" || this.type === "reality") return "";
       const showFilterScoreModes = [AUTO_GLYPH_SCORE.SPECIFIED_EFFECT, AUTO_GLYPH_SCORE.EFFECT_SCORE];
       if (!showFilterScoreModes.includes(this.scoreMode)) return "";
-      return `Score: ${format(AutoGlyphProcessor.filterValue(this.$parent.glyph), 1, 1)}`;
+      return `评分：${format(AutoGlyphProcessor.filterValue(this.$parent.glyph), 1, 1)}`;
     }
   }
 };

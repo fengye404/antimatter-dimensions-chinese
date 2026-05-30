@@ -54,27 +54,25 @@ export default {
 
 <template>
   <div class="l-panel-padding">
-    This panel allows you to define case-sensitive constant values which can be used in place of numbers or Time Study
-    import strings. These definitions are shared across all of your scripts and are limited to a maximum of
-    {{ maxConstantCount }} defined constants. Additionally, constant names and values are limited to lengths of
-    {{ maxNameLength }} and {{ maxValueLength }} characters respectively. Changes made to constants will not apply
-    until any currently running scripts are restarted.
+    这里可以定义区分大小写的常量，用来替代数字或时间研究导入字符串。这些定义会在所有脚本之间共享，
+    最多可定义 {{ maxConstantCount }} 个常量。常量名和常量值长度分别不能超过
+    {{ maxNameLength }} 和 {{ maxValueLength }} 个字符。正在运行的脚本需要重启后才会应用常量变更。
     <br>
     <br>
-    As a usage example, defining
+    举例来说，定义
     <b>first 🠈 11,21,22,31,32,33</b>
-    allows you to use
+    后，就可以使用
     <b>studies purchase first</b>
-    in order to purchase all of the studies in the first three rows.
+    来购买前三行的全部研究。
     <br>
     <br>
     <PrimaryButton
-      v-tooltip="hasConstants ? null : 'You have no valid constants to delete!'"
+      v-tooltip="hasConstants ? null : '没有可删除的有效常量！'"
       class="c-delete-margin o-primary-btn--subtab-option"
       :class="{ 'o-primary-btn--disabled' : !hasConstants }"
       @click="deleteAllConstants"
     >
-      Delete all constants
+      删除所有常量
     </PrimaryButton>
     <br>
     <br>
@@ -82,7 +80,7 @@ export default {
       class="c-delete-margin o-primary-btn--subtab-option"
       @click="importPresets"
     >
-      Import Time Study Presets
+      导入时间研究预设
     </PrimaryButton>
     <div
       :key="count + refreshConstants"

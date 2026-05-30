@@ -17,22 +17,20 @@ export default {
       return this.harsh ? 1 : 5;
     },
     extraMessage() {
-      if (this.glyphsDeleted === 0) return `This will Purge no Glyphs.`;
-      if (this.glyphsDeleted === this.glyphsTotal) return `This will Purge all your Glyphs.`;
-      return `${this.harsh ? `Harsh Purging` : `Purging`} will delete
+      if (this.glyphsDeleted === 0) return `这次不会清理任何 Glyph。`;
+      if (this.glyphsDeleted === this.glyphsTotal) return `这会清理掉你的所有 Glyph。`;
+      return `${this.harsh ? "严格清理" : "清理"}会删除
         ${formatInt(this.glyphsDeleted)}/${formatInt(this.glyphsTotal)}
-      of your Glyphs.`;
+      个 Glyph。`;
     },
     explanation() {
-      if (this.harsh) return `Harsh Purging deletes Glyphs that are strictly worse than any other Glyph in your
-        inventory. For example, if a Glyph has all the same effects as another Glyph, but the values
-        of ALL of the effects are worse, then it will be deleted.`;
-      return `Purging deletes Glyphs that are strictly worse than other Glyphs, while keeping enough to equip a full
-        set with those effects. This behaves like Harsh Purge, except that regular Purge will not delete any given
-        Glyph unless it finds five Glyphs which are better (instead of only one).`;
+      if (this.harsh) return `严格清理会删除那些被背包中其他 Glyph 全面压过的 Glyph。比如某个 Glyph
+        的效果种类完全一样，但每一项效果数值都更差，它就会被删掉。`;
+      return `普通清理会删除明显更差的 Glyph，但会尽量保留足够装备一整套对应效果的 Glyph。它类似严格清理，
+        不过普通清理需要找到五个更好的 Glyph 才会删除目标，而不是只要找到一个就删。`;
     },
     topLabel() {
-      return `You are about to ${this.harsh ? `Harsh Purge` : `Purge`} your Glyphs`;
+      return `即将${this.harsh ? "严格清理" : "清理"}你的 Glyph`;
     },
 
     // These two don't need to be reactive since the modal force-closes itself whenever glyphs change
@@ -60,8 +58,7 @@ export default {
       {{ topLabel }}
     </template>
     <div class="c-modal-message__text">
-      This could delete Glyphs in your inventory that are good enough that you might want to use them
-      later. Purging will Purge Glyphs based on your Purge mode. Are you sure you want to do this?
+      这可能会删掉一些之后仍有机会派上用场的 Glyph。清理会按照当前清理模式筛选 Glyph，确定要继续吗？
       <br>
       <br>
       {{ explanation }}

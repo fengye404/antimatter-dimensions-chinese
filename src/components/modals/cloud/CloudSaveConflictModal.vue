@@ -28,27 +28,26 @@ export default {
       const goodStyle = `style="color: var(--color-good)"`;
       const badStyle = `style="color: var(--color-infinity)"`;
 
-      const suggestions = ["Saving to the Cloud "];
+      const suggestions = ["保存到 Cloud"];
       const cloudProg = this.conflict.cloud.compositeProgress, localProg = this.conflict.local.compositeProgress;
       const warnOverwrite = this.farther && Math.abs(cloudProg - localProg) > 0.15;
       suggestions.push(warnOverwrite
-        ? `<b ${badStyle}>would overwrite a save with significantly more progress</b>`
-        : `<b ${goodStyle}>is probably safe</b>`);
+        ? `<b ${badStyle}>会覆盖一份进度明显更多的存档</b>`
+        : `<b ${goodStyle}>看起来是安全的</b>`);
       if (this.hasDifferentName || this.wrongHash) {
-        suggestions.push(` ${warnOverwrite ? "Additionally" : "However"}, you may be overwriting a 
-          <b ${badStyle}>save from a different device</b>.`);
+        suggestions.push(` ${warnOverwrite ? "另外" : "不过"}，你可能会覆盖一份
+          <b ${badStyle}>来自另一台设备的存档</b>。`);
       }
       if (warnOverwrite || this.hasDifferentName || this.wrongHash) {
-        suggestions.push(`<br><b ${badStyle}>Are you sure you wish to overwrite the Cloud save?</b>`);
+        suggestions.push(`<br><b ${badStyle}>确定要覆盖 Cloud 存档吗？</b>`);
       }
       return suggestions.join("");
     },
     noOverwriteInfo() {
-      return `Save conflicts will keep occurring without overwriting.`;
+      return `如果不覆盖，之后仍可能继续出现存档冲突提示。`;
     },
     overwriteInfo() {
-      return `If another device is also saving to the cloud on this Google Account at the same time,
-        this modal may appear repeatedly.`;
+      return `如果另一台设备也在用同一个 Google 账号同步 Cloud 存档，这个弹窗可能会反复出现。`;
     }
   },
   methods: {
@@ -73,22 +72,22 @@ export default {
     @confirm="doNotSave()"
   >
     <template #header>
-      Save Game to Cloud
+      保存游戏到 Cloud
     </template>
     <span v-if="wrongHash">
-      Your Cloud Save has been <b>changed by a different device</b> since you last saved to the Cloud this session.
+      本次游玩期间，你的 Cloud 存档已经被<b>另一台设备修改</b>。
     </span>
     <span v-else-if="hasDifferentName">
-      Your Local and Cloud Saves have <b>different names</b>.
+      本地存档和 Cloud 存档的<b>名称不同</b>。
     </span>
     <span v-else-if="older">
-      Saving to the Cloud would <b>overwrite an older save</b>.
+      保存到 Cloud 会<b>覆盖较旧的存档</b>。
     </span>
     <span v-else-if="farther">
-      Saving to the Cloud would <b>overwrite a save with more progress</b>.
+      保存到 Cloud 会<b>覆盖进度更多的存档</b>。
     </span>
     <span v-else>
-      Your Local Save and Cloud Save <b>appear to have similar amounts of progress</b>.
+      本地存档和 Cloud 存档的<b>进度看起来接近</b>。
     </span>
     <br>
     <SaveInfoEntry
@@ -96,36 +95,34 @@ export default {
       :other-data="conflict.cloud"
       :save-id="conflict.saveId"
       :show-name="hasDifferentName"
-      save-type="Local Save"
+      save-type="本地存档"
     />
     <SaveInfoEntry
       :save-data="conflict.cloud"
       :other-data="conflict.local"
       :save-id="conflict.saveId"
       :show-name="hasDifferentName"
-      save-type="Cloud Save"
+      save-type="Cloud 存档"
     />
     <span v-html="suggestionText" />
     <br>
     <span>
-      Not overwriting will turn off Cloud saving and you will need to manually turn it back on again
-      if you want to use it.
+      如果选择不覆盖，将会关闭 Cloud 保存；之后想继续使用时，需要手动重新开启。
       <span :ach-tooltip="noOverwriteInfo">
         <i class="fas fa-question-circle" />
       </span>
     </span>
     <span>
-      Overwriting will force a save to the Cloud in this particular instance; in most
-      cases this should prevent this modal from reappearing afterwards.
+      如果选择覆盖，本次会强制写入 Cloud；多数情况下，这能避免之后继续弹出同样的冲突提示。
       <span :ach-tooltip="overwriteInfo">
         <i class="fas fa-question-circle" />
       </span>
     </span>
     <template #cancel-text>
-      Overwrite Cloud Save
+      覆盖 Cloud 存档
     </template>
     <template #confirm-text>
-      Do not overwrite
+      不覆盖
     </template>
   </ModalWrapperChoice>
 </template>

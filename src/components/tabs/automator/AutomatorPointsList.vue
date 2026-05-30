@@ -31,17 +31,17 @@ export default {
 <template>
   <div>
     <div class="l-header">
-      You have {{ formatInt(totalPoints) }} / {{ formatInt(pointsForAutomator) }}
-      Automator Points towards unlocking the Automator.
+      你拥有 {{ formatInt(totalPoints) }} / {{ formatInt(pointsForAutomator) }}
+      自动机点数，用于解锁自动机。
       <br>
-      You gain Automator Points from the following sources:
+      自动机点数来自以下来源：
     </div>
     <div class="l-automator-points-list-container">
       <div class="l-automator-points-list-side-col c-automator-points-list-col">
         <span class="c-automator-points-list-symbol fas fa-project-diagram" />
         <span class="c-automator-points-list-ap--large">{{ formatInt(fromPerks) }} AP</span>
         <span class="l-large-text">
-          Perks
+          Perk
         </span>
         <div
           v-for="perk in perkSources"
@@ -79,7 +79,7 @@ export default {
         <span class="c-automator-points-list-symbol fas fa-arrow-up" />
         <span class="c-automator-points-list-ap--large">{{ formatInt(fromUpgrades) }} AP</span>
         <span class="l-large-text">
-          Reality Upgrades
+          现实升级
         </span>
         <div
           v-for="upgrade in upgradeSources"
@@ -96,14 +96,12 @@ export default {
     </div>
     <br>
     <div>
-      The Automator allows (amongst other things) buying full Time Study Trees, entering Eternity Challenges,
-      or starting Dilation.
+      自动机可以批量购买完整时间研究树、进入永恒挑战、开始时间膨胀等。
       <br>
-      It can also force prestige events on certain conditions independently from your Autobuyers or modify
-      some of your Autobuyer settings.
+      它也可以在特定条件下主动触发重置，独立于自动购买器运行，或修改部分自动购买器设置。
       <br>
-      The speed of the Automator gradually increases as you get more Realities. If unlocked right now,
-      it would run {{ format(1000 / automatorInterval, 2, 2) }} commands per real-time second.
+      自动机会随着现实次数增加而逐渐变快。如果现在解锁，
+      它每现实秒会执行 {{ format(1000 / automatorInterval, 2, 2) }} 条命令。
     </div>
   </div>
 </template>

@@ -82,7 +82,7 @@ export default {
         class="c-collapse-icon-clickable"
         @click="toggleCollapse"
       />
-      Galaxy Generator
+      星系生成器
     </div>
     <div
       v-if="!isCollapsed"
@@ -90,9 +90,9 @@ export default {
     >
       <div v-if="isUnlocked">
         <div>
-          You have a total of
+          你总共有
           <span class="c-galaxies-amount">{{ galaxyText }}</span>
-          Galaxies.
+          个星系。
           <span class="c-galaxies-amount">+{{ format(galaxiesPerSecond, 2, 1) }}/s</span>
         </div>
         <div>
@@ -117,20 +117,20 @@ export default {
                 v-if="!sacrificeActive"
                 class="c-big-text"
               >
-                Sacrifice your {{ capRiftName }}
+                献祭你的{{ capRiftName }}
               </span>
               <span
                 v-else
                 class="c-big-text"
               >
-                Getting rid of all that {{ capRiftName }}...
+                正在移除所有{{ capRiftName }}……
               </span>
             </div>
             <div
               v-else
               class="c-increase-cap-text c-medium-text"
             >
-              {{ format(generatedGalaxies, 2) }} / {{ format(cap, 2) }} Galaxies generated
+              已生成 {{ format(generatedGalaxies, 2) }} / {{ format(cap, 2) }} 个星系
             </div>
           </button>
         </div>

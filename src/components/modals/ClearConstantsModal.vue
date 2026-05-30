@@ -29,17 +29,17 @@ export default {
     @confirm="deleteConstants"
   >
     <template #header>
-      Deleting Automator Constants
+      删除自动机常量
     </template>
     <div class="c-modal-message__text">
-      Are you sure you wish to delete all of your currently-defined automator constants?
+      确定要删除当前已定义的所有自动机常量吗？
       <br>
       <span class="l-lost-text">
-        This will irreversibly delete {{ quantify("constant", constantCount) }}!
+        这会永久删除 {{ formatInt(constantCount) }} 个常量！
       </span>
     </div>
     <template #confirm-text>
-      Delete All
+      全部删除
     </template>
   </ModalWrapperChoice>
 </template>

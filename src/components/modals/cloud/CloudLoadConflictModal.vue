@@ -25,18 +25,18 @@ export default {
       const goodStyle = `style="color: var(--color-good)"`;
       const badStyle = `style="color: var(--color-bad)"`;
 
-      const suggestions = ["Loading this Cloud save "];
+      const suggestions = ["加载这份 Cloud 存档"];
       const cloudProg = this.conflict.cloud.compositeProgress, localProg = this.conflict.local.compositeProgress;
       const warnOverwrite = this.farther && Math.abs(cloudProg - localProg) > 0.15;
       suggestions.push(warnOverwrite
-        ? `<b ${badStyle}>would cause your local save to lose significant progress</b>`
-        : `<b ${goodStyle}>is probably safe</b>`);
+        ? `<b ${badStyle}>会让本地存档丢失大量进度</b>`
+        : `<b ${goodStyle}>看起来是安全的</b>`);
       if (this.hasDifferentName) {
-        suggestions.push(`<br>${warnOverwrite ? "Additionally" : "However"}, the Cloud save
-          <b ${badStyle}>may be a save from a different device</b>.`);
+        suggestions.push(`<br>${warnOverwrite ? "另外" : "不过"}，这份 Cloud 存档
+          <b ${badStyle}>可能来自另一台设备</b>。`);
       }
       if (warnOverwrite || this.hasDifferentName) {
-        suggestions.push(`<br><b ${badStyle}>Are you sure you wish to overwrite your local save?</b>`);
+        suggestions.push(`<br><b ${badStyle}>确定要覆盖当前本地存档吗？</b>`);
       }
       return suggestions.join("");
     }
@@ -58,21 +58,21 @@ export default {
     :confirm-fn="confirm"
   >
     <template #header>
-      Load Game from Cloud
+      从 Cloud 加载游戏
     </template>
     <span v-if="hasDifferentName">
-      Your Local and Cloud Saves have <b>different names</b>.
+      本地存档和 Cloud 存档的<b>名称不同</b>。
     </span>
     <span v-else-if="older">
-      Loading from the Cloud would <b>load a save with less playtime</b>.
+      从 Cloud 加载会<b>切换到游玩时间更短的存档</b>。
     </span>
     <span v-else-if="farther">
-      Loading from the Cloud would <b>cause you to lose progress</b>.
+      从 Cloud 加载会<b>导致当前进度回退</b>。
     </span>
     <span v-else>
-      Your Local Save and Cloud Save <b>appear to have similar amounts of progress</b>.
+      本地存档和 Cloud 存档的<b>进度看起来接近</b>。
     </span>
-    Please select the save you want to load.
+    请选择要继续游玩的存档。
     <br>
     <br>
     <SaveInfoEntry
@@ -80,21 +80,21 @@ export default {
       :other-data="conflict.cloud"
       :save-id="conflict.saveId"
       :show-name="hasDifferentName"
-      save-type="Local Save"
+      save-type="本地存档"
     />
     <SaveInfoEntry
       :save-data="conflict.cloud"
       :other-data="conflict.local"
       :save-id="conflict.saveId"
       :show-name="hasDifferentName"
-      save-type="Cloud Save"
+      save-type="Cloud 存档"
     />
     <span v-html="suggestionText" />
     <template #cancel-text>
-      Keep Local Save
+      保留本地存档
     </template>
     <template #confirm-text>
-      Overwrite Local with Cloud Save
+      用 Cloud 覆盖本地
     </template>
   </ModalWrapperChoice>
 </template>

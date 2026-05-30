@@ -33,16 +33,13 @@ export default {
 
 <template>
   <div class="l-panel-padding">
-    This page lets you import and export scripts with additional data attached; the encoded text will also include data
-    for any Time Study presets or constants used within the script. This will allow you to more easily transfer working
-    scripts between different save files, but you may have to overwrite existing data in the process due to limited
-    space for study presets and constants. Data exported from this page is also imported in the same way that single
-    script data is imported.
+    这个页面可以导入或导出带有附加数据的脚本；编码文本会同时包含脚本中用到的时间研究预设和常量。
+    这能更方便地在不同存档之间迁移可运行脚本，但由于预设和常量数量有限，导入过程中可能需要覆盖已有数据。
+    从这里导出的数据，也会通过单脚本导入入口读取。
     <br>
     <br>
-    Note: Any mentions of constant names or full study-buying commands within comments will also be counted as being
-    "used" within a script. This is intentional, as the comment is assumed to be indicative of what the script itself
-    is attempting to do with presets or constants.
+    注意：注释里提到的常量名或完整购买研究命令，也会被视为脚本“用到”的内容。
+    这是有意设计，因为注释通常代表脚本想配合哪些预设或常量运行。
     <br>
     <br>
     <div

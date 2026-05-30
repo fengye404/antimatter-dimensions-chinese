@@ -781,16 +781,16 @@ export const Glyphs = {
   },
   giveCursedGlyph() {
     if (GameCache.glyphInventorySpace.value === 0) {
-      Modal.message.show("No available inventory space; Sacrifice some Glyphs to free up space.",
+      Modal.message.show("Glyph 背包没有空位；请先献祭一些 Glyph 来腾出空间。",
         { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
       return;
     }
     const cursedCount = this.allGlyphs.filter(g => g !== null && g.type === "cursed").length;
     if (cursedCount >= 5) {
-      GameUI.notify.error(`You don't need more than ${format(5)} Cursed Glyphs!`);
+      GameUI.notify.error(`诅咒 Glyph 不需要超过 ${format(5)} 个！`);
     } else {
       this.addToInventory(GlyphGenerator.cursedGlyph());
-      GameUI.notify.error("Created a Cursed Glyph");
+      GameUI.notify.error("已创建诅咒 Glyph");
     }
   }
 };

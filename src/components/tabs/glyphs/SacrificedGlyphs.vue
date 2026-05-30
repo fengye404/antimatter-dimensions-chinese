@@ -179,10 +179,10 @@ export default {
       v-else-if="isDoomed"
       class="pelle-current-glyph-effects"
     >
-      All boosts from Glyph Sacrifice are disabled while Doomed, including changes to effects due to Altered Glyphs.
+      末日中，Glyph 献祭提供的所有加成都被禁用，包括 Altered Glyph 对效果造成的变化。
     </div>
     <div v-else>
-      You haven't Sacrificed any Glyphs yet!
+      你还没有献祭过任何 Glyph！
     </div>
   </div>
 </template>

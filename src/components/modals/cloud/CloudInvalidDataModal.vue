@@ -18,8 +18,8 @@ export default {
     },
     overwriteText() {
       return this.isSaving
-        ? "Overwrite Cloud Save"
-        : "Load save from Cloud";
+        ? "覆盖 Cloud 存档"
+        : "从 Cloud 加载存档";
     }
   },
   methods: {
@@ -43,30 +43,27 @@ export default {
     @confirm="ignore()"
   >
     <template #header>
-      Could not compare with Cloud Save
+      无法与 Cloud 存档比较
     </template>
-    While attempting to compare your saves, the game was unable to properly process the data in your
-    Cloud save. This is most likely due to the Cloud save being very outdated, using a data
-    format from a much older version of the game.
+    比较存档时，游戏无法正确处理 Cloud 存档中的数据。这通常是因为 Cloud 存档太旧，
+    使用了早期版本的数据格式。
     <br>
     <br>
     <span v-if="isSaving">
-      It is probably safe to overwrite your Cloud save. You can click "Cloud load" and force the save
-      to be loaded if you would like to attempt to convert it to a valid save format that you can use.
+      覆盖这份 Cloud 存档通常是安全的。如果你想尝试转换旧存档，也可以点击“从 Cloud 加载”
+      强制读取它，让游戏尝试转换为可用格式。
     </span>
     <span v-else>
-      You can try to load your data from the Cloud if desired. The game will attempt to load in your
-      Cloud data by converting its format, but this may not work and in the worst case may require you
-      to reset this save slot in order for the game to work again.
+      你可以尝试从 Cloud 加载这份数据。游戏会尝试转换格式后读取它，但不保证成功；
+      最糟糕的情况下，可能需要重置这个存档栏位才能继续正常游戏。
     </span>
     <br>
-    Note: This modal will show up regardless of your settings, because this issue will continue to prevent
-    the 10-minute autosave until it is resolved.
+    注意：无论设置如何，这个弹窗都会出现。因为在问题解决前，它会持续阻止 10 分钟自动保存。
     <template #cancel-text>
       {{ overwriteText }}
     </template>
     <template #confirm-text>
-      Do not overwrite
+      不覆盖
     </template>
   </ModalWrapperChoice>
 </template>

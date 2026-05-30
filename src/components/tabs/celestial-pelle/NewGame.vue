@@ -22,7 +22,7 @@ export default {
       this.visible = GameEnd.endState > END_STATE_MARKERS.SHOW_NEW_GAME && !GameEnd.removeAdditionalEnd;
       this.opacity = (GameEnd.endState - END_STATE_MARKERS.SHOW_NEW_GAME) * 2;
       this.hasMoreCosmetics = GlyphAppearanceHandler.lockedSets.length > 0;
-      this.selectedSetName = GlyphAppearanceHandler.chosenFromModal?.name ?? "None (will choose randomly)";
+      this.selectedSetName = GlyphAppearanceHandler.chosenFromModal?.name ?? "未选择（将随机选择）";
     },
     startNewGame() {
       NG.startNewGame();
@@ -40,39 +40,38 @@ export default {
     :style="style"
   >
     <h2>
-      Reset the entire game, but keep Automator Scripts, Study Presets, Secret Themes, Secret Achievements, Options,
-      and Companion Glyph.
+      重置整个游戏，但保留自动机脚本、时间研究预设、隐藏主题、秘密成就、选项和同伴 Glyph。
     </h2>
-    <h3>You can use the button in the top-right to view the game as it is right now.</h3>
+    <h3>你可以使用右上角按钮，查看当前游戏状态。</h3>
     <div class="c-new-game-button-container">
       <button
         class="c-new-game-button"
         @click="startNewGame"
       >
-        Start over?
+        重新开始？
       </button>
     </div>
     <br>
     <h3 v-if="hasMoreCosmetics">
-      For completing the game, you also unlock a new cosmetic set of your choice for Glyphs. These are freely
-      modifiable once you reach Reality again, but are purely visual and offer no gameplay bonuses.
+      完成游戏后，你还可以选择解锁一套新的 Glyph 外观。再次到达现实后即可自由调整；
+      这些外观只改变显示效果，不提供任何玩法加成。
       <br>
       <button
         class="c-new-game-button"
         @click="openSelectionModal"
       >
-        Choose Cosmetic Set
+        选择外观套装
       </button>
       <br>
       <br>
-      Selected Set: {{ selectedSetName }}
+      已选择套装：{{ selectedSetName }}
     </h3>
     <h3 v-else>
-      You have unlocked all Glyph cosmetic sets!
+      你已经解锁所有 Glyph 外观套装！
     </h3>
     <br>
     <h3>
-      You can also import "speedrun" to start the game again with additional tracking for speedrunning purposes.
+      你也可以导入 “speedrun” 来重新开始游戏，并启用速通用的额外记录。
     </h3>
   </div>
 </template>

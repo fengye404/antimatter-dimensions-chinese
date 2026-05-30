@@ -64,12 +64,11 @@ export default {
     @confirm="importConstants"
   >
     <template #header>
-      Importing Time Study Presets as Constants
+      将时间研究预设导入为常量
     </template>
     <div class="c-modal-message__text">
-      Confirming this modal will import all of your saved Time Study presets as new Automator constants.
-      Below are all the valid presets which will be imported, with the beginning and end of their contained
-      studies shown. Some names may be changed due to restrictions on constant name formatting.
+      确认后，会把所有已保存的时间研究预设导入为新的自动机常量。
+      下方列出将被导入的有效预设，并显示其中研究字符串的开头和结尾。由于常量命名规则限制，部分名称可能会被调整。
       <br>
       <br>
       <div
@@ -77,7 +76,7 @@ export default {
         :key="i"
         :class="{ 'l-not-imported' : !willImport[i-1] }"
       >
-        Name: {{ presets[i-1].name }} ➜ <b>{{ names[i-1] }}</b>
+        名称：{{ presets[i-1].name }} ➜ <b>{{ names[i-1] }}</b>
         <br>
         {{ shortenString(presets[i-1].studies) }}
         <span
@@ -85,7 +84,7 @@ export default {
           class="l-warn-text"
         >
           <br>
-          This will overwrite an existing constant!
+          这会覆盖一个已有常量！
         </span>
         <br>
         <br>
@@ -94,12 +93,11 @@ export default {
         v-if="missedImports() > 0"
         class="l-warn-text"
       >
-        {{ quantify("preset", missedImports()) }} in this list cannot be imported
-        due to the limit on constant count.
+        列表中有 {{ formatInt(missedImports()) }} 个预设因为常量数量上限而无法导入。
       </div>
     </div>
     <template #confirm-text>
-      Import All
+      全部导入
     </template>
   </ModalWrapperChoice>
 </template>

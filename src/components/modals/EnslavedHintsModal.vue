@@ -21,10 +21,10 @@ export default {
   },
   computed: {
     hintCost() {
-      return `${quantify("year", TimeSpan.fromMilliseconds(this.nextHintCost).totalYears, 2)}`;
+      return `${format(TimeSpan.fromMilliseconds(this.nextHintCost).totalYears, 2)} 年`;
     },
     formattedStored() {
-      return `${quantify("year", TimeSpan.fromMilliseconds(this.currentStored).totalYears, 2)}`;
+      return `${format(TimeSpan.fromMilliseconds(this.currentStored).totalYears, 2)} 年`;
     },
     hasProgress(id) {
       return this.progressEntries.some(entry => entry.id === id);
@@ -94,11 +94,11 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Cracks in The Nameless Ones' Reality
+      无名氏现实中的裂痕
     </template>
     <div class="c-enslaved-hint-modal c-modal--short">
       <div>
-        This Reality seems to be resisting your efforts to complete it. So far you have done the following:
+        这个现实似乎在抗拒你完成它。目前你已经做到：
       </div>
       <br>
       <div
@@ -108,11 +108,11 @@ export default {
         <div v-if="!entry[0]">
           <span v-if="entry[1].hasHint && !entry[1].hasProgress">
             <i class="c-icon-wrapper fas fa-question-circle" />
-            <b>You have not figured out what this hint means yet.</b>
+            <b>你还没有弄明白这条提示的含义。</b>
           </span>
           <span v-else>
             <i class="c-icon-wrapper fa-solid fa-house-crack" />
-            <b>You have exposed a crack in the Reality:</b>
+            <b>你已经撬开了现实中的一道裂痕：</b>
           </span>
           <br>
           - {{ entry[1].hintInfo }}
@@ -120,21 +120,20 @@ export default {
           - {{ entry[1].hasProgress ? entry[1].completedInfo : "?????" }}
         </div>
         <div v-else>
-          <i class="fa-solid fa-shapes" /> <b>Glyph hint:</b>
+          <i class="fa-solid fa-shapes" /> <b>Glyph 提示：</b>
           <br>
           {{ entry[1] }}
         </div>
         <br>
       </div>
       <div v-if="realityHintsLeft + glyphHintsLeft > 0">
-        You can spend some time looking for some more cracks in the Reality, but every hint you spend Stored Time on
-        will increase the Stored Time needed for the next by a factor of {{ formatInt(3) }}. This cost bump will
-        gradually go away over {{ formatInt(24) }} hours and figuring out what the hint means will immediately
-        divide the cost by {{ formatInt(2) }}. The cost can't be reduced below {{ format(1e40) }} years.
+        你可以花费已储存时间继续寻找现实中的裂痕。不过每购买一条提示，下一条提示所需的已储存时间都会变为
+        {{ formatInt(3) }} 倍。这个涨价会在 {{ formatInt(24) }} 小时内逐渐消退；如果你弄明白了提示的含义，
+        费用会立刻除以 {{ formatInt(2) }}。提示费用不会低于 {{ format(1e40) }} 年。
         <br><br>
-        The next hint will cost {{ hintCost }} of Stored Time. You currently have {{ formattedStored }}.
+        下一条提示需要 {{ hintCost }} 已储存时间。你当前拥有 {{ formattedStored }}。
         <span v-if="currentStored < nextHintCost">
-          You will reach this if you charge your Black Hole for {{ timeEstimate }}.
+          继续给黑洞充能 {{ timeEstimate }} 后即可达到。
         </span>
         <br><br>
         <PrimaryButton
@@ -142,7 +141,7 @@ export default {
           class="l-enslaved-hint-button"
           @click="giveRealityHint(realityHintsLeft)"
         >
-          Get a hint about the Reality itself ({{ formatInt(realityHintsLeft) }} left)
+          获取一条关于现实本身的提示（剩余 {{ formatInt(realityHintsLeft) }} 条）
         </PrimaryButton>
         <br>
         <PrimaryButton
@@ -150,11 +149,11 @@ export default {
           class="l-enslaved-hint-button"
           @click="giveGlyphHint(glyphHintsLeft)"
         >
-          Get a hint on what Glyphs to use ({{ formatInt(glyphHintsLeft) }} left)
+          获取一条 Glyph 搭配提示（剩余 {{ formatInt(glyphHintsLeft) }} 条）
         </PrimaryButton>
       </div>
       <div v-else>
-        <b>There are no more hints left!</b>
+        <b>已经没有更多提示了！</b>
       </div>
     </div>
   </ModalWrapper>
