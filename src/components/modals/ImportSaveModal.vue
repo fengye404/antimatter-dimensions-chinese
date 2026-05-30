@@ -63,8 +63,8 @@ export default {
     lastOpened() {
       const ms = Date.now() - this.player.lastUpdate;
       return this.isFromFuture
-        ? `This save is from ${TimeSpan.fromMilliseconds(-ms).toString()} in the future.`
-        : `This save was last opened ${TimeSpan.fromMilliseconds(ms).toString()} ago.`;
+        ? `这个存档的最后打开时间比当前系统时间晚 ${TimeSpan.fromMilliseconds(-ms).toString()}。`
+        : `这个存档上次打开是在 ${TimeSpan.fromMilliseconds(ms).toString()} 前。`;
     },
     offlineType() {
       // We update here in the computed method instead of elsewhere because otherwise it initializes the text
@@ -73,26 +73,26 @@ export default {
 
       switch (this.offlineImport) {
         case OFFLINE_PROGRESS_TYPE.IMPORTED:
-          return "Using imported save settings";
+          return "使用导入存档设置";
         case OFFLINE_PROGRESS_TYPE.LOCAL:
-          return "Using existing save settings";
+          return "使用当前本地设置";
         case OFFLINE_PROGRESS_TYPE.IGNORED:
-          return "Will not simulate offline time";
+          return "不模拟离线时间";
         default:
           throw new Error("Unrecognized offline progress setting for importing");
       }
     },
     offlineDetails() {
       if (this.offlineImport === OFFLINE_PROGRESS_TYPE.IGNORED) {
-        return `Save will be imported without offline progress.`;
+        return `导入时不会结算离线进度。`;
       }
-      if (!GameStorage.offlineEnabled) return "This setting will not apply any offline progress after importing.";
-      if (this.isFromFuture) return "Offline progress cannot be simulated due to an inconsistent system clock time.";
+      if (!GameStorage.offlineEnabled) return "当前设置不会在导入后结算离线进度。";
+      if (this.isFromFuture) return "系统时间与存档时间不一致，无法模拟离线进度。";
 
       const durationInMs = Date.now() - this.player.lastUpdate;
       const ticks = GameStorage.maxOfflineTicks(durationInMs);
-      return `After importing, will simulate ${formatInt(ticks)} ticks of duration
-        ${TimeSpan.fromMilliseconds(durationInMs / ticks).toStringShort()} each.`;
+      return `导入后将模拟 ${formatInt(ticks)} 个离线 tick，每个 tick 约
+        ${TimeSpan.fromMilliseconds(durationInMs / ticks).toStringShort()}。`;
     },
     willLoseCosmetics() {
       const currSets = player.reality.glyphs.cosmetics.unlockedFromNG;
@@ -147,7 +147,7 @@ export default {
     :show-confirm="false"
   >
     <template #header>
-      Input your save
+      输入存档
     </template>
     <input
       ref="input"
@@ -163,23 +163,23 @@ export default {
       </div>
       <template v-else-if="inputIsValidSave">
         <div v-if="fileName">
-          File name: {{ fileName }}
+          文件名：{{ fileName }}
         </div>
-        <div>Antimatter: {{ formatPostBreak(antimatter, 2, 1) }}</div>
+        <div>反物质：{{ formatPostBreak(antimatter, 2, 1) }}</div>
         <div v-if="progress.isInfinityUnlocked">
-          Infinities: {{ formatPostBreak(infinities, 2) }}
+          无限次数：{{ formatPostBreak(infinities, 2) }}
         </div>
         <div v-if="progress.isEternityUnlocked">
-          Eternities: {{ formatPostBreak(player.eternities, 2) }}
+          永恒次数：{{ formatPostBreak(player.eternities, 2) }}
         </div>
         <div v-if="progress.isRealityUnlocked">
-          Realities: {{ formatPostBreak(player.realities, 2) }}
+          现实次数：{{ formatPostBreak(player.realities, 2) }}
         </div>
         <div v-if="progress.hasFullCompletion">
-          Full game completions: {{ formatInt(player.records.fullGameCompletions) }}
+          完整通关次数：{{ formatInt(player.records.fullGameCompletions) }}
         </div>
         <div class="c-modal-import__warning">
-          (Your current save file will be overwritten!)
+          （当前存档会被覆盖！）
         </div>
         <br>
         <div>
@@ -188,13 +188,13 @@ export default {
             class="o-primary-btn"
             @click="changeOfflineSetting"
           >
-            Offline Progress: {{ offlineType }}
+            离线进度：{{ offlineType }}
           </div>
           <span v-html="offlineDetails" />
         </div>
       </template>
       <div v-else-if="hasInput">
-        Not a valid save:
+        不是有效存档：
         <br>
         {{ saveCheckString }}
       </div>
@@ -204,13 +204,13 @@ export default {
       >
         <div v-if="willLoseCosmetics">
           <br>
-          Glyph cosmetic sets from completing the game are tied to your save.
+          通关解锁的 Glyph 外观套装会绑定在存档中。
           <br>
-          Importing this save will cause you to lose some sets.
+          导入此存档会导致部分套装丢失。
         </div>
         <div v-if="willLoseSpeedrun">
           <br>
-          You will lose the ability to do a Speedrun, as this save does not have it unlocked.
+          你会失去进行速通的能力，因为导入的存档尚未解锁速通。
         </div>
       </div>
     </div>
@@ -220,7 +220,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="importSave"
     >
-      Import
+      导入
     </PrimaryButton>
   </ModalWrapperChoice>
 </template>

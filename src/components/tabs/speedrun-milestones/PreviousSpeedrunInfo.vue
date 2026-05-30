@@ -17,13 +17,13 @@ export default {
     segmentAttr() {
       return {
         icon: `fas o-icon ${this.prevRunInfo.isSegmented ? "fa-stopwatch-20" : "fa-stopwatch"}`,
-        text: this.prevRunInfo.isSegmented ? "Segmented" : "Single Segment",
+        text: this.prevRunInfo.isSegmented ? "分段速通" : "单段速通",
       };
     },
     stdAttr() {
       return {
         icon: `fas fa-coins o-icon ${this.prevRunInfo.usedSTD ? "l-icon-on" : "l-icon-off"}`,
-        text: this.prevRunInfo.usedSTD ? "Used STD Upgrades" : "No STDs used",
+        text: this.prevRunInfo.usedSTD ? "使用过 STD 升级" : "未使用 STD",
       };
     },
     offlineAttr() {
@@ -35,7 +35,7 @@ export default {
       else symbol = "fa-power-off";
       return {
         icon: `fas o-icon ${symbol}`,
-        text: `${offlineFrac === 0 ? "No" : formatPercents(offlineFrac, 1)} Offline Time`,
+        text: offlineFrac === 0 ? "未使用离线时间" : `离线时间占比 ${formatPercents(offlineFrac, 1)}`,
       };
     },
     seedAttr() {
@@ -80,7 +80,7 @@ export default {
     v-if="prevRunInfo"
     class="c-icon-container"
   >
-    <span>Run {{ index }}</span>
+    <span>第 {{ index }} 次</span>
     <span>{{ prevRunInfo.name }}</span>
     <span
       v-for="attr in iconAttrs"
@@ -88,14 +88,14 @@ export default {
       v-tooltip="attr.text"
       :class="attr.icon"
     />
-    <span>Started: {{ startDate }}</span>
-    <span>Final Time: {{ finalTime }}</span>
+    <span>开始：{{ startDate }}</span>
+    <span>最终用时：{{ finalTime }}</span>
   </div>
   <div
     v-else
     class="c-no-record"
   >
-    No speedrun records found for run {{ index }}.
+    没有找到第 {{ index }} 次速通记录。
   </div>
 </template>
 

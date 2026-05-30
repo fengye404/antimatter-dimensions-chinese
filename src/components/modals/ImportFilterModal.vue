@@ -69,8 +69,7 @@ export default {
       return ALCHEMY_BASIC_GLYPH_TYPES.filter(t => !GlyphTypes.locked.map(e => e.id).includes(t));
     },
     settingTooltipText() {
-      return `Mouseover each box for more details. ✔ and ✘ symbols denote an effect
-        selected/unselected for Specified Effect mode.`;
+      return "将鼠标移到每个方框上可查看详情。✔ 和 ✘ 表示指定效果模式中该效果是否被选中。";
     }
   },
   mounted() {
@@ -81,7 +80,7 @@ export default {
       this.currentSettings = JSON.parse(JSON.stringify(player.reality.glyphs.filter));
     },
     changedValue(oldVal, newVal, applyFn) {
-      if (oldVal === newVal) return "(No change)";
+      if (oldVal === newVal) return "（无变化）";
       return `${applyFn(oldVal)} ➜ ${applyFn(newVal)}`;
     },
     importFilter() {
@@ -99,11 +98,11 @@ export default {
     :show-confirm="false"
   >
     <template #header>
-      Import Glyph filter settings
+      导入符文筛选设置
     </template>
-    Note: Importing Glyph filter options will overwrite settings
+    注意：导入符文筛选选项会覆盖所有筛选模式中的设置，
     <br>
-    in all filter modes, not just the currently-selected one.
+    不只会覆盖当前选中的模式。
     <input
       ref="input"
       v-model="input"
@@ -115,13 +114,13 @@ export default {
     <div class="c-modal-import__save-info">
       <div v-if="!input" />
       <div v-else-if="inputIsValid">
-        <b>Selection mode:</b> {{ selectStr }}
+        <b>选择模式：</b> {{ selectStr }}
         <br>
-        <b>Effect Count ("Number of Effects"):</b> {{ basicCountStr }}
+        <b>效果数量：</b> {{ basicCountStr }}
         <br>
-        <b>Rejected Glyphs:</b> {{ trashStr }}
+        <b>丢弃符文：</b> {{ trashStr }}
         <br>
-        <u><b>Type-specific Settings</b></u> <span :ach-tooltip="settingTooltipText">
+        <u><b>各类型设置</b></u> <span :ach-tooltip="settingTooltipText">
           <i class="fas fa-question-circle" />
         </span>
         <br>
@@ -135,7 +134,7 @@ export default {
         />
       </div>
       <div v-else>
-        Not a valid Glyph filter string
+        不是有效的符文筛选字符串
       </div>
     </div>
 
@@ -144,7 +143,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="importFilter"
     >
-      Import
+      导入
     </PrimaryButton>
   </ModalWrapperChoice>
 </template>

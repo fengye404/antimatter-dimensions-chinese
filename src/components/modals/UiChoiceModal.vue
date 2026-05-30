@@ -9,11 +9,9 @@ export default {
   computed: {
     listEntries() {
       return [
-        `Many more game events now have animations. If these impact your performance or gameplay, they can be
-        disabled in the Visual Options tab.`,
-        `New confirmation windows have replaced the default Javascript alert windows. These can be disabled in the
-        Gameplay Options tab.`,
-        "The game now also has a new sleek layout which was designed with more Modern design practices in mind."
+        `更多游戏事件现在带有动画；如果影响性能或游玩体验，可在“视觉选项”中关闭。`,
+        `新的确认弹窗已经替代浏览器默认 alert；可在“玩法选项”中关闭。`,
+        "游戏还加入了更现代的新界面布局。"
       ];
     }
   },
@@ -28,10 +26,10 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="handleYesClick">
     <template #header>
-      Visual Changes
+      视觉变化
     </template>
     <div class="c-modal-message__text">
-      We noticed that you've loaded an old save; a few visual changes have been made since older versions of the game:
+      检测到你载入了较旧的存档；相比旧版本，游戏现在有一些视觉变化：
       <br>
       <br>
       <div class="c-visual-change-list">
@@ -46,14 +44,13 @@ export default {
       </div>
       <br>
       <br>
-      You can change between the Classic UI which older versions of the game used and the newer Modern UI in the Visual
-      Options tab at any time. Would you like to swap to the Modern UI now?
+      你可以随时在“视觉选项”中切换旧版经典 UI 与新版现代 UI。现在要切换到现代 UI 吗？
     </div>
     <template #cancel-text>
-      Remain
+      保持不变
     </template>
     <template #confirm-text>
-      Swap
+      切换
     </template>
   </ModalWrapperChoice>
 </template>

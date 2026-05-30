@@ -42,21 +42,21 @@ export default {
     @confirm="hardReset"
   >
     <template #header>
-      HARD RESET
+      硬重置
     </template>
     <div class="c-modal-message__text">
-      Please confirm your desire to hard reset this save slot.
-      <span class="c-modal-hard-reset-danger">Deleting your save will not unlock anything secret.</span>
-      Type in "Shrek is love, Shrek is life" to confirm.
+      请确认你要硬重置当前存档槽。
+      <span class="c-modal-hard-reset-danger">删除存档不会解锁任何隐藏内容。</span>
+      输入 "Shrek is love, Shrek is life" 以确认。
       <div class="c-modal-hard-reset-danger">
-        THIS WILL WIPE YOUR SAVE.
+        这会清空你的存档。
         <span v-if="hasExtraNG">
           <br>
-          This will also remove any Glyph cosmetics you have unlocked from completing the game!
+          这也会移除你通关后解锁的所有符文外观！
         </span>
         <span v-if="hasSpeedrun">
           <br>
-          You will lose the ability to do a Speedrun. To restart your run, use the "Start Speedrun" button instead.
+          你会失去进行速通的能力。若要重新开始本次速通，请改用“开始速通”按钮。
         </span>
       </div>
     </div>
@@ -72,14 +72,14 @@ export default {
         v-if="willHardReset"
         class="c-modal-hard-reset-danger"
       >
-        Phrase confirmed - continuing will irreversibly delete your save!
+        确认短语正确，继续后将不可逆地删除存档！
       </div>
       <div v-else>
-        Type in the correct phrase to hard reset.
+        输入正确短语后才能硬重置。
       </div>
     </div>
     <template #confirm-text>
-      HARD RESET
+      硬重置
     </template>
   </ModalWrapperChoice>
 </template>

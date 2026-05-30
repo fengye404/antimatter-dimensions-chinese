@@ -31,46 +31,44 @@ export default {
   },
   computed: {
     firstRealityText() {
-      return `Reality will reset everything except Challenge records and anything under the General header on the
-        Statistics tab. The first ${formatInt(13)} rows of Achievements are also reset,
-        but you will automatically get one Achievement back every
-        ${timeDisplayNoDecimals(30 * 60000)}. You will also gain Reality Machines based on your Eternity Points, a
-        Glyph with a level based on your Eternity Points, Replicanti, and Dilated Time, a Perk Point to spend
-        on quality of life upgrades, and unlock various upgrades.`;
+      return `现实会重置除挑战记录，以及“统计”页签中“通用”栏目之外的几乎所有内容。
+        前 ${formatInt(13)} 行成就也会被重置，但之后每隔 ${timeDisplayNoDecimals(30 * 60000)}
+        会自动恢复 1 个成就。你会根据永恒点数获得现实机器，并获得一个等级由永恒点数、复制品和膨胀时间决定的 Glyph；
+        同时还会获得用于解锁便利性能力的 Perk 点数，并开启多种现实升级。`;
     },
     canSacrifice() {
       return RealityUpgrade(19).isEffectActive;
     },
     warnText() {
       if (!this.hasChoice) {
-        return `You currently only have a single option for new Glyphs every
-          Reality. You can unlock the ability to choose from multiple Glyphs by canceling out of this modal and
-          purchasing the START Perk.`;
+        return `你目前每次现实只能获得一个新 Glyph。取消本弹窗并购买 START Perk 后，
+          就能在多个 Glyph 中进行选择。`;
       }
 
       if (this.hasFilter && this.selectedGlyph === undefined) {
-        return `If you do not choose a Glyph, one will be automatically selected using your Glyph filter.`;
+        return `如果你不手动选择 Glyph，游戏会按当前 Glyph 过滤器自动选择。`;
       }
       return this.selectedGlyph === undefined
-        ? `You must select a Glyph in order to continue.`
+        ? `请选择一个 Glyph 后继续。`
         : null;
     },
     gained() {
       const gainedResources = [];
-      gainedResources.push(`${quantifyInt("Reality", this.simRealities)}`);
-      gainedResources.push(`${quantifyInt("Perk Point", this.simRealities)}`);
-      gainedResources.push(`${quantify("Reality Machine", this.realityMachines, 2)}`);
+      gainedResources.push(`${formatInt(this.simRealities)} 次现实`);
+      gainedResources.push(`${formatInt(this.simRealities)} 个 Perk 点数`);
+      gainedResources.push(`${format(this.realityMachines, 2)} 个现实机器`);
       if (this.effarigUnlocked) {
-        gainedResources.push(`${quantify("Relic Shard", this.shardsGained, 2)}`);
+        gainedResources.push(`${format(this.shardsGained, 2)} 个遗物碎片`);
       }
-      return `You will gain ${makeEnumeration(gainedResources)}`;
+      return `你将获得${gainedResources.join("、")}。`;
     },
     levelStats() {
       // Bit annoying to read due to needing >, <, and =, with = needing a different format.
-      return `You will get a level ${formatInt(this.level)} Glyph on Reality, which is
-        ${this.level === this.bestLevel ? "equal to" : `
-        ${quantifyInt("level", this.levelDifference)}
-        ${this.level > this.bestLevel ? "higher" : "lower"} than`} your best.`;
+      if (this.level === this.bestLevel) {
+        return `本次现实将获得等级 ${formatInt(this.level)} 的 Glyph，与历史最佳等级相同。`;
+      }
+      return `本次现实将获得等级 ${formatInt(this.level)} 的 Glyph，比历史最佳等级
+        ${this.level > this.bestLevel ? "高" : "低"} ${formatInt(this.levelDifference)} 级。`;
     },
     confirmationToDisable() {
       return ConfirmationTypes.glyphSelection.isUnlocked() ? "glyphSelection" : undefined;
@@ -141,7 +139,7 @@ export default {
     @confirm="confirmModal(false)"
   >
     <template #header>
-      You are about to Reality
+      即将进入现实
     </template>
     <div
       v-if="firstReality"
@@ -177,33 +175,30 @@ export default {
     </div>
     <div v-if="simRealities > 1">
       <br>
-      After choosing this Glyph the game will simulate the rest of your Realities,
+      选择这个 Glyph 后，游戏会继续模拟剩余的现实，
       <br>
-      automatically choosing another {{ quantifyInt("Glyph", simRealities - 1) }}
-      based on your Glyph filter settings.
+      并根据 Glyph 过滤器自动选择另外 {{ formatInt(simRealities - 1) }} 个 Glyph。
     </div>
     <div v-if="willAutoPurge">
       <br>
-      Auto-purge is currently enabled; your selected Glyph
+      当前已启用自动清理；你选择的 Glyph
       <br>
-      may not appear in your inventory after it triggers.
+      触发后可能不会出现在库存中。
     </div>
     <div
       v-if="!hasSpace"
       class="o-warning"
     >
       <span v-if="simRealities > 1">
-        You will be simulating more Realities than you have open inventory space for;
-        this may result in some Glyphs being Sacrificed.
+        模拟现实的次数超过了库存空位数量；部分 Glyph 可能会被献祭。
       </span>
       <span v-else>
-        You do not have any free inventory space - your selected Glyph will be automatically
-        {{ canSacrifice ? "Sacrificed" : "deleted" }}!
+        你的库存已经没有空位，所选 Glyph 将被自动{{ canSacrifice ? "献祭" : "删除" }}！
       </span>
     </div>
     <div v-if="confirmationToDisable">
       <br>
-      You can force this modal to appear (even if disabled) by Shift-clicking the Reality button.
+      即使已禁用确认弹窗，也可以按住 Shift 点击“现实”按钮强制显示它。
     </div>
     <template
       v-if="canSacrifice && canConfirm"
@@ -213,7 +208,7 @@ export default {
         class="o-primary-btn--width-medium c-modal-message__okay-btn"
         @click="confirmModal(true)"
       >
-        Sacrifice
+        献祭
       </PrimaryButton>
     </template>
   </ModalWrapperChoice>

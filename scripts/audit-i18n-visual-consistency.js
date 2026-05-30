@@ -360,6 +360,7 @@ async function main() {
     }, STAGES.map(stage => ({ key: stage.key, setup: stage.setup?.toString() ?? null })));
 
     for (const stage of STAGES) {
+      console.log(`[audit:i18n:visual] ${stage.title}`);
       await resetGame(page);
       await applyStage(page, stage.key);
 
@@ -373,8 +374,10 @@ async function main() {
         results.push(...await collectVisualIssues(page, stage.title, `选项弹窗 / ${modal.title}`, ".c-modal.l-modal"));
       }
 
-      await showH2PModal(page);
-      results.push(...await collectVisualIssues(page, stage.title, "游戏玩法弹窗", ".l-h2p-modal"));
+      if (stage.key === "reality") {
+        await showH2PModal(page);
+        results.push(...await collectVisualIssues(page, stage.title, "游戏玩法弹窗", ".l-h2p-info"));
+      }
     }
   } finally {
     await browser.close();

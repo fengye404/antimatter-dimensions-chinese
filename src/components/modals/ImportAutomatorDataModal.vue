@@ -77,10 +77,10 @@ export default {
       return this.constantCountAfterImport - this.maxConstantCount;
     },
     presetButtonText() {
-      return this.ignorePresets ? "Will Ignore Presets" : "Will Import Presets";
+      return this.ignorePresets ? "将忽略预设" : "将导入预设";
     },
     constantButtonText() {
-      return this.ignoreConstants ? "Will Ignore Constants" : "Will Import Constants";
+      return this.ignoreConstants ? "将忽略常量" : "将导入常量";
     }
   },
   mounted() {
@@ -134,10 +134,10 @@ export default {
     @confirm="importSave"
   >
     <template #header>
-      Import Automator Script Data
+      导入自动机脚本数据
     </template>
-    This will create a new Automator script at the end of your list.
-    <span v-if="isImportingExtraData">This will also import additional data related to the script.</span>
+    这会在脚本列表末尾创建一个新的自动机脚本。
+    <span v-if="isImportingExtraData">同时还会导入与该脚本相关的附加数据。</span>
     <input
       ref="input"
       v-model="input"
@@ -147,26 +147,25 @@ export default {
       @keyup.esc="emitClose"
     >
     <div v-if="isValid">
-      Script name: {{ scriptName }}
+      脚本名称：{{ scriptName }}
       <br>
-      Line count: {{ lineCount }}
+      行数：{{ lineCount }}
       <div v-if="hasPresets">
         <br>
-        Study Presets:
+        时间研究预设：
         <span
           v-for="(preset, id) in importedPresets"
           :key="id"
           class="c-import-data-name"
         >
-          <span v-if="preset.name">"{{ preset.name }}" (slot {{ preset.id + 1 }})</span>
-          <span v-else>Preset slot #{{ preset.id + 1 }}</span>
+          <span v-if="preset.name">“{{ preset.name }}”（槽位 {{ preset.id + 1 }}）</span>
+          <span v-else>预设槽位 #{{ preset.id + 1 }}</span>
         </span>
         <div
           v-if="!ignorePresets && overwrittenPresetCount > 0"
           class="l-has-errors"
         >
-          {{ formatInt(overwrittenPresetCount) }} of your existing presets
-          will be overwritten by imported presets!
+          你现有的 {{ formatInt(overwrittenPresetCount) }} 个预设会被导入的预设覆盖！
         </div>
         <br>
         <button
@@ -178,7 +177,7 @@ export default {
       </div>
       <div v-if="hasConstants">
         <br>
-        Constants:
+        常量：
         <span
           v-for="(constant, id) in importedConstants"
           :key="id + 10"
@@ -190,11 +189,10 @@ export default {
           v-if="!ignoreConstants && (willOverwriteConstant || extraConstants > 0)"
           class="l-has-errors"
         >
-          <span v-if="willOverwriteConstant">Some of your existing constants will be overwritten!</span>
+          <span v-if="willOverwriteConstant">部分现有常量会被覆盖！</span>
           <br v-if="willOverwriteConstant && extraConstants > 0">
           <span v-if="extraConstants > 0">
-            {{ quantifyInt("constant", extraConstants) }} will not be imported due to the
-            {{ maxConstantCount }} constant limit.
+            由于最多只能保存 {{ maxConstantCount }} 个常量，将有 {{ formatInt(extraConstants) }} 个常量不会被导入。
           </span>
         </div>
         <br>
@@ -210,17 +208,17 @@ export default {
         v-if="hasErrors"
         class="l-has-errors"
       >
-        This script has errors which need to be fixed before it can be run!
+        该脚本存在错误，修复后才能运行！
       </div>
       <div v-if="hasErrors && isImportingExtraData">
-        <i>Some errors may be fixed with the additional data being imported.</i>
+        <i>部分错误可能会随附加数据导入而自动修复。</i>
       </div>
     </div>
     <div v-else-if="input.length !== 0">
-      Invalid Automator data string
+      自动机数据字符串无效
     </div>
     <template #confirm-text>
-      Import
+      导入
     </template>
   </ModalWrapperChoice>
 </template>

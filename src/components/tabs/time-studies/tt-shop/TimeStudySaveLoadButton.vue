@@ -110,7 +110,7 @@ export default {
     </template>
     <template #menu>
       <div class="l-tt-save-load-btn__menu c-tt-save-load-btn__menu">
-        <span ach-tooltip="Set a custom name (up to 4 ASCII characters)">
+        <span ach-tooltip="设置自定义名称（最多 4 个 ASCII 字符）">
           <input
             type="text"
             size="4"
@@ -125,26 +125,26 @@ export default {
           class="l-tt-save-load-btn__menu-item c-tt-save-load-btn__menu-item"
           @click="edit"
         >
-          Edit
+          编辑
         </div>
         <div
           class="l-tt-save-load-btn__menu-item c-tt-save-load-btn__menu-item"
           @click="handleExport"
         >
-          Export
+          导出
         </div>
         <div
           class="l-tt-save-load-btn__menu-item c-tt-save-load-btn__menu-item"
           @click="save"
         >
-          Save
+          保存
         </div>
         <div class="l-tt-save-load-btn__menu-item">
           <div
             class="c-tt-save-load-btn__menu-item"
             @click="load"
           >
-            Load
+            载入
           </div>
           <div class="c-tt-save-load-btn__menu-item__hover-options">
             <div
@@ -154,7 +154,7 @@ export default {
               }"
               @click="respecAndLoad"
             >
-              Respec and Load
+              重置并载入
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default {
           class="l-tt-save-load-btn__menu-item c-tt-save-load-btn__menu-item"
           @click="deletePreset"
         >
-          Delete
+          删除
         </div>
       </div>
     </template>

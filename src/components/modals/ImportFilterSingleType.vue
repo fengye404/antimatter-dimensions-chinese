@@ -92,23 +92,23 @@ export default {
         <span
           class="c-rarity"
           :class="topLevelClassObject('rarity')"
-          ach-tooltip="Setting for Rarity Threshold and Specified Effect"
+          ach-tooltip="稀有度阈值和指定效果设置"
         >
           {{ rarityStr }}
         </span>
         <span
           class="c-effects-count"
           :class="topLevelClassObject('effectCount')"
-          ach-tooltip="Number of effects in Specified Effect"
+          ach-tooltip="指定效果中的效果数量"
         >
-          Minimum Effects: {{ effectStr }}
+          最少效果数：{{ effectStr }}
         </span>
         <span
           class="c-target-score"
           :class="topLevelClassObject('score')"
-          ach-tooltip="Threshold for Effect Score"
+          ach-tooltip="效果评分阈值"
         >
-          Score: {{ scoreStr }}
+          评分：{{ scoreStr }}
         </span>
       </span>
       <br>
@@ -140,7 +140,7 @@ export default {
       </span>
     </span>
     <span v-else>
-      (No changes)
+      （无变化）
     </span>
   </div>
 </template>

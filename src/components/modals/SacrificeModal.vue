@@ -15,16 +15,14 @@ export default {
   computed: {
     message() {
       if (Achievement(118).isUnlocked && !Pelle.isDoomed) {
-        return `Dimensional Sacrifice will give you a boost to the 8th Antimatter Dimension based on the amount of
-          1st Antimatter Dimensions you had at the time of Sacrificing.`;
+        return `维度献祭会根据献祭时拥有的第 1 反物质维度数量，增强第 8 反物质维度。`;
       }
-      return `Dimensional Sacrifice will remove all of your 1st through 7th Antimatter Dimensions
-        (with the cost and multiplier unchanged), for a boost to the 8th Antimatter Dimension based on the total
-        amount of 1st Antimatter Dimensions sacrificed. It will take time to regain production.`;
+      return `维度献祭会移除第 1 到第 7 反物质维度（价格和倍率不变），并根据累计献祭的第 1
+        反物质维度数量增强第 8 反物质维度。献祭后需要一段时间恢复产能。`;
     },
     multiplierText() {
-      return `Multiplier is currently ${formatX(this.currentMultiplier, 2, 2)} and will increase to
-        ${formatX(this.nextMultiplier, 2, 2)} on Dimensional Sacrifice.`;
+      return `当前倍率为 ${formatX(this.currentMultiplier, 2, 2)}，维度献祭后会提升至
+        ${formatX(this.nextMultiplier, 2, 2)}。`;
     },
   },
   methods: {
@@ -45,7 +43,7 @@ export default {
     @confirm="handleYesClick"
   >
     <template #header>
-      Dimensional Sacrifice
+      维度献祭
     </template>
     <div class="c-modal-message__text">
       {{ message }}

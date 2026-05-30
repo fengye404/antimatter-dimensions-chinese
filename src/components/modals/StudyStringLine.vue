@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     importDestString() {
-      return this.intoEmpty ? "into an empty Tree" : "with your current Tree";
+      return this.intoEmpty ? "导入到空树时" : "与当前树合并后";
     }
   },
   methods: {
@@ -29,13 +29,13 @@ export default {
 <template>
   <div class="l-modal-import-tree__tree-info-line">
     <div v-if="tree.timeTheorems === 0 && tree.spaceTheorems === 0">
-      <i>Importing this {{ importDestString }} will not purchase any new Time Studies.</i>
+      <i>{{ importDestString }}不会购买任何新的时间研究。</i>
     </div>
     <div v-else>
-      Importing {{ importDestString }} will purchase:
+      {{ importDestString }}会购买：
       <br>
       {{ tree.newStudies }}
-      (Cost: {{ formatTheoremCost(tree.timeTheorems, tree.spaceTheorems) }})
+      （花费：{{ formatTheoremCost(tree.timeTheorems, tree.spaceTheorems) }}）
     </div>
     <br>
   </div>

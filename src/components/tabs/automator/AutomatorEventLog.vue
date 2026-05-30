@@ -23,7 +23,7 @@ export default {
       return this.newestFirst ? sorted.reverse() : sorted;
     },
     clearTooltip() {
-      return `Clear all entries (Max. ${this.maxEntries})`;
+      return `清空所有条目（最多 ${this.maxEntries} 条）`;
     },
     buttonClassObject() {
       return "c-automator-docs--button fas";
@@ -86,12 +86,12 @@ export default {
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.DISABLED:
           return "";
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.THIS_REALITY:
-          return `, ${TimeSpan.fromSeconds(entry.thisReality).toStringShort()} (real-time) in Reality`;
+          return `，本轮现实经过 ${TimeSpan.fromSeconds(entry.thisReality).toStringShort()}（真实时间）`;
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.RELATIVE_NOW:
-          return `, ${TimeSpan.fromMilliseconds(this.currentTime - entry.timestamp).toStringShort()} ago`;
+          return `，${TimeSpan.fromMilliseconds(this.currentTime - entry.timestamp).toStringShort()} 前`;
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.RELATIVE_PREV:
-          if (entry.timegap === entry.timestamp) return `, first logged event`;
-          return `, ${TimeSpan.fromMilliseconds(entry.timegap).toStringShort()} after previous event`;
+          if (entry.timegap === entry.timestamp) return `，第一条记录事件`;
+          return `，距上一事件 ${TimeSpan.fromMilliseconds(entry.timegap).toStringShort()}`;
         case AUTOMATOR_EVENT_TIMESTAMP_MODE.DATE_TIME:
           return `, ${Time.toDateTimeString(entry.timestamp)}`;
         default:
@@ -117,24 +117,23 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
 <template>
   <div class="c-automator-docs-page">
     <div>
-      This panel keeps a running event log of all the commands which the automator has recently executed, with a little
-      extra info on some of the commands. It may be useful to help you find problems if you find your automator is
-      getting stuck in certain spots.
+      此面板会持续记录自动机最近执行过的命令，并为部分命令附带额外信息。
+      如果自动机卡在某个位置，这里通常能帮你定位原因。
       <br>
       <br>
-      While your settings are kept within your savefile, the actual events are not and will disappear on refresh.
+      相关设置会保存在存档中，但事件日志本身不会保存，刷新页面后会消失。
       <br>
       <br>
-      <b>Entry Sorting:</b>
+      <b>条目排序：</b>
       <button
-        v-tooltip="'Oldest results first'"
+        v-tooltip="'最旧的结果在前'"
         :style="sortStyle(!newestFirst)"
         :class="buttonClassObject"
         class="fa-angle-down"
         @click="newestFirst = false"
       />
       <button
-        v-tooltip="'Newest results first'"
+        v-tooltip="'最新的结果在前'"
         :style="sortStyle(newestFirst)"
         :class="buttonClassObject"
         class="fa-angle-up"
@@ -147,14 +146,14 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
         @click="clearLog"
       />
       <button
-        v-tooltip="'Clear event log every Reality'"
+        v-tooltip="'每次现实后清空事件日志'"
         :style="clearRealityStyle()"
         :class="buttonClassObject"
         class="fa-eraser"
         @click="clearOnReality = !clearOnReality"
       />
       <button
-        v-tooltip="'Clear event log on script restart'"
+        v-tooltip="'脚本重启时清空事件日志'"
         :style="clearRestartStyle()"
         :class="buttonClassObject"
         class="fa-backspace"
@@ -162,37 +161,37 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
       />
     </div>
     <div>
-      <b>Timestamp style:</b>
+      <b>时间戳样式：</b>
       <button
-        v-tooltip="'No timestamps'"
+        v-tooltip="'不显示时间戳'"
         :style="timestampStyle('DISABLED')"
         :class="buttonClassObject"
         class="fa-ban"
         @click="setTimestampMode('DISABLED')"
       />
       <button
-        v-tooltip="'Current time this Reality'"
+        v-tooltip="'本轮现实内的当前时间'"
         :style="timestampStyle('THIS_REALITY')"
         :class="buttonClassObject"
         class="fa-stopwatch"
         @click="setTimestampMode('THIS_REALITY')"
       />
       <button
-        v-tooltip="'Time elapsed since event'"
+        v-tooltip="'距事件发生已经过的时间'"
         :style="timestampStyle('RELATIVE_NOW')"
         :class="buttonClassObject"
         class="fa-clock"
         @click="setTimestampMode('RELATIVE_NOW')"
       />
       <button
-        v-tooltip="'Time since last event'"
+        v-tooltip="'距上一个事件的时间'"
         :style="timestampStyle('RELATIVE_PREV')"
         :class="buttonClassObject"
         class="fa-arrow-left"
         @click="setTimestampMode('RELATIVE_PREV')"
       />
       <button
-        v-tooltip="'Date and time'"
+        v-tooltip="'日期和时间'"
         :style="timestampStyle('DATE_TIME')"
         :class="buttonClassObject"
         class="fa-user-clock"
@@ -203,9 +202,9 @@ const AUTOMATOR_EVENT_TIMESTAMP_MODE = {
       v-for="(event, id) in events"
       :key="id"
     >
-      <b>Line {{ event.line }}{{ timestamp(event) }}:</b>
+      <b>第 {{ event.line }} 行{{ timestamp(event) }}：</b>
       <button
-        v-tooltip="'Jump to line'"
+        v-tooltip="'跳转到这一行'"
         :class="buttonClassObject"
         class="fa-arrow-circle-right"
         @click="scrollToLine(event.line)"

@@ -20,11 +20,10 @@ export default {
   },
   computed: {
     questionmarkTooltip() {
-      return `Glyph Presets work like Time Study Loadouts, allowing you to equip a
-        full set of previously-saved Glyphs`;
+      return `Glyph 预设类似时间研究配置，可以一键装备一整套已保存的 Glyph`;
     },
     noSet() {
-      return `No Glyph Preset saved in this slot`;
+      return `此槽位尚未保存 Glyph 预设`;
     },
   },
   watch: {
@@ -58,7 +57,7 @@ export default {
     },
     setName(id) {
       const name = this.names[id] === "" ? "" : `: ${this.names[id]}`;
-      return `Glyph Preset #${id + 1}${name}`;
+      return `Glyph 预设 #${id + 1}${name}`;
     },
     saveGlyphSet(id) {
       if (!this.hasEquipped || player.reality.glyphs.sets[id].glyphs.length) return;
@@ -120,10 +119,9 @@ export default {
         }
       }
       if (missingGlyphs > 0) {
-        GameUI.notify.error(`Could not find or equip ${missingGlyphs} ${pluralize("Glyph", missingGlyphs)} from
-          ${this.setName(id)}.`);
+        GameUI.notify.error(`无法从${this.setName(id)}中找到或装备 ${formatInt(missingGlyphs)} 个 Glyph。`);
       } else {
-        GameUI.notify.success(`Successfully loaded ${this.setName(id)}.`);
+        GameUI.notify.success(`已载入${this.setName(id)}。`);
       }
     },
     // Given a list of options for suitable matches to those glyphs and a maximum glyph count to match, returns the
@@ -172,7 +170,7 @@ export default {
     },
     loadingTooltip(set) {
       return this.setLengthValid(set) && this.hasEquipped
-        ? "This set may not load properly because you already have some Glyphs equipped"
+        ? "你已经装备了一些 Glyph，此套装可能无法完整载入"
         : null;
     },
     glyphSetKey(set, index) {
@@ -191,31 +189,29 @@ export default {
       ?
     </span>
     <div class="l-glyph-set-save__header">
-      When loading a preset, try to match the following attributes. "Exact" will only equip Glyphs
-      identical to the ones in the preset. The other settings will, loosely speaking, allow "better" Glyphs to be
-      equipped in their place.
+      载入预设时，会按下列属性匹配 Glyph。“精确”只会装备与预设完全一致的 Glyph；其他设置会允许用更好的 Glyph 替代。
     </div>
     <div class="c-glyph-set-save-container">
       <ToggleButton
         v-model="effects"
         class="c-glyph-set-save-setting-button"
-        label="Effects:"
-        on="Including"
-        off="Exact"
+        label="效果："
+        on="包含即可"
+        off="精确"
       />
       <ToggleButton
         v-model="level"
         class="c-glyph-set-save-setting-button"
-        label="Level:"
-        on="Increased"
-        off="Exact"
+        label="等级："
+        on="更高可用"
+        off="精确"
       />
       <ToggleButton
         v-model="rarity"
         class="c-glyph-set-save-setting-button"
-        label="Rarity:"
-        on="Increased"
-        off="Exact"
+        label="稀有度："
+        on="更高可用"
+        off="精确"
       />
     </div>
     <div
@@ -234,13 +230,13 @@ export default {
         />
       </div>
       <div class="c-glyph-single-set-save-flexbox">
-        <div ach-tooltip="Set a custom name (up to 20 characters)">
+        <div ach-tooltip="设置自定义名称（最多 20 个字符）">
           <input
             :id="id"
             type="text"
             size="20"
             maxlength="20"
-            placeholder="Custom set name"
+            placeholder="自定义套装名"
             class="c-glyph-sets-save-name__input"
             :value="names[id]"
             @blur="nicknameBlur"
@@ -252,7 +248,7 @@ export default {
             :class="{'c-glyph-set-save-button--unavailable': !hasEquipped || set.length}"
             @click="saveGlyphSet(id)"
           >
-            Save
+            保存
           </button>
           <button
             v-tooltip="loadingTooltip(set)"
@@ -260,14 +256,14 @@ export default {
             :class="{'c-glyph-set-save-button--unavailable': !setLengthValid(set)}"
             @click="loadGlyphSet(set, id)"
           >
-            Load
+            载入
           </button>
           <button
             class="c-glyph-set-save-button"
             :class="{'c-glyph-set-save-button--unavailable': !set.length}"
             @click="deleteGlyphSet(id)"
           >
-            Delete
+            删除
           </button>
         </div>
       </div>

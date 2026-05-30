@@ -34,7 +34,7 @@ export default {
 <template>
   <ModalWrapperChoice @confirm="confirmChange">
     <template #header>
-      Change your Speedrun Player Name
+      修改速通玩家名称
     </template>
     <input
       ref="input"
@@ -46,13 +46,13 @@ export default {
       @keyup.esc="emitClose"
     >
     <i>
-      This can no longer be changed once the timer starts, and there is a limit of {{ formatInt(40) }} characters.
+      计时器开始后将不能再修改名称，最多 {{ formatInt(40) }} 个字符。
     </i>
     <div>
-      Your new name will be {{ actualName }}
+      新名称将显示为 {{ actualName }}
     </div>
     <template #confirm-text>
-      Change Name
+      修改名称
     </template>
   </ModalWrapperChoice>
 </template>

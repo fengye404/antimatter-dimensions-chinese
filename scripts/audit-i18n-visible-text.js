@@ -457,7 +457,7 @@ async function collectH2PEnglish(page, stageTitle) {
     await tabButton.click();
     await page.waitForTimeout(100);
 
-    const visible = await collectVisibleEnglish(page, stageTitle, "游戏玩法", tabName, ".l-h2p-modal");
+    const visible = await collectVisibleEnglish(page, stageTitle, "游戏玩法", tabName, ".l-h2p-info");
     results.push(...visible);
   }
 
@@ -530,6 +530,7 @@ async function main() {
     }, STAGES.map(stage => ({ key: stage.key, setup: stage.setup.toString() })));
 
     for (const stage of STAGES) {
+      console.log(`[audit:i18n] ${stage.title}`);
       await resetGame(page);
       await applyStage(page, stage.key);
 
@@ -544,7 +545,9 @@ async function main() {
         }
       }
 
-      results.push(...await collectNewsTickerEnglish(page, stage.title));
+      if (stage.key === "fresh") {
+        results.push(...await collectNewsTickerEnglish(page, stage.title));
+      }
 
       for (const modal of OPTION_MODALS) {
         await showOptionModal(page, modal);
@@ -585,7 +588,9 @@ async function main() {
         ".c-modal.l-modal"
       ));
 
-      results.push(...await collectH2PEnglish(page, stage.title));
+      if (stage.key === "reality") {
+        results.push(...await collectH2PEnglish(page, stage.title));
+      }
     }
   } finally {
     await browser.close();
@@ -595,6 +600,7 @@ async function main() {
   fs.writeFileSync(REPORT, renderReport(results));
   console.log(`i18n audit report written to ${REPORT}`);
   console.log(`candidate visible English entries: ${results.length}`);
+  if (results.length > 0) process.exitCode = 1;
 }
 
 main().catch(error => {

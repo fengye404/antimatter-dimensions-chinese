@@ -37,9 +37,9 @@ export default {
       const toExport = AutomatorBackend.exportFullScriptData(id);
       if (toExport) {
         copyToClipboard(toExport);
-        GameUI.notify.automator(`Exported all data associated with "${this.script.name}" to your clipboard`, 6000);
+        GameUI.notify.automator(`已将与“${this.script.name}”关联的全部数据复制到剪贴板`, 6000);
       } else {
-        GameUI.notify.error("Could not export data from blank Automator script!");
+        GameUI.notify.error("空白自动机脚本没有可导出的数据！");
       }
     }
   }
@@ -49,35 +49,35 @@ export default {
 <template>
   <div class="l-entry-padding">
     <button
-      v-tooltip="'Export Full Script Data'"
+      v-tooltip="'导出完整脚本数据'"
       class="l-button-margin fas fa-file-export"
       @click="exportData(script.id)"
     />
-    <b>Script name: {{ script.name }}</b>
+    <b>脚本名称：{{ script.name }}</b>
     <br>
     <span v-if="hasPresets">
       <span
         :class="iconClass(hidePresets)"
         @click="hidePresets = !hidePresets"
       />
-      References {{ quantifyInt("recognized study preset", presets.length) }}
+      引用了 {{ formatInt(presets.length) }} 个已识别的时间研究预设
       <span v-if="!hidePresets">
         <div
           v-for="id in presets"
           :key="id"
         >
-          <span v-if="presetData[id].name">"{{ presetData[id].name }}" (slot {{ id + 1 }}):</span>
-          <span v-else>Preset slot {{ id + 1 }}:</span>
+          <span v-if="presetData[id].name">“{{ presetData[id].name }}”（槽位 {{ id + 1 }}）：</span>
+          <span v-else>预设槽位 {{ id + 1 }}：</span>
           <br>
           <div class="l-value-padding">
             <span v-if="presetData[id].studies">{{ presetData[id].studies }}</span>
-            <i v-else>Empty Study Preset</i>
+            <i v-else>空时间研究预设</i>
           </div>
         </div>
       </span>
     </span>
     <span v-else>
-      Does not reference any study presets.
+      未引用任何时间研究预设。
     </span>
     <br>
     <span v-if="hasConstants">
@@ -85,7 +85,7 @@ export default {
         :class="iconClass(hideConstants)"
         @click="hideConstants = !hideConstants"
       />
-      References {{ quantifyInt("defined constant", constants.length) }}
+      引用了 {{ formatInt(constants.length) }} 个已定义常量
       <span v-if="!hideConstants">
         <div
           v-for="name in constants"
@@ -100,7 +100,7 @@ export default {
       </span>
     </span>
     <span v-else>
-      Does not reference any defined constants.
+      未引用任何已定义常量。
     </span>
   </div>
 </template>

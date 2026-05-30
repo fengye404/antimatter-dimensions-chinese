@@ -58,7 +58,7 @@ export default {
     },
     spectateText() {
       return this.isSpectating
-        ? "Numbers here are unaffected by END so that you can see your final records."
+        ? "这里的数值不会受到 END 影响，方便查看最终记录。"
         : null;
     }
   },
@@ -82,9 +82,9 @@ export default {
 
 <template>
   <div class="c-previous-runs">
-    <b>You have completed {{ quantify("speedrun", numRuns, 0, 0, x => x) }} prior to this playthrough.</b>
-    <b>Statistics of previous runs are below, mouseover icons for more details.</b>
-    <b>Click the magnifying glass to compare the milestones on a particular run to this run.</b>
+    <b>本轮之前，你已经完成过 {{ formatInt(numRuns) }} 次速通。</b>
+    <b>下方列出历史速通统计；将鼠标悬停在图标上可查看详情。</b>
+    <b>点击放大镜，可将某次速通的里程碑与本轮进行对比。</b>
     <b>{{ spectateText }}</b>
     <br>
     <div
@@ -96,7 +96,7 @@ export default {
         :class="{ 'o-primary-btn--disabled' : runPage === 0 }"
         @click="changePage(-1)"
       />
-      Showing runs {{ 10 * runPage + 1 }} to {{ 10 * (runPage + 1) }} ({{ highestIndex }} total runs)
+      显示第 {{ 10 * runPage + 1 }} 到 {{ 10 * (runPage + 1) }} 次速通（共 {{ highestIndex }} 次）
       <PrimaryButton
         class="o-primary-btn--subtab-option fas fa-arrow-right"
         :class="{ 'o-primary-btn--disabled' : runPage + 1 > highestIndex / 10 }"
@@ -128,16 +128,16 @@ export default {
     <br>
     <div class="c-legend">
       <div class="c-legend-cell">
-        <span class="o-box l-milestone-none" /> Not reached this run
+        <span class="o-box l-milestone-none" /> 本轮尚未达成
       </div>
       <div class="c-legend-cell">
-        <span class="o-box l-milestone-slow" /> Slower than comparison
+        <span class="o-box l-milestone-slow" /> 慢于对照
       </div>
       <div class="c-legend-cell">
-        <span class="o-box l-milestone-fast" /> Faster than comparison
+        <span class="o-box l-milestone-fast" /> 快于对照
       </div>
       <div class="c-legend-cell">
-        <span class="o-box l-milestone-fastest" /> Faster than best
+        <span class="o-box l-milestone-fastest" /> 快于历史最佳
       </div>
     </div>
     <div class="l-speedrun-milestone-tab">

@@ -76,48 +76,45 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Modifying Glyph RNG Seed
+      修改符文随机种子
     </template>
     <div>
-      All Glyph options beyond the first Reality for an entire playthrough are randomly determined from the very
-      beginning, based on the value of an initial seed number. The role of this seed is that it chooses a single,
-      <i>particular</i> set of Glyph options for your playthrough. If you or anyone else chooses the same seed
-      in a different run, you will get the same options for Glyphs.
+      整个流程中第一次现实之后的所有符文选项，都会在游戏最开始根据一个初始种子随机决定。
+      这个种子会为本次流程选择一组<i>特定</i>符文选项；如果你或其他人在另一局中选择同一种子，
+      就会得到相同的符文选项。
       <br>
       <br>
-      You can switch between these three options any point before you generate your first Glyph.
+      在生成第一个符文之前，你可以随时在以下三种选项之间切换。
       <br>
-      Current Setting: <b>{{ seedText }}</b>
+      当前设置：<b>{{ seedText }}</b>
       <br>
       <br>
       <PrimaryButton
         :class="buttonClass(choiceEnum.FIXED)"
         @click="setMode(choiceEnum.FIXED)"
       >
-        Official Preset Seed
+        官方预设种子
       </PrimaryButton>
       <br>
-      This is the default option which chooses the seed <b>{{ officialSeed }}</b>. Anyone who
-      chooses to not modify the seed at all will get these Glyph options.
+      这是默认选项，会使用种子 <b>{{ officialSeed }}</b>。任何完全不修改种子的玩家都会得到这组符文选项。
       <br>
       <br>
       <PrimaryButton
         :class="buttonClass(choiceEnum.RANDOM)"
         @click="setMode(choiceEnum.RANDOM)"
       >
-        Randomized Seed
+        随机种子
       </PrimaryButton>
       <br>
-      This selects a completely randomized seed value, producing Glyph options which are very likely to be
-      different from anyone else's playthrough unless they intentionally choose the same value.
+      这会选择一个完全随机的种子。除非别人刻意选择同一个数值，否则你的符文选项很可能与其他人不同。
       <br>
       <br>
       <PrimaryButton
-        v-tooltip="seedValue === 0 ? 'Input seed cannot be zero!' : ''"
+        v-tooltip="seedValue === 0 ? '输入种子不能为 0！' : ''"
         :class="buttonClass(choiceEnum.PLAYER)"
         @click="setMode(choiceEnum.PLAYER, seedValue)"
       >
-        Player-selected Seed:
+        玩家自选种子：
       </PrimaryButton>
       <input
         ref="inputSeed"
@@ -127,17 +124,17 @@ export default {
         @input="handleSeedInput()"
       >
       <br>
-      This option sets your seed to the value you type into the text box.
+      此选项会把种子设置为你在文本框中输入的值。
       <br>
       <span v-if="seedValue !== 0">
-        Your current input will be {{ convertedInput ? "converted to" : "used as" }} the number <b>{{ seedValue }}</b>.
+        当前输入会{{ convertedInput ? "转换为" : "作为" }}数字 <b>{{ seedValue }}</b> 使用。
       </span>
       <span v-else>
-        Your current input {{ convertedInput ? "converts to" : "is equal to" }} <b>0</b>;
-        the seed will default to Official Preset.
+        当前输入{{ convertedInput ? "会转换为" : "等于" }} <b>0</b>；
+        种子会回退为官方预设。
       </span>
       <br>
-      For technical reasons, this value must be must be non-zero to be accepted.
+      出于技术原因，只有非零种子值才会被接受。
     </div>
   </ModalWrapper>
 </template>
