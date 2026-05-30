@@ -12,6 +12,7 @@ const REPORT = path.join(ROOT, "docs", "deep-playthrough-audit-report.md");
 const SCREENSHOTS = path.join(ROOT, "tests", "screenshots", "deep-playthrough");
 const PORT = Number(process.env.DEEP_AUDIT_PORT || 48324);
 const BASE_URL = `http://127.0.0.1:${PORT}`;
+const MAX_SCREENSHOTS = Number(process.env.DEEP_AUDIT_MAX_SCREENSHOTS || 20);
 
 const VIEWPORTS = [
   { key: "mobile", title: "手机", width: 390, height: 844, isMobile: true, hasTouch: true },
@@ -33,7 +34,19 @@ const ALLOWED_ENGLISH_TOKENS = [
   "EC", "EP", "Effarig", "Firefox", "Galaxy", "GitHub", "Gist", "Google", "HTML", "ID", "IP", "JavaScript",
   "Lai'tela", "OAuth", "Pelle", "PlayFab", "Ra", "Reality", "RM", "Safari", "Steam", "STD", "Teresa", "Token",
   "TT", "UI", "V", "WKWebView", "iOS", "kB", "MB", "Hz", "AM/s", "IP/min", "EP/min", "SHIFT", "CTRL", "ALT",
-  "TAB", "ESC", "ENTER", "ON", "OFF",
+  "TAB", "ESC", "ENTER", "ON", "OFF", "Shift", "Ctrl", "Alt", "Tab", "Esc", "Enter", "DMD", "Repl", "Eter",
+  "Glyph", "Glyphs", "Replicanti", "Eternities", "Infinite", "eyJ",
+];
+
+const ALLOWED_ENGLISH_PATTERNS = [
+  /\b(?:AD|ID|TD|AM|IP|EP|DT|TP|TT|RM|DMD)\d*\b/u,
+  /\b(?:Repl|Eter|Glyphs?|Replicanti|Eternities)\^[\d.]+/u,
+  /\b(?:log|ln|sin|cos|tan|sqrt|pow)\d*\s*\(/iu,
+  /\blog\d*\b/iu,
+  /\bInfinite%/u,
+  /\bAMOLED\b/u,
+  /\b(?:Shift|Ctrl|Alt|Tab|Esc|Enter|SHIFT|CTRL|ALT|TAB|ESC|ENTER)\b/u,
+  /^[\d\s.,:+\-*/^%()[\]{}<>=$∞ΩΔΨ×A-Za-z₀-₉]+$/u,
 ];
 
 function contentType(filePath) {
@@ -82,11 +95,16 @@ function normalizeText(value) {
 }
 
 function hasSuspiciousEnglish(text) {
+  if (normalizeText(text) === "AMOLED 都市") return false;
   if (!/[A-Za-z]{3,}/u.test(text)) return false;
   if (/^https?:\/\//u.test(text)) return false;
   if (/^[\d\s.,:+\-*/^%()[\]{}<>=$∞ΩΔΨ×A-Za-z]+$/u.test(text) && text.length < 12) return false;
 
-  const stripped = ALLOWED_ENGLISH_TOKENS.reduce((value, token) => value.replaceAll(token, ""), text);
+  let stripped = ALLOWED_ENGLISH_TOKENS.reduce((value, token) => value.replaceAll(token, ""), text);
+  for (const pattern of ALLOWED_ENGLISH_PATTERNS) {
+    const flags = pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`;
+    stripped = stripped.replace(new RegExp(pattern.source, flags), "");
+  }
   return /[A-Za-z]{3,}/u.test(stripped);
 }
 
@@ -355,6 +373,16 @@ async function collectSurfaceIssues(page, context) {
   }
 
   const englishIssues = await page.evaluate(tokens => {
+    const allowedPatterns = [
+      /\b(?:AD|ID|TD|AM|IP|EP|DT|TP|TT|RM|DMD)\d*\b/u,
+      /\b(?:Repl|Eter|Glyphs?|Replicanti|Eternities)\^[\d.]+/u,
+      /\b(?:log|ln|sin|cos|tan|sqrt|pow)\d*\s*\(/iu,
+      /\blog\d*\b/iu,
+      /\bInfinite%/u,
+      /\bAMOLED\b/u,
+      /\b(?:Shift|Ctrl|Alt|Tab|Esc|Enter|SHIFT|CTRL|ALT|TAB|ESC|ENTER)\b/u,
+      /^[\d\s.,:+\-*/^%()[\]{}<>=$∞ΩΔΨ×A-Za-z₀-₉]+$/u,
+    ];
     const ignoredSelectors = [
       ".c-news-ticker", ".CodeMirror", ".CodeMirror *", "code", "pre", ".fa", ".fas", ".far", ".fab",
       ".c-glyph-component", ".c-glyph-component *", ".o-celestial-nav__symbol"
@@ -373,7 +401,11 @@ async function collectSurfaceIssues(page, context) {
       .join(" ");
     const hasEnglish = text => {
       if (!/[A-Za-z]{3,}/u.test(text)) return false;
-      const stripped = tokens.reduce((value, token) => value.replaceAll(token, ""), text);
+      let stripped = tokens.reduce((value, token) => value.replaceAll(token, ""), text);
+      for (const pattern of allowedPatterns) {
+        const flags = pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`;
+        stripped = stripped.replace(new RegExp(pattern.source, flags), "");
+      }
       return /[A-Za-z]{3,}/u.test(stripped);
     };
     return [...document.querySelectorAll("body *")]
@@ -393,6 +425,67 @@ async function collectSurfaceIssues(page, context) {
       .map(text => ({ ...context, type: "候选英文残留", position: "可见区域", text }))
       .filter(issue => hasSuspiciousEnglish(issue.text)),
   ];
+}
+
+async function collectNewsIssues(page, context) {
+  const newsItems = await page.evaluate(() => {
+    const stripTags = value => String(value).replace(/<[^>]*>/gu, " ").replace(/\s+/gu, " ").trim();
+    const sampleSources = [
+      "If you see a news message, and then see it again later, does it become an olds message?",
+      "There are no typos in any of these news messages. If you see a typo, the tpyo must be in your brain.",
+      "A new study has shown that 100% of people who use antimatter dimensions are alive.",
+      "This intentionally untranslated diagnostic sentence should be converted by the generic news fallback.",
+    ];
+    const localizedSamples = sampleSources.map((source, index) => ({
+      id: `sample:${index}`,
+      text: stripTags(window.__AD_LOCALIZE_NEWS_TEXT__ ? window.__AD_LOCALIZE_NEWS_TEXT__(source) : source),
+    }));
+    return [
+      {
+        id: "visible",
+        text: stripTags(document.querySelector(".c-news-ticker")?.innerText ?? ""),
+      },
+      ...localizedSamples,
+    ].filter(item => item.text);
+  });
+
+  return newsItems
+    .filter(item => hasSuspiciousEnglish(item.text))
+    .map(item => ({
+      ...context,
+      type: "新闻英文残留",
+      position: `news:${item.id}`,
+      text: item.text,
+    }));
+}
+
+async function collectH2PIssues(page, context) {
+  const issues = [];
+  await page.evaluate(() => {
+    Modal.h2p.show();
+    GameUI.update();
+  });
+  await page.waitForSelector(".l-h2p-modal", { timeout: 5000 });
+  const tabCount = await page.locator(".o-h2p-tab-button").count();
+
+  for (let index = 0; index < tabCount; index++) {
+    await page.locator(".o-h2p-tab-button").nth(index).click();
+    await page.waitForTimeout(60);
+    const text = await page.locator(".l-h2p-info").evaluate(element => element.innerText.replace(/\s+/gu, " ").trim());
+    const title = await page.locator(".o-h2p-tab-button").nth(index).innerText();
+    if (hasSuspiciousEnglish(text)) {
+      issues.push({
+        ...context,
+        type: "玩法说明英文残留",
+        position: normalizeText(title),
+        text,
+      });
+    }
+  }
+
+  await page.evaluate(() => Modal.hide());
+  await page.waitForTimeout(100);
+  return issues;
 }
 
 function renderReport(results, errors) {
@@ -454,6 +547,7 @@ async function main() {
   const browser = await chromium.launch({ channel: "chrome" });
   const issues = [];
   const errors = [];
+  let screenshotCount = 0;
 
   try {
     for (const viewport of VIEWPORTS) {
@@ -477,8 +571,42 @@ async function main() {
         await waitForGame(page);
 
         for (const stage of STAGES) {
+          console.log(`[audit] ${viewport.title} / ${stage.title}`);
           await resetGame(page);
           await applyStage(page, stage.key);
+          const globalChecks = [];
+          if (stage.key === "fresh") {
+            globalChecks.push({
+              fn: collectNewsIssues,
+              context: {
+                viewport: viewport.title,
+                stage: stage.title,
+                surface: "新闻滚动条全集",
+              },
+            });
+          }
+          if (viewport.key === "desktop" && stage.key === "pelle") {
+            globalChecks.push({
+              fn: collectH2PIssues,
+              context: {
+                viewport: viewport.title,
+                stage: stage.title,
+                surface: "玩法说明弹窗全集",
+              },
+            });
+          }
+          for (const check of globalChecks) {
+            try {
+              issues.push(...await check.fn(page, check.context));
+            } catch (error) {
+              errors.push({
+                viewport: viewport.title,
+                stage: stage.title,
+                surface: check.context.surface,
+                message: error.message,
+              });
+            }
+          }
           const entries = await allSubtabs(page);
 
           for (const entry of entries) {
@@ -491,9 +619,10 @@ async function main() {
               await showSubtab(page, entry);
               const found = await collectSurfaceIssues(page, context);
               issues.push(...found);
-              if (found.length > 0 && viewport.key === "mobile") {
+              if (found.length > 0 && viewport.key === "mobile" && screenshotCount < MAX_SCREENSHOTS) {
                 const name = `${stage.key}--${entry.tabKey}--${entry.subtabKey}`.replace(/[^a-z0-9-]/giu, "-");
                 await page.screenshot({ path: path.join(SCREENSHOTS, `${name}.png`), fullPage: true });
+                screenshotCount++;
               }
             } catch (error) {
               errors.push({

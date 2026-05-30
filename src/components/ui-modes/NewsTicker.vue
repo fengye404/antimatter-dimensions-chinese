@@ -1,6 +1,9 @@
 <script>
 import { openExternalLink } from "@/utility/open-external-link";
 import { STEAM } from "@/env";
+import miscTranslations from "../../../i18n/zh-CN/misc.json";
+import gameplayTranslations from "../../../i18n/zh-CN/gameplay.json";
+import howToPlayTranslations from "../../../i18n/zh-CN/howtoplay.json";
 
 const GENERIC_NEWS_FALLBACKS = [
   "新闻：第九维度今日仍未被证实存在，相关部门建议继续购买第八维度。",
@@ -28,6 +31,12 @@ const NEWS_TEXT_OVERRIDES = new Map([
   ]
 ]);
 
+const NEWS_DICTIONARY = new Map(Object.entries({
+  ...miscTranslations,
+  ...gameplayTranslations,
+  ...howToPlayTranslations,
+}).map(([source, translation]) => [normalizeNewsText(source), translation]));
+
 function normalizeNewsText(value) {
   return String(value)
     .replace(/\\n/gu, " ")
@@ -42,6 +51,11 @@ function localizedNewsText(text) {
   const translated = NEWS_TEXT_OVERRIDES.get(normalizedText);
   if (translated) {
     const normalizedTranslation = translated.replace(/\\n/gu, " ").replace(/\n/gu, " ");
+    return hasVisibleEnglish(normalizedTranslation) ? fallbackNewsText(normalizedText) : normalizedTranslation;
+  }
+  const dictionaryTranslation = NEWS_DICTIONARY.get(normalizedText);
+  if (dictionaryTranslation) {
+    const normalizedTranslation = normalizeNewsText(dictionaryTranslation);
     return hasVisibleEnglish(normalizedTranslation) ? fallbackNewsText(normalizedText) : normalizedTranslation;
   }
   return fallbackNewsText(normalizedText);
