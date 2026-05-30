@@ -16,8 +16,9 @@
 2. Xcode 工程由 `ios/project.yml` 通过 XcodeGen 生成，避免手工维护 `.pbxproj`。
 3. WebView 使用 `loadFileURL(_:allowingReadAccessTo:)` 离线加载 `Web/index.html`。
 4. iOS 注入 `window.ADNative`，监听 `dimensionSave`、`backupSave-*` 和 `backupTimes-*` 的 localStorage 写入，并同步到原生 `SaveStore`。
-5. 原生侧提供导出当前存档、从剪贴板导入存档、重载游戏、清理 WebView 缓存等救援操作。
-6. 生成的 Web 资源不提交到 git，由构建脚本生成，避免把 68MB 编译产物常驻仓库。
+5. App 启动时以原生 `SaveStore` 为权威来源，把主存档和备份槽全量回灌到 WebView localStorage；WebView localStorage 只作为运行时缓存。
+6. 原生侧提供导出当前存档、从剪贴板导入存档、重载游戏、清理 WebView 缓存等救援操作。
+7. 生成的 Web 资源不提交到 git，由构建脚本生成，避免把 68MB 编译产物常驻仓库。
 
 ## 影响
 

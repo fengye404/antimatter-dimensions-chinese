@@ -112,3 +112,179 @@ html[lang="zh-CN"] .far::before,
 html[lang="zh-CN"] .fab::before {
   font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome" !important;
 }
+
+@media (max-width: 600px) {
+  html[lang="zh-CN"] body:has(.c-modal.l-modal) .c-modern-sidebar {
+    display: none;
+  }
+
+  html[lang="zh-CN"] .l-modal-overlay {
+    position: fixed;
+    z-index: 80;
+  }
+
+  html[lang="zh-CN"] .l-modal {
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top, 0px));
+    right: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    left: 1rem;
+    z-index: 90;
+    transform: none;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html[lang="zh-CN"] .c-modal {
+    box-sizing: border-box;
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 2rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  html[lang="zh-CN"] .c-modal__title,
+  html[lang="zh-CN"] .c-modal-message,
+  html[lang="zh-CN"] .c-modal-message__text,
+  html[lang="zh-CN"] .c-modal-away-progress,
+  html[lang="zh-CN"] .c-modal-away-progress__header,
+  html[lang="zh-CN"] .c-modal-import-tree,
+  html[lang="zh-CN"] .c-modal-options,
+  html[lang="zh-CN"] .c-modal-options__large {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  html[lang="zh-CN"] .c-modal-input,
+  html[lang="zh-CN"] .c-modal-import__input,
+  html[lang="zh-CN"] .c-modal-import-tree__input,
+  html[lang="zh-CN"] .c-modal-hard-reset__input {
+    box-sizing: border-box;
+    width: calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
+  }
+
+  html[lang="zh-CN"] .c-modal-options__button-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  html[lang="zh-CN"] .c-modal-options__button-container .o-primary-btn--modal-option,
+  html[lang="zh-CN"] .c-modal-options .o-primary-btn--width-medium,
+  html[lang="zh-CN"] .c-modal .o-primary-btn--subtab-option {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: 4.8rem;
+    margin: 0;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  html[lang="zh-CN"] .l-modal-split-preferences {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.6rem;
+  }
+
+  html[lang="zh-CN"] .o-time-study-selection-btn {
+    box-sizing: border-box;
+    width: 100%;
+    height: 5rem;
+    margin: 0;
+    padding: 0.4rem;
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  html[lang="zh-CN"] .c-automator-template-container {
+    width: auto;
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  html[lang="zh-CN"] .c-automator-template-description,
+  html[lang="zh-CN"] .c-automator-template-inputs,
+  html[lang="zh-CN"] .c-automator-template-warnings {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  html[lang="zh-CN"] .c-automator-template-entry {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  html[lang="zh-CN"] .c-automator-template-textbox {
+    box-sizing: border-box;
+    width: min(24rem, calc(100vw - 5rem));
+    max-width: 100%;
+  }
+
+  html[lang="zh-CN"] .o-load-preset-button-margin {
+    min-width: 0;
+    max-width: 10rem;
+    margin: 0.15rem;
+    padding-right: 0.45rem;
+    padding-left: 0.45rem;
+  }
+
+  html[lang="zh-CN"] .c-modal .o-primary-btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  html[lang="zh-CN"] .c-info,
+  html[lang="zh-CN"] .c-modal-options__glyph,
+  html[lang="zh-CN"] .c-glyph-visual-options,
+  html[lang="zh-CN"] .c-reality-glyph-creation {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  html[lang="zh-CN"] .c-backup-file-ops {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 0.6rem 0;
+  }
+
+  html[lang="zh-CN"] .o-btn-file-ops {
+    box-sizing: border-box;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  html[lang="zh-CN"] .c-entry-container {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  html[lang="zh-CN"] .l-backup-entry {
+    box-sizing: border-box;
+    width: 100% !important;
+    height: auto !important;
+  }
+}

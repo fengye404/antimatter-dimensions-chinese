@@ -2,9 +2,9 @@
 
 ## 背景
 
-当前中文版已经迁移为源码级中文化，并通过 `npm run build:chinese` 生成可离线运行的 `dist/`。下一阶段目标是把该 Web 游戏包装成 iOS App，让玩家可以在 iPhone/iPad 上离线游玩，并尽量保持 Web 版存档兼容。
+当前中文版已经迁移为源码级中文化，并通过 `npm run build:ios` 生成可离线运行的 iOS Web 资源。仓库已包含 SwiftUI + WKWebView iOS 工程，目标是在 iPhone/iPad 上离线游玩，并保持 Web 版文本存档导入导出兼容。
 
-仓库目前还没有 `ios/` 目录，因此 iOS 迁移从零开始。推荐先做一个稳定的 WKWebView 离线容器，再逐步补齐存档桥接、文件导入导出、测试和分发能力。
+当前阶段的重点不是重写游戏逻辑，而是把 Web 游戏放进可靠的 App 容器：手机 UI 由 Web 端适配，存档由 iOS 原生 `SaveStore` 作为主要持久化来源，WebView 的 localStorage 只作为运行时缓存。
 
 ## 目标
 
@@ -32,8 +32,8 @@
 1. `npm run build:chinese` 生成 `dist/`。
 2. 构建脚本把 `dist/` 复制到 `ios/AntimatterDimensionsChinese/Web/`。
 3. SwiftUI App 使用 `WKWebView` 加载 `Web/index.html`。
-4. `WKWebsiteDataStore.default()` 保留 WebView 的 `localStorage`。
-5. JS 主动把关键存档同步给原生，原生写入 `Application Support/Saves/`。
+4. `WKWebsiteDataStore.default()` 保留 WebView 的 `localStorage` 作为运行时缓存。
+5. JS 主动把关键存档同步给原生，原生写入 `Application Support/AntimatterDimensionsChinese/saves.json`，并在下次启动时回灌到 WebView。
 
 优点：实现快，风险低，保留原游戏逻辑。
 
@@ -106,19 +106,18 @@ Swift 侧流程：
 3. 备份时间 key：`backupTimes-{slot}`。
 4. 存档序列化：`GameSaveSerializer.serialize(root)`。
 
-iOS 不应只依赖 WebView localStorage。推荐双层存储：
+iOS 不应只依赖 WebView localStorage。当前采用 App 内部存储优先：
 
-1. Web 层继续按原逻辑读写 localStorage，保证游戏最小改动和 Web 兼容。
+1. Web 层继续按原逻辑读写 localStorage，保证游戏最小改动和 Web 兼容，但它只被视为运行时缓存。
 2. 每次 `GameStorage.save()`、导入、切换槽位、写备份后，通过 JS bridge 把以下数据同步到原生：
    - `dimensionSave`
-   - 当前槽位所有 `backupSave-*`
+   - 所有 `backupSave-*`
    - `backupTimes-*`
-   - 同步时间、构建 commit、游戏版本
+   - 同步时间和同步原因
 3. 原生 `SaveStore` 写入 `Application Support/AntimatterDimensionsChinese/saves.json`。
-4. App 启动时，原生先把最近一次保存的 Web 存档注入回 localStorage，再加载游戏页面。
-5. 如果 Web localStorage 和原生备份都存在，以“更新时间更晚者”为准；冲突时先不自动覆盖，后续可加冲突恢复界面。
-
-MVP 可以先实现主存档同步，备份槽同步放到第二阶段。
+4. App 启动时，原生把 `SaveStore` 中的主存档和备份槽全量注入回 localStorage，再加载游戏页面。
+5. 如果清理 WebView 缓存或系统回收网站数据，下次打开仍会从 App 内部存档恢复。
+6. Web/PWA 的 GitHub Gist 备份仍可保留为浏览器路线的云备份方案，但 iOS App 不以 GitHub Token 或浏览器 localStorage 作为主要存储。
 
 ## JS Bridge 设计
 
@@ -136,24 +135,13 @@ window.webkit.messageHandlers.adNative.postMessage({
 原生到 Web：
 
 ```js
-localStorage.setItem("dimensionSave", savedValue);
+for (const [key, value] of Object.entries(savedRecords)) {
+  localStorage.setItem(key, value);
+}
 window.location.reload();
 ```
 
-建议新增一个源码层模块：
-
-```text
-src/platform/ios-bridge.js
-```
-
-提供：
-
-1. `isIOSNative()`：检测 `window.webkit?.messageHandlers?.adNative`。
-2. `syncSaveToNative(reason)`：读取 localStorage 并发送给原生。
-3. `notifyNativeReady()`：游戏加载完成后通知原生。
-4. `requestNativeExport()`：触发 iOS 分享存档。
-
-然后在 `src/core/storage/storage.js` 的 `save()`、`import()`、`loadSlot()`、`saveToBackup()` 成功后调用该桥接函数。Web 环境下函数为空操作，不影响浏览器版。
+桥接脚本由 iOS 在 document-start 注入，提供 `window.ADNative.syncSave(reason)` 和 `window.ADNative.exportSave()`。Web 环境下没有该对象，浏览器版不受影响。
 
 ## 原生功能
 

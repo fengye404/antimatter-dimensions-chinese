@@ -29,6 +29,67 @@ const STAGES = [
   { key: "pelle", title: "Pelle 终局阶段" },
 ];
 
+const STAGE_ORDER = new Map(STAGES.map((stage, index) => [stage.key, index]));
+
+const MODAL_SCENARIOS = [
+  { key: "notation", title: "指数记数法设置", minStage: "fresh", open: "Modal.notation.show();" },
+  { key: "hotkeys", title: "快捷键列表", minStage: "fresh", open: "Modal.hotkeys.show();" },
+  { key: "newsOptions", title: "新闻选项", minStage: "fresh", open: "Modal.newsOptions.show();" },
+  { key: "infoDisplayOptions", title: "信息显示选项", minStage: "fresh", open: "Modal.infoDisplayOptions.show();" },
+  { key: "confirmationOptions", title: "确认选项", minStage: "fresh", open: "Modal.confirmationOptions.show();" },
+  { key: "awayProgressOptions", title: "离线进度选项", minStage: "fresh", open: "Modal.awayProgressOptions.show();" },
+  { key: "animationOptions", title: "动画选项", minStage: "fresh", open: "Modal.animationOptions.show();" },
+  { key: "hiddenTabs", title: "可见标签页", minStage: "fresh", open: "Modal.hiddenTabs.show();" },
+  { key: "backupWindows", title: "自动备份窗口", minStage: "fresh", open: "Modal.backupWindows.show();" },
+  {
+    key: "catchup",
+    title: "离线进度结算",
+    minStage: "fresh",
+    maxStage: "reality",
+    open: `
+      const before = JSON.parse(JSON.stringify(player));
+      const after = JSON.parse(JSON.stringify(player));
+      after.antimatter = new Decimal(before.antimatter || 0).plus(1000);
+      Modal.awayProgress.show({ playerBefore: before, playerAfter: after, seconds: 3600 });
+    `
+  },
+  {
+    key: "dimensionBoost",
+    title: "维度提升确认",
+    minStage: "fresh",
+    maxStage: "eternity",
+    open: "Modal.dimensionBoost.show({ bulk: true });"
+  },
+  {
+    key: "antimatterGalaxy",
+    title: "反物质星系确认",
+    minStage: "infinity",
+    maxStage: "eternity",
+    open: "Modal.antimatterGalaxy.show({ bulk: true });"
+  },
+  { key: "studyString", title: "时间研究导入", minStage: "eternity", open: "Modal.studyString.show({ id: -1 });" },
+  { key: "preferredTree", title: "首选时间研究树", minStage: "eternity", open: "Modal.preferredTree.show();" },
+  { key: "glyphDisplayOptions", title: "Glyph 显示选项", minStage: "reality", open: "Modal.glyphDisplayOptions.show();" },
+  { key: "realityGlyph", title: "现实 Glyph 制作", minStage: "reality", open: "Modal.realityGlyph.show();" },
+  { key: "glyphSetSaveDelete", title: "Glyph 套装存档", minStage: "reality", open: "Modal.glyphSetSaveDelete.show({ glyphSetId: 0 });" },
+  {
+    key: "automatorScriptTemplate",
+    title: "自动机模板",
+    minStage: "reality",
+    open: "Modal.automatorScriptTemplate.show(GameDatabase.reality.automator.templates.scripts[0]);"
+  },
+  {
+    key: "switchAutomatorEditorMode",
+    title: "自动机编辑器切换",
+    minStage: "reality",
+    open: "Modal.switchAutomatorEditorMode.show({ lostBlocks: 2 });"
+  },
+  { key: "enslavedHints", title: "无名之辈提示", minStage: "celestials", open: "Modal.enslavedHints.show();" },
+  { key: "singularityMilestones", title: "奇点里程碑", minStage: "celestials", open: "Modal.singularityMilestones.show();" },
+  { key: "pelleEffects", title: "Pelle 效果", minStage: "pelle", open: "Modal.pelleEffects.show();" },
+  { key: "armageddon", title: "末日重置确认", minStage: "pelle", open: "Modal.armageddon.show();" },
+];
+
 const ALLOWED_ENGLISH_TOKENS = [
   "AD", "AM", "AMOLED", "ASCII", "Blob", "Chrome", "CodeMirror", "Cookie", "CSS", "Discord", "DLC", "DT",
   "EC", "EP", "Effarig", "Firefox", "Galaxy", "GitHub", "Gist", "Google", "HTML", "ID", "IP", "JavaScript",
@@ -488,13 +549,69 @@ async function collectH2PIssues(page, context) {
   return issues;
 }
 
+async function collectModalIssues(page, context) {
+  const currentStageIndex = STAGE_ORDER.get(context.stageKey) ?? 0;
+  const scenarios = MODAL_SCENARIOS.filter(scenario =>
+    currentStageIndex >= (STAGE_ORDER.get(scenario.minStage) ?? 0) &&
+    currentStageIndex <= (STAGE_ORDER.get(scenario.maxStage) ?? Number.POSITIVE_INFINITY));
+  const issues = [];
+
+  for (const scenario of scenarios) {
+    console.log(`[audit]   modal: ${scenario.title}`);
+    const modalContext = {
+      ...context,
+      surface: `交互弹窗 / ${scenario.title}`,
+    };
+
+    try {
+      await page.evaluate(openSource => {
+        if (Modal.hideAll) Modal.hideAll();
+        else Modal.hide();
+        new Function(openSource)();
+        GameUI.update();
+        window.scrollTo(0, 0);
+      }, scenario.open);
+      await page.waitForTimeout(250);
+
+      const isOpen = await page.evaluate(() =>
+        Boolean(document.querySelector(".c-modal, .l-h2p-modal, .c-modal-message, .c-modal-away-progress")));
+      if (!isOpen) {
+        issues.push({
+          ...modalContext,
+          type: "弹窗未打开",
+          position: scenario.key,
+          text: "脚本执行后未检测到可见弹窗",
+        });
+        continue;
+      }
+
+      issues.push(...await collectSurfaceIssues(page, modalContext));
+    } catch (error) {
+      issues.push({
+        ...modalContext,
+        type: "弹窗打开失败",
+        position: scenario.key,
+        text: error.message,
+      });
+    } finally {
+      await page.evaluate(() => {
+        if (Modal.hideAll) Modal.hideAll();
+        else Modal.hide();
+      });
+      await page.waitForTimeout(80);
+    }
+  }
+
+  return issues;
+}
+
 function renderReport(results, errors) {
   const lines = [
     "# 深度体验审查报告",
     "",
     `生成时间：${new Date().toISOString()}`,
     "",
-    "本报告用真实浏览器按游戏阶段构造存档状态，遍历各 Tab/Subtab，覆盖手机和桌面视口。",
+    "本报告用真实浏览器按游戏阶段构造存档状态，遍历各 Tab/Subtab、高频弹窗和后期机制弹窗，覆盖手机和桌面视口。",
     "审查目标是以玩家视角发现 UI 不可用、底部导航遮挡、横向溢出、候选英文残留和页面运行错误。",
     "",
     `候选问题总数：${results.length}`,
@@ -607,9 +724,27 @@ async function main() {
               });
             }
           }
+
+          try {
+            issues.push(...await collectModalIssues(page, {
+              viewport: viewport.title,
+              stage: stage.title,
+              stageKey: stage.key,
+              surface: "交互弹窗全集",
+            }));
+          } catch (error) {
+            errors.push({
+              viewport: viewport.title,
+              stage: stage.title,
+              surface: "交互弹窗全集",
+              message: error.message,
+            });
+          }
+
           const entries = await allSubtabs(page);
 
           for (const entry of entries) {
+            console.log(`[audit]   subtab: ${entry.tabName} / ${entry.subtabName}`);
             const context = {
               viewport: viewport.title,
               stage: stage.title,

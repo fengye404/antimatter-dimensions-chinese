@@ -28,13 +28,14 @@
 
 - **框架**：Swift + SwiftUI
 - **核心组件**：WKWebView 包装 Web 游戏
-- **存档桥接**：通过 WKWebView 的 JavaScript Bridge 将游戏存档桥接到 iOS 本地文件系统
+- **存档桥接**：通过 WKWebView 的 JavaScript Bridge 将主存档和备份槽同步到 App 内部 `SaveStore`
 - **离线支持**：所有 Web 资源打包到 App Bundle 内，无需网络即可运行
+- **存储原则**：iOS App 以 App 内部存储为主，WebView localStorage 只作为运行时缓存，清理 WebView 数据后会从 App 存档恢复
 
 #### PWA / GitHub 备份
 
-- **PWA 路线**：在不使用 Apple Developer 账号的情况下，优先把 GitHub Pages 版本作为可添加到主屏幕的 Web App 使用
-- **云备份**：支持通过 GitHub Gist 自动备份 `dimensionSave` 和本地备份槽数据
+- **PWA 路线**：作为无原生 App 时的备用使用方式，可通过 GitHub Pages 添加到主屏幕
+- **云备份**：浏览器/PWA 支持通过 GitHub Gist 自动备份 `dimensionSave` 和本地备份槽数据；iOS App 不把 GitHub Token 作为主要存档依赖
 - **安全边界**：Token 由用户自行提供并保存在本机浏览器；推荐只授予 Gist 读写权限。secret Gist 只是不公开索引，不等同于端到端加密私有存储
 
 ### 开发规范
@@ -60,7 +61,7 @@ antimatter-dimensions-chinese/
 │   ├── translation-review.md # 翻译审查与修复记录
 │   ├── ios-design.md       # iOS App 技术设计文档
 │   └── decisions/          # 技术决策记录
-├── ios/                    # iOS App 代码（待创建）
+├── ios/                    # iOS App 代码（SwiftUI + WKWebView）
 ├── AGENTS.md               # AI Agent 开发参考文档
 └── README.md               # 项目说明
 ```
@@ -70,4 +71,4 @@ antimatter-dimensions-chinese/
 1. **M1 - 项目初始化**：Fork 仓库、集成翻译文件、建立文档结构
 2. **M2 - 翻译集成与修复**：源码级中文化、审查并修复翻译质量
 3. **M3 - PWA 与 GitHub 备份**：移动端免签使用、Gist 自动备份、离线缓存与恢复引导
-4. **M4 - iOS App 开发**：Swift/WKWebView 包装、存档桥接、App Store 发布准备
+4. **M4 - iOS App 开发**：Swift/WKWebView 包装、App 内部存档主存储、移动端 UI 优化、App Store 发布准备

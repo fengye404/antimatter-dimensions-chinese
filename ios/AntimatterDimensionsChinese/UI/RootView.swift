@@ -123,7 +123,7 @@ struct RootView: View {
         do {
             try saveStore.importPrimarySave(text)
             pendingImport = PendingImport(saveText: text)
-            alertItem = AlertItem(title: "导入完成", message: "存档已写入 iOS 备份，并会刷新游戏页面。")
+            alertItem = AlertItem(title: "导入完成", message: "存档已写入 App 内部存储，并会刷新游戏页面。")
         } catch {
             alertItem = AlertItem(title: "导入失败", message: error.localizedDescription)
         }

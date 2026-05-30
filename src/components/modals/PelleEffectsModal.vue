@@ -12,50 +12,50 @@ export default {
     nerfs() {
       return [
         // Numerical nerfs and disabled boosts
-        "Anything unlocked through a Pelle upgrade cannot be unlocked normally",
-        "All pre-Doomed IP and EP multipliers are disabled",
-        "IP generation based on fastest infinity speed is disabled",
-        "All pre-Doomed Replicanti speed multipliers are disabled",
-        `Replicanti slows down more drastically above ${format(Number.MAX_VALUE, 2)}`,
-        "Most Eternity Challenges are harder",
-        `All Galaxies are only ${formatPercents(0.5)} as effective`,
-        `Antimatter Dimension multiplier is divided by ${formatInt(10)}`,
-        "Achievement multiplier and many achievement rewards are disabled",
-        "All Infinity and Eternity multipliers and generation are disabled",
-        "Black Holes are disabled",
-        `Reality Upgrade "Temporal Transcendence" is disabled`,
+        "通过 Pelle 升级解锁的内容无法再用原本方式解锁",
+        "末日前所有无限点数和永恒点数倍率失效",
+        "基于最快无限速度的无限点数产出失效",
+        "末日前所有复制品速度倍率失效",
+        `复制品超过 ${format(Number.MAX_VALUE, 2)} 后会衰减得更加剧烈`,
+        "大多数永恒挑战会变得更难",
+        `所有星系效果只剩 ${formatPercents(0.5)}`,
+        `反物质维度倍率除以 ${formatInt(10)}`,
+        "成就倍率和许多成就奖励失效",
+        "所有无限与永恒相关倍率、自动产出效果失效",
+        "黑洞失效",
+        "现实升级“时间超越”失效",
 
         // Initial QoL and automation
-        "All rewards which increase your starting resources except Achievement 21 are disabled",
-        "All rewards which prevent resources from being reset are disabled",
-        "Perk rewards which reduce unlock costs have been disabled, excluding the ECR group",
-        "Automatic Infinity and Eternity Challenges are disabled",
-        "All Dimension and pre-Infinity Autobuyers are disabled until reacquired through Pelle",
-        "The Time Theorem Autobuyer is disabled",
-        "All Automation related to Time Dilation or later is disabled",
+        "除成就 21 外，所有提高初始资源的奖励失效",
+        "所有防止资源被重置的奖励失效",
+        "除 ECR 分组外，降低解锁花费的特权奖励失效",
+        "无限挑战和永恒挑战自动完成失效",
+        "所有维度和无限前自动购买器失效，直到通过 Pelle 重新获得",
+        "时间定理自动购买器失效",
+        "所有时间膨胀及之后阶段的自动化失效",
 
         // Time studies + Dilation
-        "Eternity Upgrade to Time Dimensions based on days played is based on this Armageddon time",
-        `All pre-Doomed Dilated Time multipliers are disabled except the ${formatX(2)} buyable`,
-        "All Tachyon Particle multipliers are disabled",
-        "All pre-Doomed Time Theorem generation effects are disabled except the Dilation upgrade",
+        "按游玩天数增强时间维度的永恒升级改为按本次末日时间计算",
+        `除可购买的 ${formatX(2)} 外，末日前所有膨胀时间倍率失效`,
+        "所有快子粒子倍率失效",
+        "除膨胀升级外，末日前所有时间定理产出效果失效",
 
         // Glyphs
-        "Glyph equipping is disabled until reacquired",
-        `Glyph levels are lowered and rarity is set to ${formatPercents(0)}`,
-        "Effects from Glyph Sacrifice, Alteration, and Alchemy are all disabled",
+        "符文装备功能失效，直到重新获得",
+        `符文等级会降低，稀有度固定为 ${formatPercents(0)}`,
+        "符文献祭、转化和炼金效果全部失效",
 
         // Celestial features
-        "You cannot enter any other Celestial Realities",
-        "Music Glyphs cannot be bought",
-        "All rewards from Effarig are disabled",
-        "All features related to storing time are disabled",
-        "All rewards from V are disabled",
-        `The Teresa Level ${formatInt(1)} effect from Ra is disabled`,
-        "Infinity Upgrades cannot be charged",
-        "Triad Studies and Space Theorems are disabled",
-        "Imaginary Upgrades are disabled excluding those relating to DMD's and Celestial unlocks",
-        "Continuum and Singularity rewards are disabled"
+        "无法进入其他天体现实",
+        "无法购买音乐符文",
+        "Effarig 的所有奖励失效",
+        "所有储存时间相关功能失效",
+        "V 的所有奖励失效",
+        `Ra 中 Teresa 等级 ${formatInt(1)} 的效果失效`,
+        "无限升级无法充能",
+        "三元研究和空间定理失效",
+        "除 DMD 和天体解锁相关效果外，虚幻升级失效",
+        "连续统和奇点奖励失效"
       ];
     }
   }
@@ -65,7 +65,7 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      List of disabled and nerfed effects in Doomed
+      末日中被削弱或禁用的效果
     </template>
     <div class="pelle-effects-container">
       <p
@@ -79,7 +79,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="emitClose"
     >
-      Okay
+      确认
     </PrimaryButton>
   </ModalWrapper>
 </template>

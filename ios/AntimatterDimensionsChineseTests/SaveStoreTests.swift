@@ -60,6 +60,34 @@ final class SaveStoreTests: XCTestCase {
         XCTAssertEqual(store.latestValue(for: "backupTimes-0"), "[123]")
     }
 
+    func testAllValuesReturnsPrimarySaveAndBackupSlots() throws {
+        let store = SaveStore(directoryURL: temporaryDirectory)
+
+        try store.saveRecords([
+            SaveRecord(key: SaveStore.primarySaveKey, value: "main"),
+            SaveRecord(key: "backupSave-1-0", value: "backup-1"),
+            SaveRecord(key: "backupTimes-1", value: "[456]")
+        ])
+
+        let values = store.allValues()
+        XCTAssertEqual(values[SaveStore.primarySaveKey], "main")
+        XCTAssertEqual(values["backupSave-1-0"], "backup-1")
+        XCTAssertEqual(values["backupTimes-1"], "[456]")
+    }
+
+    func testClearRemovesAllNativeRecords() throws {
+        let store = SaveStore(directoryURL: temporaryDirectory)
+
+        try store.saveRecords([
+            SaveRecord(key: SaveStore.primarySaveKey, value: "main"),
+            SaveRecord(key: "backupSave-0-0", value: "backup")
+        ])
+        try store.clear()
+
+        XCTAssertNil(store.latestValue())
+        XCTAssertTrue(store.allValues().isEmpty)
+    }
+
     func testEmptyImportThrows() {
         let store = SaveStore(directoryURL: temporaryDirectory)
 

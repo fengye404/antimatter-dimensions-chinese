@@ -39,9 +39,9 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
             }
             do {
                 try saveStore.saveRecords(saveRecords)
-                onStatus?("存档已备份到 iOS")
+                onStatus?("存档已保存到 App")
             } catch {
-                onStatus?("iOS 存档备份失败：\(error.localizedDescription)")
+                onStatus?("App 存档保存失败：\(error.localizedDescription)")
             }
             return
         }
@@ -53,9 +53,9 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
 
         do {
             try saveStore.save(record: SaveRecord(key: key, value: value, timestamp: timestamp, reason: reason))
-            onStatus?("存档已备份到 iOS")
+            onStatus?("存档已保存到 App")
         } catch {
-            onStatus?("iOS 存档备份失败：\(error.localizedDescription)")
+            onStatus?("App 存档保存失败：\(error.localizedDescription)")
         }
     }
 

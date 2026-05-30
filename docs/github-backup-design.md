@@ -4,6 +4,8 @@
 
 PWA 方案可以避免 iOS 免费签名 7 天过期的问题，但 Safari/PWA 的 `localStorage`、`IndexedDB` 和 Cache API 都属于浏览器管理的网站数据，不能保证永远不会被系统或用户清理。因此需要一个不依赖 Apple Developer 账号的云备份方案。
 
+当前 iOS App 版本已经改为以 App 内部 `SaveStore` 作为主要存档来源，WebView localStorage 只作为运行时缓存。本设计主要服务浏览器/PWA 路线；在 iOS App 内，GitHub Gist 可作为额外手动备份思路，但不再承担主存储职责。
+
 ## 方案
 
 使用 GitHub Gist 保存游戏存档备份。

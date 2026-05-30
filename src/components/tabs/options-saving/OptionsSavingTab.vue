@@ -38,6 +38,7 @@ export default {
       githubLastSyncAt: 0,
       githubLastError: "",
       githubIsSyncing: false,
+      isIOSNative: false,
     };
   },
   computed: {
@@ -89,6 +90,7 @@ export default {
       this.inSpeedrun = player.speedrun.isActive;
       this.canModifySeed = Speedrun.canModifySeed();
       this.creditsClosed = GameEnd.creditsEverClosed;
+      this.isIOSNative = Boolean(window.ADNative?.syncSave);
       this.updateGitHubStatus();
       if (!this.loggedIn) return;
       this.userName = Cloud.user.displayName;
@@ -283,7 +285,26 @@ export default {
       </div>
       <OpenModalHotkeysButton />
     </div>
-    <div class="c-github-backup-panel">
+    <div
+      v-if="isIOSNative"
+      class="c-native-save-panel"
+    >
+      <h3>App 内部存档</h3>
+      <p>
+        iOS App 会把主存档、自动备份槽和备份时间写入 App 内部存储。
+        WebView 的 localStorage 只作为运行时缓存；即使清理 WebView 缓存，重新打开游戏也会从 App 内部存档恢复。
+      </p>
+      <div class="c-github-backup-panel__status">
+        状态：
+        <b>已启用</b>
+        <span>同步时机：跟随游戏本地保存</span>
+        <span>云端备份：可继续用导出存档手动保存</span>
+      </div>
+    </div>
+    <div
+      v-else
+      class="c-github-backup-panel"
+    >
       <h3>GitHub 自动备份</h3>
       <p>
         将当前存档自动备份到你的 GitHub Gist。请使用只允许 Gist 读写的 Token；
@@ -449,7 +470,8 @@ export default {
 </template>
 
 <style scoped>
-.c-github-backup-panel {
+.c-github-backup-panel,
+.c-native-save-panel {
   width: min(110rem, calc(100% - 4rem));
   border: 0.1rem solid var(--color-good);
   border-radius: var(--var-border-radius, 0.5rem);

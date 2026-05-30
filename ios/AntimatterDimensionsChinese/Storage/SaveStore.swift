@@ -84,6 +84,13 @@ final class SaveStore {
         }
     }
 
+    func allValues() -> [String: String] {
+        queue.sync {
+            guard let envelope = try? readEnvelopeUnlocked() else { return [:] }
+            return envelope.records.mapValues { $0.value }
+        }
+    }
+
     func importPrimarySave(_ value: String, reason: String = "native-import") throws {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw SaveStoreError.emptySave }

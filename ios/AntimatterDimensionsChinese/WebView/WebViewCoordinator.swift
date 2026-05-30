@@ -53,7 +53,7 @@ final class WebViewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
             DispatchQueue.main.async {
                 guard let self, let webView else { return }
                 self.loadGame(in: webView)
-                self.parent.onStatus("WebView 缓存已清理")
+                self.parent.onStatus("WebView 缓存已清理，正在从 App 存档恢复")
             }
         }
     }
@@ -106,20 +106,29 @@ final class WebViewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         let contentController = webView.configuration.userContentController
         contentController.removeAllUserScripts()
 
-        let restoredSave = parent.saveStore.latestValue().map(Self.javaScriptLiteral) ?? "null"
-        let bridgeScript = Self.bridgeScript(restoredSaveLiteral: restoredSave)
+        let restoredRecords = Self.javaScriptLiteral(parent.saveStore.allValues())
+        let bridgeScript = Self.bridgeScript(restoredRecordsLiteral: restoredRecords)
         contentController.addUserScript(WKUserScript(source: bridgeScript, injectionTime: .atDocumentStart, forMainFrameOnly: true))
     }
 
-    private static func bridgeScript(restoredSaveLiteral: String) -> String {
+    private static func bridgeScript(restoredRecordsLiteral: String) -> String {
         """
         (function () {
           const handler = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.adNative;
           if (!handler) { return; }
 
-          const restoredSave = \(restoredSaveLiteral);
-          if (typeof restoredSave === "string" && restoredSave.length > 0 && !localStorage.getItem("dimensionSave")) {
-            localStorage.setItem("dimensionSave", restoredSave);
+          const restoredRecords = \(restoredRecordsLiteral);
+          if (restoredRecords && typeof restoredRecords === "object") {
+            for (const key of Object.keys(restoredRecords)) {
+              const value = restoredRecords[key];
+              if (
+                typeof value === "string" &&
+                value.length > 0 &&
+                (key === "dimensionSave" || key.indexOf("backupSave-") === 0 || key.indexOf("backupTimes-") === 0)
+              ) {
+                localStorage.setItem(key, value);
+              }
+            }
           }
 
           function collectRecords() {
@@ -171,10 +180,16 @@ final class WebViewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         """
     }
 
-    private static func javaScriptLiteral(_ value: String) -> String {
+    private static func javaScriptLiteral(_ value: Any) -> String {
+        if let string = value as? String,
+           let data = try? JSONEncoder().encode(string),
+           let literal = String(data: data, encoding: .utf8) {
+            return literal
+        }
+
         guard let data = try? JSONSerialization.data(withJSONObject: value, options: []),
               let literal = String(data: data, encoding: .utf8) else {
-            return "\"\""
+            return "null"
         }
         return literal
     }

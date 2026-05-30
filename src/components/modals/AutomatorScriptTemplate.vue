@@ -16,6 +16,11 @@ export default {
       type: String,
       required: true,
     },
+    displayName: {
+      type: String,
+      required: false,
+      default: null,
+    },
     description: {
       type: String,
       required: true,
@@ -46,6 +51,9 @@ export default {
     templateScript() {
       if (this.invalidInputCount !== 0) return null;
       return new ScriptTemplate(this.templateProps, this.name);
+    },
+    localizedName() {
+      return this.$props.displayName ?? this.name;
     }
   },
   // Many props in this component are generated dynamically from a GameDB entry, but Vue can only give reactive
@@ -124,14 +132,14 @@ export default {
     copyAndClose() {
       if (this.isBlock) {
         const newTemplateBlock = {
-          name: `Template: ${this.name}`,
+          name: `模板：${this.localizedName}`,
           blocks: blockifyTextAutomator(this.templateScript.script).blocks
         };
         AutomatorData.blockTemplates.push(newTemplateBlock);
-        GameUI.notify.info("Custom template block created");
+        GameUI.notify.info("自定义模板块已创建");
       } else {
         copyToClipboard(this.templateScript.script);
-        GameUI.notify.info("Template copied to clipboard");
+        GameUI.notify.info("模板已复制到剪贴板");
       }
       this.emitClose();
     }
@@ -142,15 +150,15 @@ export default {
 <template>
   <ModalWrapper class="c-automator-template-container">
     <template #header>
-      {{ name }} Template
+      {{ localizedName }}模板
     </template>
     <div class="c-automator-template-description">
       {{ description }}
     </div>
     <div class="c-automator-template-inputs">
-      <b>Required Information:</b>
+      <b>必填信息：</b>
       <br>
-      Use a preset Study Tree:
+      使用已保存的时间研究树：
       <button
         v-for="(preset, presetNumber) in presets"
         :key="preset.name"
@@ -163,7 +171,7 @@ export default {
         class="o-primary-btn o-load-preset-button-margin"
         @click="loadCurrent"
       >
-        <i>Current Tree</i>
+        <i>当前研究树</i>
       </button>
       <div
         v-for="input in inputs"
@@ -192,7 +200,7 @@ export default {
       </div>
     </div>
     <div class="c-automator-template-warnings">
-      <b>Possible things to consider:</b>
+      <b>可能需要注意：</b>
       <div v-if="validWarnings.length !== 0">
         <div
           v-for="warning in validWarnings"
@@ -203,7 +211,7 @@ export default {
         </div>
       </div>
       <div v-else>
-        (If something seems wrong with the template inputs, it will show up here)
+        如果模板输入存在潜在问题，会显示在这里。
       </div>
       <br>
       <br>

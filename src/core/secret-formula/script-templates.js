@@ -41,11 +41,11 @@ export const automatorTemplates = {
     },
     {
       name: "nowait",
-      boolDisplay: ["Continue onward", "Keep buying Studies"],
+      boolDisplay: ["继续执行", "反复购买研究"],
     },
     {
       name: "mode",
-      boolDisplay: ["X times highest", "Seconds since last"],
+      boolDisplay: ["达到最高值的 X 倍", "距上次重置的秒数"],
       map: x => (x ? "mult" : "time"),
     },
   ],
@@ -67,130 +67,123 @@ export const automatorTemplates = {
   scripts: [
     {
       name: "Climb EP",
-      description: `This script performs repeated Eternities, attempting to re-purchase a Time Study Tree every
-        Eternity. Autobuyer settings must be supplied for the Infinity and Eternity Autobuyers. The script will
-        repeat until a final Eternity Point value is reached.`,
+      displayName: "刷永恒点数",
+      description: `反复进行永恒，并在每次永恒后重新购买指定时间研究树。你需要提供无限和永恒自动购买器设置；
+        脚本会一直运行，直到永恒点数达到目标值。`,
       inputs: [
-        { name: "treeStudies", type: "tree", prompt: "Or directly enter your time studies" },
-        { name: "treeNowait", type: "nowait", prompt: "Missing Study behavior" },
-        { name: "finalEP", type: "decimal", prompt: "Target EP" },
-        { name: "autoInfMode", type: "mode", prompt: "Infinity Autobuyer Mode" },
-        { name: "autoInfValue", type: "decimal", prompt: "Infinity Autobuyer Threshold" },
-        { name: "autoEterMode", type: "mode", prompt: "Eternity Autobuyer Mode" },
-        { name: "autoEterValue", type: "decimal", prompt: "Eternity Autobuyer Threshold" },
+        { name: "treeStudies", type: "tree", prompt: "或直接输入时间研究" },
+        { name: "treeNowait", type: "nowait", prompt: "缺少研究时的处理方式" },
+        { name: "finalEP", type: "decimal", prompt: "目标 EP" },
+        { name: "autoInfMode", type: "mode", prompt: "无限自动购买器模式" },
+        { name: "autoInfValue", type: "decimal", prompt: "无限自动购买器阈值" },
+        { name: "autoEterMode", type: "mode", prompt: "永恒自动购买器模式" },
+        { name: "autoEterValue", type: "decimal", prompt: "永恒自动购买器阈值" },
       ],
       warnings: () => {
         const list = [];
         if (!RealityUpgrade(10).isBought) {
-          list.push(`This script will be unable to properly set Autobuyer modes without at least ${formatInt(100)}
-            Eternities. Consider getting Reality Upgrade "${RealityUpgrade(10).name}" before using this at the start
-            of a Reality.`);
+          list.push(`永恒次数少于 ${formatInt(100)} 时，脚本无法可靠设置自动购买器模式。建议在现实初期使用前，
+            先解锁现实升级“${RealityUpgrade(10).name}”。`);
         }
         // Telemechanical Process (TD/5xEP autobuyers)
         if (!RealityUpgrade(13).isBought) {
-          list.push(`This template may perform poorly without Reality Upgrade "${RealityUpgrade(13).name}"`);
+          list.push(`没有现实升级“${RealityUpgrade(13).name}”时，这个模板的效率可能偏低。`);
         }
         if (!Perk.ttBuySingle.isBought) {
-          list.push(`This template may perform poorly without Perk "${Perk.ttBuySingle.label}" unless you can generate
-            Time Theorems without purchsing them`);
+          list.push(`没有特权“${Perk.ttBuySingle.label}”时，除非你已经能自动产生时间定理，否则这个模板的效率可能偏低。`);
         }
         return list;
       },
     },
     {
       name: "Grind Eternities",
-      description: `This script performs repeated fast Eternities after buying a specified Time Study Tree.
-        Auto-Infinity will be set to "Times Highest" with a specified number of crunches and Auto-Eternity will
-        trigger as soon as possible. The script will repeat until a final Eternity count is reached.`,
+      displayName: "刷永恒次数",
+      description: `购买指定时间研究树后，反复进行快速永恒。无限自动购买器会按“达到最高值的若干倍”触发，
+        永恒自动购买器会尽快触发；脚本会一直运行，直到永恒次数达到目标值。`,
       inputs: [
-        { name: "treeStudies", type: "tree", prompt: "Or directly enter your time studies" },
-        { name: "treeNowait", type: "nowait", prompt: "Missing Study behavior" },
-        { name: "crunchesPerEternity", type: "integer", prompt: "Crunches per Eternity" },
-        { name: "eternities", type: "decimal", prompt: "Target Eternity Count" },
+        { name: "treeStudies", type: "tree", prompt: "或直接输入时间研究" },
+        { name: "treeNowait", type: "nowait", prompt: "缺少研究时的处理方式" },
+        { name: "crunchesPerEternity", type: "integer", prompt: "每次永恒前大坍缩次数" },
+        { name: "eternities", type: "decimal", prompt: "目标永恒次数" },
       ],
       warnings: () => {
         const list = [];
         // Eternal flow (eternity generation)
         if (RealityUpgrade(14).isBought) {
-          list.push(`You probably do not need to use this due to Reality Upgrade "${RealityUpgrade(14).name}"`);
+          list.push(`你已经拥有现实升级“${RealityUpgrade(14).name}”，通常不再需要这个模板。`);
         }
         return list;
       },
     },
     {
       name: "Grind Infinities",
-      description: `This script buys a specified Time Study Tree and then configures your Autobuyers for gaining
-        Infinities. It will repeat until a final Infinity count is reached; the count can be for Banked Infinities,
-        in which case it will get all Infinities before performing a single Eternity.`,
+      displayName: "刷无限次数",
+      description: `购买指定时间研究树后，配置自动购买器来获取无限次数。脚本会一直运行到无限次数达到目标；
+        目标也可以是“存储的无限次数”，这种情况下脚本会在一次永恒前尽量获取所有无限次数。`,
       inputs: [
-        { name: "treeStudies", type: "tree", prompt: "Or directly enter your time studies" },
-        { name: "treeNowait", type: "nowait", prompt: "Missing Study behavior" },
-        { name: "infinities", type: "decimal", prompt: "Target Infinity Count" },
-        { name: "isBanked", type: "boolean", prompt: "Use Banked for Target?" },
+        { name: "treeStudies", type: "tree", prompt: "或直接输入时间研究" },
+        { name: "treeNowait", type: "nowait", prompt: "缺少研究时的处理方式" },
+        { name: "infinities", type: "decimal", prompt: "目标无限次数" },
+        { name: "isBanked", type: "boolean", prompt: "目标使用存储的无限次数？" },
       ],
       warnings: () => {
         const list = [];
         if (!Perk.achievementGroup5.isBought) {
-          list.push(`You will not start this Reality with Achievement "${Achievement(131).name}" - grinding
-            Infinities may be less useful than expected since they cannot be Banked until later`);
+          list.push(`本次现实开局不会保留成就“${Achievement(131).name}”。在能存储无限次数之前，
+            刷无限次数的收益可能低于预期。`);
         }
         // Boundless flow (infinity generation)
         if (RealityUpgrade(11).isBought) {
-          list.push(`You probably do not need to use this due to Reality Upgrade "${RealityUpgrade(11).name}"`);
+          list.push(`你已经拥有现实升级“${RealityUpgrade(11).name}”，通常不再需要这个模板。`);
         }
         return list;
       },
     },
     {
       name: "Complete Eternity Challenge",
-      description: `This script buys a specified Time Study Tree and then unlocks a specified Eternity Challenge.
-        Then it will set your Infinity Autobuyer to your specified settings and enter the Eternity Challenge.
-        Finally, it will wait until at least the desired number of completions before triggering an Eternity to
-        complete the Challenge.`,
+      displayName: "完成永恒挑战",
+      description: `购买指定时间研究树后，解锁指定永恒挑战；随后按你的设置配置无限自动购买器并进入挑战。
+        脚本会等到挑战完成次数达到目标后触发永恒，从而完成挑战。`,
       inputs: [
-        { name: "treeStudies", type: "tree", prompt: "Or directly enter your time studies" },
-        { name: "treeNowait", type: "nowait", prompt: "Missing Study behavior" },
-        { name: "ec", type: "integer", prompt: "Eternity Challenge ID" },
-        { name: "completions", type: "integer", prompt: "Target Completion Count" },
-        { name: "autoInfMode", type: "mode", prompt: "Infinity Autobuyer Mode" },
-        { name: "autoInfValue", type: "decimal", prompt: "Infinity Autobuyer Threshold" },
+        { name: "treeStudies", type: "tree", prompt: "或直接输入时间研究" },
+        { name: "treeNowait", type: "nowait", prompt: "缺少研究时的处理方式" },
+        { name: "ec", type: "integer", prompt: "永恒挑战编号" },
+        { name: "completions", type: "integer", prompt: "目标完成次数" },
+        { name: "autoInfMode", type: "mode", prompt: "无限自动购买器模式" },
+        { name: "autoInfValue", type: "decimal", prompt: "无限自动购买器阈值" },
       ],
       warnings: () => {
         const list = [];
         if (!Perk.studyECRequirement.isBought) {
-          list.push(`Eternity Challenges may not be reliably unlockable due to secondary resource requirements, consider
-            unlocking Perk "${Perk.studyECRequirement.label}" before using this template`);
+          list.push(`部分永恒挑战还有额外资源要求，可能无法稳定解锁。建议先解锁特权“${Perk.studyECRequirement.label}”。`);
         }
         if (!Perk.studyECBulk.isBought) {
-          list.push(`Using this template without bulk completions of Eternity Challenges may lead to long scripts which
-            are slower and difficult to modify. If you use this template, consider returning to simplify your scripts
-            after unlocking Perk "${Perk.studyECBulk.label}"`);
+          list.push(`没有永恒挑战批量完成时，这个模板可能生成较长、较慢且不易修改的脚本。
+            解锁特权“${Perk.studyECBulk.label}”后，建议回来简化脚本。`);
         }
         return list;
       },
     },
     {
       name: "Unlock Dilation",
-      description: `This script performs repeated Eternities, attempting to re-purchase a Time Study Tree every
-        Eternity. Settings must be supplied for the Eternity Autobuyer; your Infinity Autobuyer will be
-        turned off. The script loops until you have the total Time Theorem requirement to unlock Dilation, and then
-        it will unlock Dilation once it does.`,
+      displayName: "解锁时间膨胀",
+      description: `反复进行永恒，并在每次永恒后重新购买指定时间研究树。你需要提供永恒自动购买器设置；
+        无限自动购买器会被关闭。脚本会循环到时间定理总数满足解锁时间膨胀的要求，然后自动解锁。`,
       inputs: [
-        { name: "treeStudies", type: "tree", prompt: "Or directly enter your time studies" },
-        { name: "treeNowait", type: "nowait", prompt: "Missing Study behavior" },
-        { name: "finalEP", type: "decimal", prompt: "Target EP" },
-        { name: "autoEterMode", type: "mode", prompt: "Eternity Autobuyer Mode" },
-        { name: "autoEterValue", type: "decimal", prompt: "Eternity Autobuyer Threshold" },
+        { name: "treeStudies", type: "tree", prompt: "或直接输入时间研究" },
+        { name: "treeNowait", type: "nowait", prompt: "缺少研究时的处理方式" },
+        { name: "finalEP", type: "decimal", prompt: "目标 EP" },
+        { name: "autoEterMode", type: "mode", prompt: "永恒自动购买器模式" },
+        { name: "autoEterValue", type: "decimal", prompt: "永恒自动购买器阈值" },
       ],
       warnings: () => {
         const list = [];
         // Telemechanical Process (TD/5xEP autobuyers)
         if (!RealityUpgrade(13).isBought) {
-          list.push(`This template may perform poorly without Reality Upgrade "${RealityUpgrade(13).name}"`);
+          list.push(`没有现实升级“${RealityUpgrade(13).name}”时，这个模板的效率可能偏低。`);
         }
         if (!Perk.ttBuySingle.isBought) {
-          list.push(`This template may perform poorly without Perk "${Perk.ttBuySingle.label}" unless you can generate
-            Time Theorems without purchsing them`);
+          list.push(`没有特权“${Perk.ttBuySingle.label}”时，除非你已经能自动产生时间定理，否则这个模板的效率可能偏低。`);
         }
         return list;
       },

@@ -75,6 +75,25 @@ test.describe("Chinese localization regression", () => {
     await expect(page.locator("body")).toContainText("当前 ×2，下一级 ×4");
   });
 
+  test("uses App internal storage messaging inside the iOS WebView bridge", async({ page }) => {
+    await page.addInitScript(() => {
+      window.ADNative = {
+        syncSave() {},
+        exportSave() {},
+      };
+    });
+
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab);
+    await page.evaluate(() => Tab.options.saving.show(true));
+
+    await expect(page.locator(".c-native-save-panel")).toContainText("App 内部存档");
+    await expect(page.locator(".c-native-save-panel")).toContainText("WebView 的 localStorage 只作为运行时缓存");
+    await expect(page.locator(".c-native-save-panel")).toContainText("跟随游戏本地保存");
+    await expect(page.locator(".c-github-backup-panel")).toHaveCount(0);
+    await expect(page.locator("body")).not.toContainText("GitHub 自动备份");
+  });
+
   test("localizes expanded autobuyer controls", async({ page }) => {
     await page.goto("/");
     await page.waitForFunction(() => window.Tab && window.Autobuyer && window.player && window.GameUI);
