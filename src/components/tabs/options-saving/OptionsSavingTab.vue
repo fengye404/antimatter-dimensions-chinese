@@ -180,7 +180,7 @@ export default {
 </script>
 
 <template>
-  <div class="l-options-tab">
+  <div class="l-options-tab c-options-saving-tab">
     <div class="l-options-grid">
       <div class="l-options-grid__row">
         <OptionsButton

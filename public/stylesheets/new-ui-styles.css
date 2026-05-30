@@ -1887,6 +1887,16 @@ body.t-s12 {
     width: 100%;
   }
 
+  .c-options-saving-tab > .l-options-grid:first-child .l-options-grid__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .c-options-saving-tab > .l-options-grid:first-child .l-options-grid__row > .o-primary-btn--slider,
+  .c-options-saving-tab > .l-options-grid:first-child .l-options-grid__row > .o-primary-btn--input {
+    grid-column: 1 / -1;
+  }
+
   .l-options-grid__button,
   .c-options-tab__hotkeys-link {
     box-sizing: border-box;
@@ -1905,6 +1915,10 @@ body.t-s12 {
     border-radius: 1.2rem;
     font-size: 1.28rem;
     line-height: 1.35;
+  }
+
+  .c-options-saving-tab > .l-options-grid:first-child .o-primary-btn--option {
+    font-size: 1.16rem;
   }
 
   .l-expanding-control-box,

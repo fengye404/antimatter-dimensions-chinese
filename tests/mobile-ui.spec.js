@@ -160,4 +160,42 @@ test.describe("Mobile modern UI", () => {
       }
     }
   });
+
+  test("keeps save controls above the floating navigation on first view", async({ page }) => {
+    await page.goto("/");
+    await page.waitForFunction(() => window.Tab && window.GameUI);
+
+    await page.evaluate(() => Tab.options.saving.show(true));
+    await page.waitForTimeout(200);
+    await page.evaluate(() => window.scrollTo(0, 0));
+
+    const metrics = await page.evaluate(() => {
+      const nav = document.querySelector(".c-modern-sidebar").getBoundingClientRect();
+      const controls = [...document.querySelectorAll(".l-options-grid:first-of-type .o-primary-btn")]
+        .filter(element => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return rect.width > 0 && rect.height > 0 &&
+            rect.top < window.innerHeight && rect.bottom > 0 &&
+            style.display !== "none" && style.visibility !== "hidden";
+        })
+        .map(element => {
+          const rect = element.getBoundingClientRect();
+          return {
+            text: element.innerText.replace(/\s+/gu, " ").trim(),
+            bottom: rect.bottom,
+          };
+        });
+
+      return {
+        navTop: nav.top,
+        controls,
+      };
+    });
+
+    for (const control of metrics.controls) {
+      expect(control.bottom, `${control.text} should not sit under the bottom navigation`)
+        .toBeLessThanOrEqual(metrics.navTop - 4);
+    }
+  });
 });
