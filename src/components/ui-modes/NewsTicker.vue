@@ -1,9 +1,10 @@
 <script>
-import { openExternalLink } from "@/utility/open-external-link";
-import { STEAM } from "@/env";
 import miscTranslations from "../../../i18n/zh-CN/misc.json";
 import gameplayTranslations from "../../../i18n/zh-CN/gameplay.json";
 import howToPlayTranslations from "../../../i18n/zh-CN/howtoplay.json";
+
+import { STEAM } from "@/env";
+import { openExternalLink } from "@/utility/open-external-link";
 
 const GENERIC_NEWS_FALLBACKS = [
   "新闻：第九维度今日仍未被证实存在，相关部门建议继续购买第八维度。",

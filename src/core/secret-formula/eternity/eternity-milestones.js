@@ -158,7 +158,7 @@ export const eternityMilestones = {
     activeCondition: () => (player.options.offlineProgress
       ? `必须不在任何挑战或时间膨胀中，并且永恒自动购买器需要设置为 0 永恒点数时永恒。此效果最低间隔为 ${formatInt(33)}ms。`
       : ""),
-      pelleUseless: true
+    pelleUseless: true
   },
   autoInfinities: {
     eternities: 1000,
@@ -173,6 +173,6 @@ export const eternityMilestones = {
     activeCondition: () => (player.options.offlineProgress
       ? `必须不在普通/无限挑战中，也不在 EC4 或 EC12 中；大坍缩自动购买器需要开启并设为 ${formatInt(5)} 秒以内的时间模式，且永恒自动购买器必须关闭。`
       : ""),
-      pelleUseless: true
+    pelleUseless: true
   }
 };

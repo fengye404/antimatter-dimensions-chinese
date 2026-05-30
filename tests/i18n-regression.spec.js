@@ -78,8 +78,8 @@ test.describe("Chinese localization regression", () => {
   test("uses App internal storage messaging inside the iOS WebView bridge", async({ page }) => {
     await page.addInitScript(() => {
       window.ADNative = {
-        syncSave() {},
-        exportSave() {},
+        syncSave: () => true,
+        exportSave: () => true,
       };
     });
 
