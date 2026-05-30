@@ -1070,11 +1070,11 @@ export const normalAchievements = [
   },
   {
     id: 145,
-    name: "Are you sure these are the right way around?",
-    description: "Have either Black Hole interval smaller than its duration.",
+    name: "你确定它们没装反吗？",
+    description: "任意黑洞的间隔短于持续时间。",
     checkRequirement: () => BlackHoles.list.some(bh => bh.interval < bh.duration),
     checkEvent: GAME_EVENT.BLACK_HOLE_UPGRADE_BOUGHT,
-    get reward() { return `Black Hole intervals are ${formatPercents(0.1)} shorter.`; },
+    get reward() { return `黑洞间隔缩短 ${formatPercents(0.1)}。`; },
     effect: 0.9
   },
   {

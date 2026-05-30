@@ -213,13 +213,13 @@ export default {
       class="o-primary-btn"
       @click="copyAndClose"
     >
-      {{ isBlock ? "Create custom template block" : "Copy this template to your clipboard" }} and close this modal
+      {{ isBlock ? "创建自定义模板块" : "复制模板到剪贴板" }}并关闭弹窗
     </button>
     <button
       v-else
       class="o-primary-btn o-primary-btn--disabled"
     >
-      Cannot generate template (You have {{ quantifyInt("invalid input", invalidInputCount) }})
+      无法生成模板（有 {{ formatInt(invalidInputCount) }} 个无效输入）
     </button>
   </ModalWrapper>
 </template>

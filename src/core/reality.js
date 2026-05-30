@@ -144,7 +144,7 @@ export function requestManualReality() {
     return;
   }
   if (GameCache.glyphInventorySpace.value === 0) {
-    Modal.message.show("No available inventory space; free up space by shift-clicking Glyphs to get rid of them.",
+    Modal.message.show("Glyph 背包没有空位；请 Shift 点击一些 Glyph 将其移除来腾出空间。",
       { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
     return;
   }

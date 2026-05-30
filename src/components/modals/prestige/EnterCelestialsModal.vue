@@ -38,31 +38,29 @@ export default {
       return description ? description() : "";
     },
     topLabel() {
-      return `${this.name} Reality`;
+      return `${this.name}现实`;
     },
     message() {
-      return `Perform a Reality reset and enter ${this.name} Reality, in which:`;
+      return `进行一次现实重置并进入${this.name}现实。在这里：`;
     },
     extraLine() {
       switch (this.number) {
         case 0:
           return this.teresaBestAM.eq(1)
-            ? `You have not unlocked the reward for Teresa's Reality yet. Unlocking the reward requires
-              purchasing the Reality study and completing the Reality for the first time.`
-            : `Your highest Teresa completion was for ${format(this.teresaBestAM, 2, 2)} antimatter,
-              gaining you a ${formatX(this.teresaRunMult, 2)} multiplier to Glyph Sacrifice power.`;
+            ? `你还没有解锁 Teresa 现实的奖励。需要购买现实研究，并首次完成 Teresa 现实。`
+            : `你在 Teresa 现实中的最高纪录是 ${format(this.teresaBestAM, 2, 2)} 反物质，
+              因此 Glyph 献祭强度获得 ${formatX(this.teresaRunMult, 2)} 倍加成。`;
         case 1: return this.effarigDone
-          ? "Effarig is completed!"
-          : `You are currently on the ${this.effarigLayer} Layer.`;
+          ? "Effarig 已完成！"
+          : `你当前处于 ${this.effarigLayer} 层。`;
         case 2: return this.enslavedDone
-          ? "Have... we... not helped enough..."
-          : "We... can help... Let us... help...";
+          ? "我们……还……帮得不够吗……"
+          : "我们……能帮你……让我们……帮你……";
         case 3: return "";
-        case 4: return `Within Ra's Reality, some resources will generate Memory Chunks
-          for Celestial Memories based on their amounts:`;
+        case 4: return `在 Ra 的现实中，一些资源会根据自身数量为天体记忆生成记忆碎片：`;
         case 5: return this.laitelaFastest >= 300
-          ? "You have not completed Lai'tela at this tier."
-          : `Your fastest completion on this tier is ${this.laitelaTime}.`;
+          ? "你还没有在这一阶层完成 Lai'tela。"
+          : `你在这一阶层的最快完成时间是 ${this.laitelaTime}。`;
         case 6: return "";
         default: throw new Error(`Attempted to start an Unknown Celestial in Celestial Modal Confirmation.`);
       }
@@ -74,7 +72,7 @@ export default {
       this.teresaRunMult = Teresa.runRewardMultiplier;
       const effarigStage = Effarig.currentStage;
       this.effarigDone = effarigStage === EFFARIG_STAGES.COMPLETED;
-      this.effarigLayer = [null, "Infinity", "Eternity", "Reality"][effarigStage];
+      this.effarigLayer = [null, "无限", "永恒", "现实"][effarigStage];
       this.enslavedDone = Enslaved.isCompleted;
       this.laitelaFastest = player.celestials.laitela.fastestCompletion;
       this.laitelaTime = TimeSpan.fromSeconds(this.laitelaFastest).toStringShort();

@@ -292,10 +292,10 @@ export default {
       <br>
       <PrimaryButton
         v-if="!deleting"
-        v-tooltip="'This will format the study preset text, for example, changing \'a,b,c|d\' to \'a, b, c | d\'.'"
+        v-tooltip="`格式化时间研究预设文本，例如将 'a,b,c|d' 调整为 'a, b, c | d'。`"
         @click="convertInputShorthands"
       >
-        Format Preset Text
+        格式化预设文本
       </PrimaryButton>
     </div>
     <span v-if="isImporting">

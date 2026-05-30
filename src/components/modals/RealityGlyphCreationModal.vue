@@ -29,7 +29,7 @@ export default {
     },
     createRealityGlyph() {
       if (GameCache.glyphInventorySpace.value === 0) {
-        Modal.message.show("No available inventory space; Sacrifice some Glyphs to free up space.",
+        Modal.message.show("Glyph 背包没有空位；请先献祭一些 Glyph 来腾出空间。",
           { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
         return;
       }
@@ -39,7 +39,7 @@ export default {
       this.emitClose();
     },
     formatGlyphEffect(effect) {
-      if (this.realityGlyphLevel < effect[0]) return `(Requires Glyph level ${formatInt(effect[0])})`;
+      if (this.realityGlyphLevel < effect[0]) return `（需要 Glyph 等级 ${formatInt(effect[0])}）`;
       const config = GlyphEffects[effect[1]];
       const value = config.effect(this.realityGlyphLevel, rarityToStrength(100));
       const effectTemplate = config.singleDesc;
@@ -52,20 +52,18 @@ export default {
 <template>
   <ModalWrapper>
     <template #header>
-      Reality Glyph Creation
+      创建现实 Glyph
     </template>
     <div class="c-reality-glyph-creation">
       <div>
-        Create a level {{ formatInt(realityGlyphLevel) }} Reality Glyph.
-        Rarity will always be {{ formatPercents(1) }} and
-        level scales on your current Reality Resource amount (which is all consumed). All other Alchemy Resources will
-        be unaffected. Reality Glyphs have unique effects, some of which are only available with higher level Glyphs.
-        Reality Glyphs can also be sacrificed to increase all Memory Chunk gain. Like Effarig Glyphs,
-        you cannot equip more than one at the same time.
+        创建一个等级 {{ formatInt(realityGlyphLevel) }} 的现实 Glyph。
+        稀有度固定为 {{ formatPercents(1) }}，等级取决于你当前拥有的现实资源数量；创建后会消耗全部现实资源。
+        其他炼金资源不会受影响。现实 Glyph 拥有独有效果，其中部分效果只会在高等级时出现。
+        现实 Glyph 也可以献祭，用来提高所有记忆碎片获取。和 Effarig Glyph 一样，你不能同时装备多个现实 Glyph。
       </div>
       <div class="o-available-effects-container">
         <div class="o-available-effects">
-          Available Effects:
+          可用效果：
         </div>
         <div
           v-for="(effect, index) in possibleEffects"
@@ -78,19 +76,19 @@ export default {
         v-if="isDoomed"
         :enabled="false"
       >
-        You cannot create Reality Glyphs while Doomed
+        末日中无法创建现实 Glyph
       </PrimaryButton>
       <PrimaryButton
         v-else-if="realityGlyphLevel !== 0"
         @click="createRealityGlyph"
       >
-        Create a Reality Glyph!
+        创建现实 Glyph！
       </PrimaryButton>
       <PrimaryButton
         v-else
         :enabled="false"
       >
-        Reality Glyph level must be higher than {{ formatInt(0) }}
+        现实 Glyph 等级必须高于 {{ formatInt(0) }}
       </PrimaryButton>
     </div>
   </ModalWrapper>

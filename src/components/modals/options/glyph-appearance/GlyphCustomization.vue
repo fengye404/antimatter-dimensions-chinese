@@ -153,25 +153,24 @@ export default {
         :key="selectedIndex + enabled + defaultKeySwap"
         :type="cosmeticTypes[selectedIndex]"
       />
-      Note: Some options may cause very poor color contrast or readability on certain themes with certain Glyph types.
+      注意：某些外观选项在特定主题和 Glyph 类型组合下，可能会导致颜色对比度或可读性很差。
     </div>
     <div v-else>
-      You currently have no available options for changing the default appearance of your Glyphs. To unlock some, visit
-      the Shop Tab or beat the game.
+      你目前还没有可用于更改 Glyph 默认外观的选项。可以前往商店页，或通关游戏来解锁更多外观。
       <br>
       <br>
       <span v-if="hasSpecialTypes">
-        Enabling this setting will allow you to change individual Glyphs to special cosmetic types you have unlocked.
+        启用此设置后，你可以把单个 Glyph 改成已解锁的特殊外观类型。
       </span>
       <span v-else>
-        Enabling or disabling this option will currently do nothing.
+        当前启用或禁用此选项都不会产生效果。
       </span>
     </div>
     <PrimaryButton
       class="o-primary-btn--subtab-option"
       @click="resetIndividual"
     >
-      Reset all individual Glyph cosmetics
+      重置所有单独 Glyph 外观
     </PrimaryButton>
   </div>
 </template>

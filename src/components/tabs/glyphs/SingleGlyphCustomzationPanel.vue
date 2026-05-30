@@ -108,19 +108,19 @@ export default {
           class="o-primary-btn--subtab-option"
           @click="openModal"
         >
-          Customize!
+          自定义！
         </PrimaryButton>
         <PrimaryButton
           class="o-primary-btn--subtab-option"
           @click="glyphID = -1"
         >
-          Clear Box
+          清空预览
         </PrimaryButton>
       </div>
     </div>
     <div v-else>
-      Drag a Glyph over this box to change its appearance! This will make a visual copy of it here,
-      but leave the actual Glyph itself in your inventory. Removing, gaining, or moving any Glyphs will clear this box.
+      将 Glyph 拖到这里即可调整它的外观。这里显示的只是外观预览，
+      实际 Glyph 仍会留在背包中。移除、获得或移动任何 Glyph 都会清空预览。
     </div>
   </div>
 </template>

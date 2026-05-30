@@ -2,93 +2,93 @@ export const vQuotes = {
   initial: {
     id: 0,
     lines: [
-      "How pathetic..."
+      "真可悲……"
     ],
   },
   unlock: {
     id: 1,
     lines: [
-      "Welcome to my Reality.",
-      "I am surprised you could reach it.",
-      "This is my realm after all...",
-      "Not everyone is as great as me.",
+      "欢迎来到我的现实。",
+      "真没想到你居然能抵达这里。",
+      "毕竟这里可是我的领域……",
+      "不是每个人都能像我一样伟大。",
     ],
   },
   realityEnter: {
     id: 2,
     lines: [
-      "Good luck with that!",
-      "You will need it.",
-      "My reality is flawless. You will fail.",
+      "那就祝你好运吧！",
+      "你会需要它的。",
+      "我的现实完美无缺。你一定会失败。",
     ],
   },
   realityComplete: {
     id: 3,
     lines: [
-      "So fast...",
-      "Do not think so much of yourself.",
-      "This is just the beginning.",
-      "You will never be better than me.",
+      "这么快……",
+      "别太把自己当回事。",
+      "这只是开始。",
+      "你永远不可能超过我。",
     ],
   },
   achievement1: {
     id: 4,
     requirement: () => V.spaceTheorems >= 1,
     lines: [
-      "Only one? Pathetic.",
-      "Your accomplishments pale in comparison to mine.",
+      "才一个？可悲。",
+      "和我的成就相比，你这点成果黯然失色。",
     ],
   },
   achievement6: {
     id: 5,
     requirement: () => V.spaceTheorems >= 6,
     lines: [
-      "This is nothing.",
-      "Do not be so full of yourself.",
+      "这算不了什么。",
+      "别太得意忘形。",
     ],
   },
   hex1: {
     id: 6,
     requirement: () => player.celestials.v.runUnlocks.filter(a => a === 6).length >= 1,
     lines: [
-      "Do not think it will get any easier from now on.",
-      "You are awfully proud for such a little achievement.",
+      "别以为之后会变得更容易。",
+      "就这么一点成就，你未免也太骄傲了。",
     ],
   },
   achievement12: {
     id: 7,
     requirement: () => V.spaceTheorems >= 12,
     lines: [
-      "How did you...",
-      "This barely amounts to anything!",
-      "You will never complete them all.",
+      "你是怎么……",
+      "这根本不算什么！",
+      "你永远不可能全部完成。",
     ],
   },
   achievement24: {
     id: 8,
     requirement: () => V.spaceTheorems >= 24,
     lines: [
-      "Impossible...",
-      "After how difficult it was for me...",
+      "不可能……",
+      "明明连我都费了那么大力气……",
     ],
   },
   hex3: {
     id: 9,
     requirement: () => player.celestials.v.runUnlocks.filter(a => a === 6).length >= 3,
     lines: [
-      "No... No... No...",
-      "This cannot be...",
+      "不……不……不……",
+      "这不可能……",
     ],
   },
   allAchievements: {
     id: 10,
     requirement: () => V.spaceTheorems >= 36,
     lines: [
-      "I... how did you do it...",
-      "I worked so hard to get them...",
-      "I am the greatest...",
-      "No one is better than me...",
-      "No one... no one... no on-",
+      "我……你到底怎么做到的……",
+      "我明明那么努力才得到它们……",
+      "我是最伟大的……",
+      "没有人比我更强……",
+      "没有人……没有人……没——",
     ],
   }
 };

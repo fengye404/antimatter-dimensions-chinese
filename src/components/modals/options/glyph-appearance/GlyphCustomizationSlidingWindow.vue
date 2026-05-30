@@ -213,7 +213,7 @@ export default {
       v-else
       class="c-no-options"
     >
-      You have no custom options for changing Glyph {{ attrString }}s.
+      你还没有可用于更改 Glyph {{ attrString }} 的自定义选项。
     </div>
   </div>
 </template>

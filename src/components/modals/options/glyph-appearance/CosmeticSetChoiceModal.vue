@@ -83,7 +83,7 @@ export default {
     @confirm="chooseSet"
   >
     <template #header>
-      Choose a Glyph Cosmetic Set
+      选择 Glyph 外观套装
     </template>
     <div class="c-center">
       <ExpandingControlBox
@@ -91,7 +91,7 @@ export default {
       >
         <template #header>
           <div class="c-dropdown-header">
-            ▼ Available Sets ▼
+            ▼ 可用套装 ▼
             <br>
             {{ setName }}
           </div>
@@ -101,7 +101,7 @@ export default {
         </template>
       </ExpandingControlBox>
       <div v-if="currentSet">
-        The "{{ currentSet.name }}" Set contains the following {{ setContents }}:
+        “{{ currentSet.name }}”套装包含以下 {{ setContents }}：
         <br>
         <span
           v-for="symbol of symbols"

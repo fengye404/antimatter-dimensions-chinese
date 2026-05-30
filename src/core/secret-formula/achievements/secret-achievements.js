@@ -44,7 +44,7 @@ export const secretAchievements = [
     id: 18,
     name: "Do you feel lucky? Well do ya punk?",
     get description() {
-      return `You have a ${formatInt(1)}/${formatInt(1e5)} chance of getting this achievement every second.`;
+      return `每秒有 ${formatInt(1)}/${formatInt(1e5)} 的概率获得此成就。`;
     }
   },
   {

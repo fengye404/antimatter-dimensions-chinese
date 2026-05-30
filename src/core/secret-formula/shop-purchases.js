@@ -87,12 +87,12 @@ export const shopPurchases = {
   singleCosmeticSet: {
     key: "singleCosmeticSet",
     cost: 20,
-    description: "Unlock a Glyph cosmetic set of your choice",
+    description: "任选一套 Glyph 外观并解锁",
     instantPurchase: true,
     onPurchase: () => {
       // The actual unlocks are handled in the ShopPurchaseData object, so we just show notifications here
       GameUI.notify.info(
-        `You have purchased the "${GlyphAppearanceHandler.chosenFromModal.name}" Set for Glyph cosmetics!`,
+        `已购买 Glyph 外观套装“${GlyphAppearanceHandler.chosenFromModal.name}”！`,
         10000);
       GlyphAppearanceHandler.chosenFromModal = null;
       GlyphAppearanceHandler.applyNotification();
@@ -112,11 +112,11 @@ export const shopPurchases = {
       const currentSetCount = GlyphAppearanceHandler.expectedSetCount;
       return Math.floor(baseCost * (totalSets - currentSetCount) / totalSets);
     },
-    description: "Unlock all remaining Glyph cosmetic sets at once",
+    description: "一次性解锁所有剩余 Glyph 外观套装",
     instantPurchase: true,
     onPurchase: () => {
       // The actual unlocks are handled in the ShopPurchaseData object, so we just show notifications here
-      GameUI.notify.info(`You have unlocked all sets for Glyph cosmetics!`, 15000);
+      GameUI.notify.info(`已解锁所有 Glyph 外观套装！`, 15000);
       GlyphAppearanceHandler.applyNotification();
     },
     isUnlocked: () => PlayerProgress.realityUnlocked(),
