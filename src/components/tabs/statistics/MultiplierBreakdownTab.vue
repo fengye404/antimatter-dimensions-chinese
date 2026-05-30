@@ -164,4 +164,32 @@ export default {
   opacity: 0.2;
   z-index: 1;
 }
+
+@media (max-width: 700px), (pointer: coarse) and (max-width: 900px) {
+  .c-list-container,
+  .l-multiplier-subtab-btn-container {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+
+  .l-multiplier-subtab-btn-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 0.55rem;
+  }
+
+  .c-multiplier-subtab-btn {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: calc(100vw - 3.2rem);
+    min-height: 3.9rem;
+    height: auto;
+    margin: 0 auto !important;
+    padding: 0.6rem 0.8rem;
+    border-radius: 1rem;
+  }
+}
 </style>

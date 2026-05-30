@@ -32,33 +32,33 @@ export default {
 <template>
   <div class="o-glyph-inventory-management-group">
     <div class="l-glyph-sacrifice-options__header">
-      Sort Glyphs:
+      整理符文：
     </div>
     <button
       class="c-glyph-inventory-option"
       @click="sortByLevel"
     >
-      Sort by level
+      按等级排序
       <div class="c-glyph-inventory-option__tooltip">
-        Arranges by decreasing Glyph level
+        等级高的符文排在前面
       </div>
     </button>
     <button
       class="c-glyph-inventory-option"
       @click="sortByPower"
     >
-      Sort by power
+      按强度排序
       <div class="c-glyph-inventory-option__tooltip">
-        Arranges by decreasing level×rarity
+        按“等级 × 稀有度”从高到低排列
       </div>
     </button>
     <button
       class="c-glyph-inventory-option"
       @click="sortByEffect"
     >
-      Sort by effect
+      按效果分组
       <div class="c-glyph-inventory-option__tooltip">
-        Groups Glyphs together based on effects
+        将效果相近的符文放在一起
       </div>
     </button>
     <button
@@ -66,18 +66,18 @@ export default {
       class="c-glyph-inventory-option"
       @click="sortByScore"
     >
-      Sort by score
+      按筛选分数排序
       <div class="c-glyph-inventory-option__tooltip">
-        Arranges by decreasing Glyph filter score
+        符文筛选分数高的排在前面
       </div>
     </button>
     <button
       class="c-glyph-inventory-option"
       @click="collapseEmpty"
     >
-      Collapse empty space
+      收拢空位
       <div class="c-glyph-inventory-option__tooltip">
-        Moves all Glyphs to the earliest empty slots
+        将符文移动到靠前的空格
       </div>
     </button>
   </div>

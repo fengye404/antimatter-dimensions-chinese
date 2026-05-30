@@ -17,17 +17,17 @@ export default {
   },
   computed: {
     topLabel() {
-      if (!this.isDoomed) return `You are about to Doom your Reality`;
-      return `You are about to perform an Armageddon reset`;
+      if (!this.isDoomed) return `你即将让现实走向末日`;
+      return `你即将进行末日重置`;
     },
     message() {
       const isFirstReset = (Currency.remnants.eq(0))
-        ? `which will produce ${format(this.nextRealityShardGain, 2, 2)} Reality Shards/s`
-        : `which will increase your Reality Shards gain from ${format(this.realityShardGain, 2, 2)}/s
-          to ${format(this.nextRealityShardGain, 2, 2)}/s`;
+        ? `，并开始每秒获得 ${format(this.nextRealityShardGain, 2, 2)} 现实碎片`
+        : `，并将现实碎片获取从每秒 ${format(this.realityShardGain, 2, 2)}
+          提高到每秒 ${format(this.nextRealityShardGain, 2, 2)}`;
 
-      return `Armageddon will start a new Doomed Reality. You will gain
-      ${quantify("Remnant", this.remnantsGain, 2, 0)} ${isFirstReset}`;
+      return `末日重置会开启一个新的末日现实。你将获得
+      ${format(this.remnantsGain, 2, 0)} 个残迹${isFirstReset}`;
     }
   },
   methods: {
@@ -57,13 +57,11 @@ export default {
       v-if="!isDoomed"
       class="c-modal-message__text"
     >
-      Dooming your Reality will reset everything except Challenge records, Celestial progress and anything under
-      the General and Reality header on the Statistics tab. You will not gain any rewards from your progress
-      in your current Reality. Dooming your Reality will also purge most of your unprotected Glyphs and disable
-      certain game mechanics.
+      让现实走向末日会重置几乎所有内容，但会保留挑战记录、天神进度，以及统计页面中“总览”和“现实”分类下的记录。
+      你不会从当前现实的进度中获得任何奖励。末日还会清除大多数未保护的符文，并禁用部分游戏机制。
       <br>
       <br>
-      Are you sure you want to do this?
+      确定要这样做吗？
     </div>
     <div
       v-else

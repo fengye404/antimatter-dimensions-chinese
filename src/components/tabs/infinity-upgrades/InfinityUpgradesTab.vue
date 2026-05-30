@@ -127,17 +127,17 @@ export default {
         :class="disChargeClassObject"
         @click="disCharge = !disCharge"
       >
-        Respec Charged Infinity Upgrades on next Reality
+        下次现实时重置充能无限升级
       </PrimaryButton>
     </div>
     <div v-if="chargeUnlocked">
-      You have charged {{ formatInt(chargesUsed) }}/{{ formatInt(totalCharges) }} Infinity Upgrades.
-      Charged Infinity Upgrades have their effect altered.
+      你已充能 {{ formatInt(chargesUsed) }}/{{ formatInt(totalCharges) }} 个无限升级。
+      充能后的无限升级会变为新的效果。
       <br>
-      Hold shift to show Charged Infinity Upgrades. You can freely respec your choices on Reality.
+      按住 Shift 可显示充能无限升级。每次现实时都可以自由重置选择。
     </div>
     <div v-if="isUseless">
-      You cannot Charge Infinity Upgrades while Doomed.
+      末日状态下无法充能无限升级。
     </div>
     <br>
     每一列升级都必须从上到下依次购买。
@@ -171,10 +171,10 @@ export default {
       />
     </div>
     <div v-if="eternityUnlocked && bottomRowUnlocked">
-      The Infinity Point multiplier becomes more expensive
+      无限点数倍率在超过
       <br>
-      above {{ formatPostBreak(ipMultSoftCap) }} Infinity Points, and cannot be purchased past
-      {{ formatPostBreak(ipMultHardCap) }} Infinity Points.
+      {{ formatPostBreak(ipMultSoftCap) }} 无限点数后会变得更贵，超过
+      {{ formatPostBreak(ipMultHardCap) }} 无限点数后无法继续购买。
     </div>
   </div>
 </template>

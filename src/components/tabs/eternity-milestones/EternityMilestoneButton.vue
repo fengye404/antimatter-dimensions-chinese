@@ -41,6 +41,12 @@ export default {
     isDoomed: () => Pelle.isDoomed,
     isUseless() {
       return this.isDoomed && this.config.pelleUseless;
+    },
+    milestoneGoal() {
+      return `${formatInt(this.eternities)} 次永恒：`;
+    },
+    lockText() {
+      return this.isLocked && !this.isReached ? "（需要佩勒升级解锁）" : "";
     }
   },
   methods: {
@@ -58,14 +64,14 @@ export default {
     class="l-eternity-milestone"
   >
     <span class="o-eternity-milestone__goal">
-      {{ quantifyInt("Eternity", eternities) }}:
+      {{ milestoneGoal }}
     </span>
     <button
       v-tooltip="activeCondition"
       :class="rewardClassObject"
     >
       <span :class="{ 'o-pelle-disabled': isUseless }">
-        {{ reward }} {{ (isLocked && !isReached) ? "(Locked behind a Pelle Upgrade)" : "" }}
+        {{ reward }} {{ lockText }}
       </span>
     </button>
   </div>

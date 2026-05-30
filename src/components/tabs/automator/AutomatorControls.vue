@@ -34,9 +34,9 @@ export default {
       return this.$viewModel.tabs.reality.automator.editorScriptID;
     },
     playTooltip() {
-      if (this.isPaused) return "Resume Automator execution";
-      if (!this.isRunning) return "Start Automator";
-      return "Pause Automator execution";
+      if (this.isPaused) return "继续执行自动机";
+      if (!this.isRunning) return "启动自动机";
+      return "暂停自动机";
     },
     playButtonClass() {
       return {
@@ -53,10 +53,10 @@ export default {
       let lineNum = `0000${this.currentLine}`;
       lineNum = lineNum.slice(lineNum.length - digits);
 
-      if (this.isPaused) return `Paused: "${this.statusName}" (Resumes on Line ${lineNum})`;
-      if (this.isRunning) return `Running: "${this.statusName}" (Line ${lineNum})`;
-      if (this.hasErrors) return `Stopped: "${this.statusName}" has errors (Cannot run)`;
-      return `Stopped: Will start running "${this.statusName}"`;
+      if (this.isPaused) return `已暂停：“${this.statusName}”（将从第 ${lineNum} 行继续）`;
+      if (this.isRunning) return `运行中：“${this.statusName}”（第 ${lineNum} 行）`;
+      if (this.hasErrors) return `已停止：“${this.statusName}”有错误（无法运行）`;
+      return `已停止：将运行“${this.statusName}”`;
     },
     maxScriptChars() {
       return AutomatorData.MAX_ALLOWED_SCRIPT_CHARACTERS;
@@ -121,7 +121,7 @@ export default {
     <div class="c-automator-control-row l-automator-button-row">
       <div class="c-button-group">
         <AutomatorButton
-          v-tooltip="'Rewind Automator to the first command'"
+          v-tooltip="'回到第一条命令'"
           class="fa-fast-backward"
           @click="rewind"
         />
@@ -134,29 +134,29 @@ export default {
           @click="play"
         />
         <AutomatorButton
-          v-tooltip="'Stop Automator and reset position'"
+          v-tooltip="'停止自动机并重置位置'"
           class="fa-stop"
           @click="stop"
         />
         <AutomatorButton
-          v-tooltip="'Step forward one line'"
+          v-tooltip="'单步执行一行'"
           class="fa-step-forward"
           @click="step"
         />
         <AutomatorButton
-          v-tooltip="'Restart script automatically when it reaches the end'"
+          v-tooltip="'脚本结束后自动重新开始'"
           class="fa-sync-alt"
           :class="{ 'c-automator__button--active' : repeatOn }"
           @click="repeat"
         />
         <AutomatorButton
-          v-tooltip="'Automatically restart the active script when finishing or restarting a Reality'"
+          v-tooltip="'完成或重启现实时自动重启当前脚本'"
           class="fa-reply"
           :class="{ 'c-automator__button--active' : forceRestartOn }"
           @click="restart"
         />
         <AutomatorButton
-          v-tooltip="'Scroll Automator to follow current line'"
+          v-tooltip="'滚动自动机以跟随当前执行行'"
           class="fa-indent"
           :class="{ 'c-automator__button--active' : followExecution }"
           @click="follow"
@@ -166,18 +166,18 @@ export default {
           class="c-automator__status-text c-automator__status-text--small"
           :class="{ 'c-automator__status-text--error' : currentChars > maxScriptChars }"
         >
-          This script: {{ formatInt(currentChars) }}/{{ formatInt(maxScriptChars) }}
+          当前脚本：{{ formatInt(currentChars) }}/{{ formatInt(maxScriptChars) }}
         </span>
       </div>
       <div class="c-button-group">
         <AutomatorButton
-          v-tooltip="'Undo'"
+          v-tooltip="'撤销'"
           class="fa-arrow-rotate-left"
           :class="{ 'c-automator__button--inactive' : !hasUndo }"
           @click="undo"
         />
         <AutomatorButton
-          v-tooltip="'Redo'"
+          v-tooltip="'重做'"
           class="fa-arrow-rotate-right"
           :class="{ 'c-automator__button--inactive' : !hasRedo }"
           @click="redo"
@@ -188,17 +188,17 @@ export default {
     <div class="l-automator-button-row">
       <span
         v-if="duplicateStatus"
-        v-tooltip="'More than one script has this name!'"
+        v-tooltip="'多个脚本使用了同一个名字！'"
         class="fas fa-exclamation-triangle c-automator__status-text c-automator__status-text--error"
       />
       <span
         v-if="editingDifferentScript"
-        v-tooltip="'The automator is running a different script than the editor is showing'"
+        v-tooltip="'自动机正在运行的脚本和编辑器显示的脚本不同'"
         class="fas fa-circle-exclamation c-automator__status-text c-automator__status-text--warning"
       />
       <span
         v-if="justCompleted"
-        v-tooltip="'The automator completed running the previous script'"
+        v-tooltip="'自动机已完成上一个脚本'"
         class="fas fa-circle-check c-automator__status-text"
       />
       <span

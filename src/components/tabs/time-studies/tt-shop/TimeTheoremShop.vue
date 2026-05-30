@@ -98,13 +98,13 @@ export default {
       TimeTheorems.buyOne(false, "am");
     },
     formatIP(ip) {
-      return `${format(ip)} IP`;
+      return `${format(ip)} 无限点数`;
     },
     buyWithIP() {
       TimeTheorems.buyOne(false, "ip");
     },
     formatEP(ep) {
-      return `${format(ep, 2, 0)} EP`;
+      return `${format(ep, 2, 0)} 永恒点数`;
     },
     buyWithEP() {
       TimeTheorems.buyOne(false, "ep");

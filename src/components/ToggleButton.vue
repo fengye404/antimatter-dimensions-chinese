@@ -10,12 +10,12 @@ export default {
     on: {
       type: String,
       required: false,
-      default: "ON"
+      default: "开启"
     },
     off: {
       type: String,
       required: false,
-      default: "OFF"
+      default: "关闭"
     },
     value: {
       type: Boolean,
@@ -54,4 +54,3 @@ export default {
     </div>
   </button>
 </template>
-

@@ -42,8 +42,8 @@ export default {
         : "Undo is only available for Glyphs equipped during this Reality";
     },
     unequipText() {
-      if (Pelle.isDoomed) return "Unequip Glyphs on Armageddon";
-      return "Unequip Glyphs on Reality";
+      if (Pelle.isDoomed) return "末日重置时卸下符文";
+      return "现实时卸下符文";
     },
     isDoomed() {
       return Pelle.isDoomed;
@@ -204,23 +204,23 @@ export default {
         :ach-tooltip="undoTooltip"
         @click="undo"
       >
-        <span>Rewind to <b>undo</b> the last equipped Glyph</span>
+        <span>回退上一次装备符文操作</span>
       </button>
       <button
         class="l-glyph-equip-button c-reality-upgrade-btn"
         @click="toggleRespecIntoProtected"
       >
-        Unequip Glyphs to:
+        卸下符文到：
         <br>
-        <span v-if="respecIntoProtected">Protected slots</span>
-        <span v-else>Main inventory</span>
+        <span v-if="respecIntoProtected">保护栏位</span>
+        <span v-else>主背包</span>
       </button>
       <button
         class="l-glyph-equip-button-short c-reality-upgrade-btn"
         :class="{'tutorial--glow': cosmeticGlow}"
         @click="showOptionModal"
       >
-        Open Glyph Visual Options
+        打开符文外观选项
       </button>
     </div>
   </div>

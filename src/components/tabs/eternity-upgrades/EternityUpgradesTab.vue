@@ -47,10 +47,10 @@ export default {
     </div>
     <EPMultiplierButton />
     <div>
-      The cost for the {{ formatX(5) }} multiplier jumps at {{ format(costIncreases[0]) }},
-      {{ formatPostBreak(costIncreases[1], 2) }}, and {{ formatPostBreak(costIncreases[2]) }} Eternity Points.
+      {{ formatX(5) }} 倍永恒点数升级会在 {{ format(costIncreases[0]) }}、
+      {{ formatPostBreak(costIncreases[1], 2) }}、{{ formatPostBreak(costIncreases[2]) }} 永恒点数时出现花费跳跃。
       <br>
-      The cost increases super-exponentially after {{ formatPostBreak(costIncreases[3]) }} Eternity Points.
+      超过 {{ formatPostBreak(costIncreases[3]) }} 永恒点数后，花费会按超指数速度增长。
     </div>
   </div>
 </template>

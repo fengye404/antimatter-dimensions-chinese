@@ -3,7 +3,7 @@ import { DC } from "../../constants";
 export const effarigUnlocks = {
   adjuster: {
     id: 0,
-    description: "Adjustable Glyph level factor weights",
+    description: "可调整符文等级因素权重",
     cost: 1e7,
     onPurchased: () => {
       Effarig.quotes.unlockWeights.show();
@@ -13,7 +13,7 @@ export const effarigUnlocks = {
   },
   glyphFilter: {
     id: 1,
-    description: "Glyph Filtering",
+    description: "符文筛选",
     cost: 2e8,
     onPurchased: () => {
       Effarig.quotes.unlockGlyphFilter.show();
@@ -22,7 +22,7 @@ export const effarigUnlocks = {
   },
   setSaves: {
     id: 2,
-    description: "Glyph Presets",
+    description: "符文预设",
     cost: 3e9,
     onPurchased: () => {
       Effarig.quotes.unlockSetSaves.show();
@@ -31,7 +31,7 @@ export const effarigUnlocks = {
   },
   run: {
     id: 3,
-    description: "Effarig's Reality",
+    description: "Effarig 的现实",
     cost: 5e11,
     onPurchased: () => {
       Effarig.quotes.unlockRun.show();
@@ -39,28 +39,28 @@ export const effarigUnlocks = {
   },
   infinity: {
     id: 4,
-    label: "Infinity",
+    label: "无限",
     get description() {
-      return ` Replicanti cap is multiplied by a value based on Infinities
-        Infinities increase your max Replicanti Galaxies
-        Base Infinity Point gain is capped at ${format(DC.E200)} in Effarig's Reality
-        Each type of Infinity Point multiplier is capped at ${format(DC.E50)} in Effarig's Reality`;
+      return ` 复制器上限会根据无限次数获得倍率
+        无限次数会提高复制器星系上限
+        在 Effarig 的现实中，基础无限点数收益最高为 ${format(DC.E200)}
+        各类无限点数倍率在 Effarig 的现实中最高为 ${format(DC.E50)}`;
     },
   },
   eternity: {
     id: 5,
-    label: "Eternity",
+    label: "永恒",
     get description() {
-      return ` Eternities generates Infinities
-        Infinity Points are no longer limited in any way in Effarig's Reality
-        You have unlocked The Nameless Ones`;
+      return ` 永恒次数会生成无限次数
+        Effarig 的现实中不再限制无限点数
+        解锁无名之辈`;
     },
   },
   reality: {
     id: 6,
-    label: "Reality",
+    label: "现实",
     get description() {
-      return " You have unlocked Effarig Glyphs (You may equip at most one and some effects are mutually exclusive)";
+      return " 解锁 Effarig 符文（最多只能装备一个，部分效果互斥）";
     },
   }
 };

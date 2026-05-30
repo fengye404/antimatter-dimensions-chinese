@@ -71,12 +71,12 @@ export default {
     },
     dropdownLabel(script) {
       const labels = [];
-      if (script.id === this.currentScriptID) labels.push("viewing");
+      if (script.id === this.currentScriptID) labels.push("正在查看");
       if (script.id === this.runningScriptID) {
-        if (this.isRunning) labels.push("running");
-        else if (this.isPaused) labels.push("paused");
+        if (this.isRunning) labels.push("运行中");
+        else if (this.isPaused) labels.push("已暂停");
       }
-      const status = labels.length ? `(${labels.join(", ").capitalize()})` : "";
+      const status = labels.length ? `（${labels.join("，")}）` : "";
       return `${script.name} ${status}`;
     },
     labelClassObject(id) {
@@ -107,13 +107,13 @@ export default {
       class="l-create-script c-automator-docs-script-select c-script-option-hover-effect"
       @click="createNewScript()"
     >
-      <i>Create a new script (You have {{ formatInt(scriptCount) }} / {{ formatInt(maxScriptCount) }})</i>
+      <i>新建脚本（{{ formatInt(scriptCount) }} / {{ formatInt(maxScriptCount) }}）</i>
     </div>
     <div
       v-else
       class="l-create-script c-automator-docs-script-select l-max-scripts"
     >
-      <i>You can only have {{ formatInt(maxScriptCount) }} scripts!</i>
+      <i>最多只能拥有 {{ formatInt(maxScriptCount) }} 个脚本！</i>
     </div>
   </div>
 </template>

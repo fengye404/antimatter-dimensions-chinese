@@ -1374,8 +1374,34 @@ body.t-s12 {
   }
 
   .c-prestige-info-blocks {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     min-height: 0;
     padding: 0.55rem 0 0.2rem;
+    gap: 0.55rem;
+  }
+
+  .l-game-header__center {
+    order: 1;
+    grid-column: 1 / -1;
+  }
+
+  .l-game-header__eternity {
+    order: 2;
+  }
+
+  .l-game-header__infinity {
+    order: 3;
+  }
+
+  .l-game-header__center,
+  .l-game-header__eternity,
+  .l-game-header__infinity {
+    position: relative !important;
+    right: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .c-prestige-button-container {
@@ -1383,6 +1409,17 @@ body.t-s12 {
     padding: 0.35rem 0 0.45rem;
     justify-content: center;
     gap: 0.25rem;
+  }
+
+  .c-prestige-button-container .o-prestige-button {
+    width: 100% !important;
+    max-width: 17.5rem;
+    height: auto;
+    min-height: 4.35rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 1.05rem;
+    font-size: 0.98rem;
+    line-height: 1.2;
   }
 
   .l-game-header__center,
@@ -1724,6 +1761,25 @@ body.t-s12 {
     background: rgba(111, 48, 52, 62%);
   }
 
+  .l-notification-container {
+    width: calc(100vw - 2rem);
+    right: 1rem;
+    left: 1rem;
+    align-items: stretch;
+    pointer-events: none;
+  }
+
+  .o-notification {
+    box-sizing: border-box;
+    width: 100%;
+    white-space: normal;
+    border-radius: 0.9rem;
+    padding: 0.7rem 0.95rem;
+    font-size: 1.08rem;
+    line-height: 1.25;
+    pointer-events: auto;
+  }
+
   .o-save-timer {
     display: none;
   }
@@ -1862,7 +1918,7 @@ body.t-s12 {
 
   .l-select-theme,
   .l-select-notation {
-    max-height: 46vh;
+    max-height: 30vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -2065,5 +2121,584 @@ body.t-s12 {
   .c-challenge-box--eternity {
     min-height: 16rem;
     height: auto;
+  }
+
+  .l-infinity-upgrades-tab,
+  .l-break-infinity-tab {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0.8rem;
+  }
+
+  .l-infinity-upgrade-grid,
+  .l-infinity-upgrades-bottom-row,
+  .l-replicanti-upgrade-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+  }
+
+  .l-infinity-upgrade-grid__cell,
+  .l-infinity-upgrades-tab__mult-btn,
+  .l-replicanti-upgrade-button {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+  }
+
+  .o-infinity-upgrade-btn,
+  .o-primary-btn--replicanti-upgrade,
+  .o-primary-btn--replicanti-galaxy {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 7.2rem;
+    height: auto;
+    padding: 0.9rem 1rem;
+    border-radius: 1.15rem;
+    font-size: 1.12rem;
+    line-height: 1.35;
+  }
+
+  .o-primary-btn--replicanti-upgrade-toggle,
+  .o-primary-btn--replicanti-galaxy-toggle {
+    min-width: 7rem;
+  }
+
+  .l-spoon-btn-group {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .c-stats-tab,
+  .l-multiplier-subtab-btn-container,
+  .c-list-container {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .l-multiplier-subtab-btn-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto !important;
+    gap: 0.55rem;
+  }
+
+  .c-multiplier-subtab-btn {
+    width: 100% !important;
+    height: auto;
+    min-height: 3.9rem;
+    margin: 0 !important;
+    padding: 0.55rem;
+    border-radius: 1rem;
+    font-size: 1.04rem;
+    line-height: 1.2;
+  }
+
+  .l-time-studies-tab {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 8.5rem;
+  }
+
+  .l-time-studies-tab .c-subtab-option-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 0.7rem;
+    padding: 0 0.8rem;
+  }
+
+  .l-time-studies-tab .o-primary-btn--subtab-option {
+    width: 100%;
+    min-height: 4rem;
+    margin: 0;
+    border-radius: 1rem;
+    line-height: 1.25;
+  }
+
+  .l-time-study-tree.l-time-studies-tab__tree {
+    transform: scale(0.38);
+    transform-origin: top center;
+    margin-top: 0.8rem;
+    margin-bottom: -58rem;
+  }
+
+  .time-theorem-buttons {
+    box-sizing: border-box;
+    width: calc(100vw - 2rem) !important;
+    max-width: calc(100vw - 2rem) !important;
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(var(--mobile-nav-height, 8.8rem) + max(0.8rem, env(safe-area-inset-bottom))) !important;
+    transform: none;
+  }
+
+  .ttshop-container {
+    box-sizing: border-box;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100%;
+    padding: 0.45rem;
+  }
+
+  .ttbuttons-row,
+  .ttbuttons-top-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    height: auto !important;
+  }
+
+  .l-load-tree-area,
+  .l-tree-load-button-wrapper,
+  .tt-gen-container {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: wrap;
+  }
+
+  .l-tt-buy-button,
+  .o-tt-top-row-button,
+  .o-tt-autobuyer-button,
+  .l-tt-buy-max-vbox {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ttshop-minimize-btn {
+    display: none;
+  }
+
+  .l-eternity-upgrades-grid,
+  .l-eternity-milestone-grid {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0.8rem 1.4rem;
+  }
+
+  .l-eternity-upgrades-grid__row,
+  .l-eternity-milestone-grid__row {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  .l-eternity-upgrades-grid__cell,
+  .l-eternity-milestone-grid__cell,
+  .l-eternity-milestone {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .o-eternity-upgrade,
+  .o-eternity-milestone__reward {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 7.6rem;
+    height: auto;
+    padding: 0.9rem 1rem;
+    border-radius: 1.15rem;
+    line-height: 1.35;
+  }
+
+  .o-eternity-milestone__goal {
+    display: block;
+    width: 100%;
+    margin: 0.8rem 0 0.35rem;
+    text-align: left;
+  }
+
+  .l-dilation-tab,
+  .l-dilation-upgrades-grid,
+  .l-reality-upgrade-grid {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .l-dilation-upgrades-grid__row,
+  .l-reality-upgrade-grid__row {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+  }
+
+  .l-dilation-upgrades-grid__cell,
+  .l-reality-upgrade-btn,
+  .c-reality-upgrade-btn {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .o-dilation-upgrade,
+  .c-reality-upgrade-btn {
+    min-height: 7.6rem;
+    height: auto;
+    padding: 0.9rem 1rem;
+    border-radius: 1.15rem;
+    line-height: 1.35;
+  }
+
+  .c-reality-upgrade-infotext {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 0.4rem;
+    font-size: 1.08rem;
+  }
+
+  .l-options-tab,
+  .l-select-theme,
+  .l-select-notation,
+  .l-select-theme__inner {
+    padding-bottom: calc(var(--mobile-nav-height, 8.8rem) + 8rem);
+  }
+
+  .l-select-theme,
+  .l-select-notation,
+  .l-select-theme__inner {
+    max-height: 24vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .l-select-theme,
+  .l-select-notation {
+    position: fixed !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    bottom: calc(var(--mobile-nav-height, 8.8rem) + 1rem) !important;
+    top: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: 42vh !important;
+    z-index: 30 !important;
+  }
+
+  .l-select-theme__inner,
+  .l-select-notation__inner {
+    max-height: 42vh !important;
+    padding-bottom: 0 !important;
+  }
+
+  .l-select-theme__item:last-child,
+  .l-select-notation__item:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .l-glyphs-tab {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 0 0.75rem calc(var(--mobile-nav-height, 8.8rem) + 2rem);
+  }
+
+  .l-reality-button-column,
+  .l-player-glyphs-column,
+  .l-equipped-glyphs-and-effects-container,
+  .l-glyph-inventory,
+  .l-glyph-inventory-management,
+  .l-glyph-sacrifice-options,
+  .l-glyph-sidebar-panel-size {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .l-reality-button-group,
+  .l-equipped-glyphs__buttons,
+  .l-glyph-info,
+  .l-glyph-info-wrapper,
+  .c-glyph-info-options,
+  .l-glyph-inventory-management {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    height: auto !important;
+    gap: 0.65rem;
+  }
+
+  .l-glyph-component {
+    max-width: 100%;
+  }
+
+  .l-equipped-glyphs-and-effects-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .o-glyph-inventory-management-group,
+  .c-glyph-inventory-option {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .c-glyph-inventory-option {
+    min-height: 3.8rem;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .l-glyph-info-button,
+  .c-glyph-info-button {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    white-space: normal;
+  }
+
+  .c-glyph-info-options {
+    height: auto !important;
+  }
+
+  .c-multiplier-subtab-btn {
+    box-sizing: border-box !important;
+    max-width: calc(100vw - 3.2rem) !important;
+    justify-self: center;
+  }
+
+  .l-mechanics-container,
+  .c-teresa-shop,
+  .l-teresa-mechanic-container,
+  .l-rm-container,
+  .l-rm-container-labels,
+  .l-laitela-mechanics-container,
+  .c-dark-matter-dimension-container,
+  .c-dark-matter-dimension-buttons,
+  .c-laitela-singularity-container,
+  .l-pelle-panel-container,
+  .l-pelle-content-container,
+  .c-armageddon-container,
+  .c-armageddon-button-container,
+  .c-armageddon-resources-container,
+  .c-pelle-upgrade-container {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .l-mechanics-container,
+  .c-teresa-shop,
+  .l-laitela-mechanics-container,
+  .c-dark-matter-dimension-buttons,
+  .c-armageddon-container,
+  .c-pelle-upgrade-container {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem;
+  }
+
+  .o-teresa-shop-button,
+  .o-laitela-run-button,
+  .c-laitela-singularity,
+  .c-laitela-singularity__cap-control,
+  .o-dark-matter-dimension-button,
+  .c-pelle-upgrade,
+  .c-armageddon-button {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    white-space: normal;
+    justify-self: center;
+  }
+
+  .o-laitela-run-button {
+    position: static !important;
+    transform: none !important;
+    min-width: 0 !important;
+    width: calc(100vw - 2rem) !important;
+    max-width: 38rem !important;
+  }
+
+  .o-teresa-shop-button,
+  .o-enslaved-shop-button {
+    width: calc(100vw - 2rem) !important;
+    min-width: 0 !important;
+    max-width: 38rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+  }
+
+  .l-teresa-celestial-tab,
+  .l-effarig-shop-and-run,
+  .l-effarig-shop,
+  .l-effarig-run,
+  .c-effarig-relics,
+  .c-effarig-relic-description,
+  .l-enslaved-celestial-tab,
+  .l-enslaved-celestial-tab--inner,
+  .l-enslaved-run-container,
+  .l-enslaved-upgrades-column,
+  .l-enslaved-top-container,
+  .l-ra-alchemy-tab,
+  .c-alchemy-resource-info,
+  .l-laitela-celestial-tab {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-bottom: calc(var(--mobile-nav-height, 8.8rem) + 10rem) !important;
+  }
+
+  .l-ra-celestial-tab,
+  .l-pelle-celestial-tab,
+  .l-pelle-tab,
+  .l-pelle-panel-container,
+  .l-celestial-navigation {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+    padding-bottom: calc(var(--mobile-nav-height, 8.8rem) + 10rem) !important;
+  }
+
+  .l-effarig-shop-and-run,
+  .l-enslaved-celestial-tab--inner,
+  .l-enslaved-top-container {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .l-enslaved-shop-container {
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    width: calc(100vw - 2rem) !important;
+    min-width: 0 !important;
+    max-width: 38rem !important;
+    justify-content: stretch !important;
+    margin: 1rem auto 2rem !important;
+  }
+
+  .c-effarig-shop-button,
+  .l-effarig-tab__reward,
+  .o-enslaved-shop-button,
+  .o-enslaved-mechanic-button,
+  .c-enslaved-run-button {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    white-space: normal;
+  }
+
+  .l-ra-alchemy-tab .c-subtab-option-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    width: 100%;
+    padding: 0 0.75rem;
+  }
+
+  .l-black-hole-tab,
+  .l-black-hole-upgrade-grid,
+  .l-black-hole-upgrade-permanent {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .c-black-hole-canvas {
+    width: min(72vw, 28rem);
+    height: min(72vw, 28rem);
+  }
+
+  .l-black-hole-upgrade-grid__row {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+  }
+
+  .l-black-hole-tab .l-reality-upgrade-btn,
+  .l-black-hole-tab .c-reality-upgrade-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .c-automator-tab,
+  .l-automator-tab,
+  .c-automator-split-pane,
+  .l-automator-pane,
+  .c-automator-block-editor,
+  .c-automator-docs {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+
+  .c-automator-split-pane {
+    height: auto !important;
+    min-height: 70vh;
+  }
+
+  .c-automator-split-pane .splitpanes__splitter {
+    display: none !important;
+  }
+
+  .c-automator-split-pane .splitpanes,
+  .c-automator-split-pane .splitpanes__pane {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  .c-automator__controls,
+  .l-automator__controls,
+  .l-automator-button-row,
+  .c-button-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  textarea,
+  .CodeMirror,
+  .cm-editor {
+    max-width: 100% !important;
   }
 }

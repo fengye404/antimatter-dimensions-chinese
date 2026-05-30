@@ -42,18 +42,18 @@ export default {
 
 <template>
   <h3 v-if="isUnlocked">
-    {{ description }} State:
+    {{ description }} 状态：
     <template v-if="isPermanent">
-      Permanently Active
+      永久激活
     </template>
     <template v-else-if="isActive">
-      Active ({{ nextChange }} remaining)
+      激活中（剩余 {{ nextChange }}）
     </template>
     <template v-else-if="id === 2 && isCharged">
-      Charged (Activates with Black Hole 1, {{ nextChange }} remaining)
+      已充能（随黑洞 1 激活，剩余 {{ nextChange }}）
     </template>
     <template v-else>
-      Inactive (Activation in {{ nextChange }})
+      未激活（{{ nextChange }} 后激活）
     </template>
   </h3>
 </template>

@@ -44,7 +44,7 @@ export default {
       return ui.view.shiftDown;
     },
     name() {
-      return `${TimeDimension(this.tier).shortDisplayName} Time Dimension`;
+      return `第 ${formatInt(this.tier)} 时间维度`;
     },
     buttonContents() {
       if (this.showTTCost) {
@@ -54,17 +54,17 @@ export default {
     },
     tooltipContents() {
       if (this.showTTCost) return `${this.formattedEPCost}<br>${this.timeEstimate}`;
-      if (this.isCapped) return `Nameless prevents the purchase of more than ${format(1)} Time Dimension`;
-      return `Purchased ${quantifyInt("time", this.bought)}`;
+      if (this.isCapped) return `无名氏阻止你购买超过 ${formatInt(1)} 个时间维度`;
+      return `已购买 ${formatInt(this.bought)} 次`;
     },
     showRow() {
       return this.realityUnlocked || this.isUnlocked || this.requirementReached;
     },
     formattedTTCost() {
-      return `Unlock: ${format(this.ttCost)} TT`;
+      return `解锁：${format(this.ttCost)} 时间定理`;
     },
     formattedEPCost() {
-      return this.isCapped ? "Capped" : `${this.showCostTitle ? "Cost: " : ""}${format(this.cost, 2)} EP`;
+      return this.isCapped ? "已达上限" : `${this.showCostTitle ? "花费：" : ""}${format(this.cost, 2)} 永恒点数`;
     },
     hasLongText() {
       return this.buttonContents.length > 20;
@@ -75,7 +75,7 @@ export default {
     timeEstimate() {
       if (!this.showTTCost || this.ttGen.eq(0)) return "";
       const time = Decimal.sub(this.ttCost, this.currTT).dividedBy(this.ttGen);
-      return time.gt(0) ? `Enough TT in ${TimeSpan.fromSeconds(time.toNumber()).toStringShort()}` : "";
+      return time.gt(0) ? `${TimeSpan.fromSeconds(time.toNumber()).toStringShort()} 后时间定理足够` : "";
     }
   },
   watch: {
@@ -151,7 +151,7 @@ export default {
         v-if="areAutobuyersUnlocked"
         v-model="isAutobuyerOn"
         class="o-primary-btn--buy-td-auto"
-        label="Auto:"
+        label="自动："
       />
       <PrimaryButton
         v-else
@@ -159,7 +159,7 @@ export default {
         class="o-primary-btn--buy-td-auto"
         @click="buyMaxTimeDimension"
       >
-        Buy Max
+        购买最大
       </PrimaryButton>
     </div>
   </div>

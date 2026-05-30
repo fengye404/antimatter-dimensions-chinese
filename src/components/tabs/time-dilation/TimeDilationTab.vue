@@ -69,7 +69,7 @@ export default {
       return DilationUpgrade.ttGenerator;
     },
     baseGalaxyText() {
-      return `${formatInt(this.baseGalaxies)} Base`;
+      return `基础值：${formatInt(this.baseGalaxies)}`;
     },
     hasMaxText: () => PlayerProgress.realityUnlocked() && !Pelle.isDoomed,
     allRebuyables() {
@@ -116,8 +116,8 @@ export default {
       this.maxDT.copyFrom(player.records.thisReality.maxDT);
 
       const estimateText = getDilationTimeEstimate(this.maxDT);
-      if (this.dilatedTimeIncome.lte(0)) this.toMaxTooltip = "No DT gain";
-      else this.toMaxTooltip = estimateText.startsWith("<") ? "Currently Increasing" : estimateText;
+      if (this.dilatedTimeIncome.lte(0)) this.toMaxTooltip = "膨胀时间没有增长";
+      else this.toMaxTooltip = estimateText.startsWith("<") ? "仍在提升" : estimateText;
     }
   }
 };
@@ -126,9 +126,9 @@ export default {
 <template>
   <div class="l-dilation-tab">
     <span>
-      You have
+      你有
       <span class="c-dilation-tab__tachyons">{{ format(tachyons, 2, 1) }}</span>
-      {{ pluralize("Tachyon Particle", tachyons) }}.
+      快子粒子。
     </span>
     <div
       @mouseover="isHovering = true"
@@ -137,28 +137,28 @@ export default {
       <DilationButton />
     </div>
     <span>
-      You have
+      你有
       <span class="c-dilation-tab__dilated-time">{{ format(dilatedTime, 2, 1) }}</span>
-      Dilated Time.
-      <span class="c-dilation-tab__dilated-time-income">{{ dilatedTimeGainText }}/s</span>
+      膨胀时间。
+      <span class="c-dilation-tab__dilated-time-income">{{ dilatedTimeGainText }}/秒</span>
     </span>
     <span>
-      Next
+      下一个
       <span v-if="tachyonGalaxyGain > 1">{{ formatInt(tachyonGalaxyGain) }}</span>
-      {{ pluralize("Tachyon Galaxy", tachyonGalaxyGain) }} at
+      快子星系需要
       <span
         class="c-dilation-tab__galaxy-threshold"
         :ach-tooltip="galaxyTimeEstimate"
       >{{ format(galaxyThreshold, 2, 1) }}</span>
-      Dilated Time, gained total of
+      膨胀时间；当前共获得
       <span
         class="c-dilation-tab__galaxies"
         :ach-tooltip="baseGalaxyText"
       >{{ formatInt(totalGalaxies) }}</span>
-      {{ pluralize("Tachyon Galaxy", totalGalaxies) }}
+      个快子星系
     </span>
     <span v-if="hasMaxText">
-      Your maximum Dilated Time reached this Reality is
+      本次现实中达到过的最高膨胀时间为
       <span
         v-tooltip="toMaxTooltip"
         class="max-accent"

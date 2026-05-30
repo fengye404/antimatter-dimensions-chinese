@@ -1,4 +1,5 @@
 import { GameMechanicState } from "../game-mechanics";
+import { normalAchievementText } from "../chinese-achievement-i18n";
 
 import { SteamRuntime } from "@/steam";
 
@@ -69,9 +70,9 @@ class AchievementState extends GameMechanicState {
       GameCache.staticGlyphWeights.invalidate();
     }
     if (auto) {
-      GameUI.notify.reality(`Automatically unlocked: ${this.name}`);
+      GameUI.notify.reality(`自动解锁：${normalAchievementText(this, "name")}`);
     } else {
-      GameUI.notify.success(`成就：${this.name}`);
+      GameUI.notify.success(`成就：${normalAchievementText(this, "name")}`);
       SteamRuntime.activateAchievement(this.id);
     }
     if (player.speedrun.isActive && !player.speedrun.achievementTimes[this.id]) {

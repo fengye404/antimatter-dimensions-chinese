@@ -57,6 +57,7 @@ export default {
       function formatInterval(interval) {
         const actualInterval = upgrade.applyModifiers(interval);
         const intervalNum = actualInterval.toNumber();
+        if (actualInterval.gte(1000)) return `${format(actualInterval.div(1000), 2, 2)} 秒`;
         if (
           Number.isFinite(intervalNum) &&
           intervalNum > 1 &&
@@ -66,8 +67,6 @@ export default {
           return TimeSpan.fromMilliseconds(intervalNum).toStringShort(false);
         }
         if (actualInterval.lt(0.01)) return `< ${format(0.01, 2, 2)}ms`;
-        if (actualInterval.gt(1000))
-          return `${format(actualInterval.div(1000), 2, 2)}s`;
         return `${format(actualInterval, 2, 2)}ms`;
       }
       return new ReplicantiUpgradeButtonSetup(
@@ -155,7 +154,7 @@ export default {
       if (this.hasRaisedCap) {
         const mult = this.replicantiCap.div(Decimal.NUMBER_MAX_VALUE);
         this.capMultText = TimeStudy(31).canBeApplied
-          ? `Base: ${formatX(mult.pow(1 / TimeStudy(31).effectValue), 2)}; after TS31: ${formatX(mult, 2)}`
+          ? `基础：${formatX(mult.pow(1 / TimeStudy(31).effectValue), 2)}；时间研究 31 后：${formatX(mult, 2)}`
           : formatX(mult, 2);
       }
       this.distantRG = ReplicantiUpgrade.galaxies.distantRGStart;

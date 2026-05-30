@@ -11,7 +11,8 @@
     "lint": "vue-cli-service lint",
     "test:e2e": "playwright test",
     "audit:i18n": "node scripts/audit-i18n-visible-text.js",
-    "audit:i18n:visual": "node scripts/audit-i18n-visual-consistency.js"
+    "audit:i18n:visual": "node scripts/audit-i18n-visual-consistency.js",
+    "audit:deep": "node scripts/audit-deep-playthrough.js"
   },
   "dependencies": {
     "@antimatter-dimensions/notations": "^3.1.0",

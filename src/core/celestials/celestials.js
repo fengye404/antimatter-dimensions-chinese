@@ -20,33 +20,33 @@ GameDatabase.celestials.descriptions = [
   {
     name: "Teresa",
     effects() {
-      return `Glyph Time Theorem generation is disabled.
-      You gain less Infinity Points and Eternity Points (x^${format(0.55, 2, 2)}).`;
+      return `符文产生时间定理的效果被禁用。
+      无限点数和永恒点数收益降低（x^${format(0.55, 2, 2)}）。`;
     },
   },
   {
     name: "Effarig",
     effects() {
-      return `All Dimension multipliers, game speed, and tickspeed are severely lowered, like Dilation.
-      Infinity Power reduces the production and game speed penalties and Time Shards reduce the tickspeed penalty.
-      Glyph levels are temporarily capped to ${formatInt(Effarig.glyphLevelCap)}, rarity is unaffected.`;
+      return `所有维度倍率、游戏速度与时间间隔都会像时间膨胀一样被大幅压低。
+      无限能量会减轻生产和游戏速度惩罚，时间碎片会减轻时间间隔惩罚。
+      符文等级暂时最高为 ${formatInt(Effarig.glyphLevelCap)}，稀有度不受影响。`;
     },
     description() {
-      return `You will exit Effarig's Reality when you complete a Layer of it for the first time.`;
+      return `首次完成 Effarig 现实的每一层时，你会自动退出该现实。`;
     }
   },
   {
     name: "The Nameless Ones",
     effects() {
-      return `Glyph levels are boosted to a minimum of ${formatInt(5000)}.
-      Infinity, Time, and 8th Antimatter Dimension purchases are limited to ${formatInt(1)} each.
-      Antimatter Dimension multipliers are always Dilated (the Glyph effect still only applies in actual Dilation).
-      Time Study 192 (uncapped Replicanti) is locked.
-      The Black Hole is disabled.
-      Tachyon Particle production and Dilated Time production are severely reduced.
-      Time Theorem generation from Dilation Glyphs is disabled.
-      Certain challenge goals are increased.
-      Stored game time is discharged at a reduced effectiveness (exponent^${format(0.55, 2, 2)}).`;
+      return `符文等级至少提升到 ${formatInt(5000)}。
+      无限维度、时间维度和第 8 反物质维度每个最多只能购买 ${formatInt(1)} 次。
+      反物质维度倍率始终处于膨胀状态（符文效果仍只在真正时间膨胀中生效）。
+      时间研究 192（复制器无上限）被锁定。
+      黑洞被禁用。
+      快子粒子与膨胀时间产量大幅降低。
+      膨胀符文产生时间定理的效果被禁用。
+      部分挑战目标提高。
+      储存的游戏时间释放效果降低（指数^${format(0.55, 2, 2)}）。`;
     }
   },
   {
@@ -66,8 +66,8 @@ GameDatabase.celestials.descriptions = [
   {
     name: "Ra",
     effects() {
-      return `You only have ${formatInt(4)} Dimension Boosts and can not gain any more.
-      The Tickspeed purchase multiplier is fixed at ${formatX(1.1245, 0, 3)}.`;
+      return `你最多只能拥有 ${formatInt(4)} 次维度提升，且无法再获得更多。
+      时间间隔购买倍率固定为 ${formatX(1.1245, 0, 3)}。`;
     },
   },
   {
@@ -96,18 +96,18 @@ GameDatabase.celestials.descriptions = [
         ? ""
         : `Production from ${disabledDims} is disabled.`;
 
-      return `Infinity Point and Eternity Point gain are Dilated.
-      Game speed is reduced to ${formatInt(1)} and gradually comes back over ${formatInt(10)} minutes.
-      Black Hole storing, discharging, pulsing, and inversion are all disabled.
+      return `无限点数和永恒点数收益被时间膨胀压低。
+      游戏速度降为 ${formatInt(1)}，并在 ${formatInt(10)} 分钟内逐渐恢复。
+      黑洞储存、释放、脉冲与反转全部禁用。
       ${disabledText}`;
     },
     description() {
-      return `Antimatter generates entropy inside of this Reality.\
-      At ${formatPercents(1)} entropy, the Reality becomes destabilized\
-      and you gain a reward based on how quickly you reached ${formatPercents(1)}.
-      Destabilizing the Reality in less than ${formatInt(30)} seconds makes it become significantly more difficult,\
-      in exchange for giving a much stronger reward.\
-      Doing this ${formatInt(8)} times will also give a ${formatX(8)} to Dark Energy gain.`;
+      return `在这个现实中，反物质会生成熵。\
+      熵达到 ${formatPercents(1)} 后现实会失稳，\
+      你会根据达到 ${formatPercents(1)} 熵的速度获得奖励。
+      若在 ${formatInt(30)} 秒内让现实失稳，之后难度会显著提高，\
+      但奖励也会强得多。\
+      完成 ${formatInt(8)} 次后，还会使暗能量获取变为 ${formatX(8)}。`;
     }
   },
 

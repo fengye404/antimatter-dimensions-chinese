@@ -47,14 +47,14 @@ export default {
   <div class="c-remnant-factors-container">
     <ExpandingControlBox
       container-class="c-remnant-factors"
-      label="Remnant Gain Factors"
+      label="残迹收益因素"
       :style="{ opacity }"
     >
       <template #dropdown>
         <div class="c-remnant-factors-text">
-          Best AM: {{ format(best.am, 2, 2) }}<br>
-          Best IP: {{ format(best.ip, 2, 2) }}<br>
-          Best EP: {{ format(best.ep, 2, 2) }}<br><br>
+          最高反物质：{{ format(best.am, 2, 2) }}<br>
+          最高无限点数：{{ format(best.ip, 2, 2) }}<br>
+          最高永恒点数：{{ format(best.ep, 2, 2) }}<br><br>
           <div class="l-remnant-factors-row">
             <div class="l-remnant-factors-col l-remnant-factors-col--first">
               <div class="l-remnant-factors-item">
@@ -67,16 +67,16 @@ export default {
                 log10(log10(ep){{ dilationMult[2] > 1 ? `*${dilationMult[2]}` : "" }} + 2)
               </div>
               <div class="l-remnant-factors-item">
-                Static divisor
+                静态除数
               </div>
               <div class="l-remnant-factors-item">
-                Static power
+                静态指数
               </div>
               <div class="l-remnant-factors-item">
-                Existing Remnants
+                已有残迹
               </div>
               <div class="l-remnant-factors-item">
-                Final amount
+                最终数量
               </div>
             </div>
             <div class="l-remnant-factors-col">

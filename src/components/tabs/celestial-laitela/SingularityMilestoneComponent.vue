@@ -67,25 +67,25 @@ export default {
     },
     completionsDisplay() {
       const maxStr = Number.isFinite(this.limit) ? formatInt(this.maxCompletions) : "∞";
-      return `${formatInt(this.completions)}/${maxStr} ${pluralize("completion", this.completions)}`;
+      return `${formatInt(this.completions)}/${maxStr} 次完成`;
     },
     progressDisplay() {
       const condenseCount = this.remainingSingularities / this.singularitiesPerCondense;
       let thisSingularityTime, extraTime, timeText;
       switch (this.milestoneMode) {
         case SINGULARITY_MILESTONE_RESOURCE.SINGULARITIES:
-          return `In ${quantify("Singularity", this.remainingSingularities, 2)}`;
+          return `还需 ${quantify("奇点", this.remainingSingularities, 2)}`;
         case SINGULARITY_MILESTONE_RESOURCE.CONDENSE_COUNT:
-          return `Condense ${quantify("time", condenseCount, 2, 2)}`;
+          return `凝聚 ${quantify("次", condenseCount, 2, 2)}`;
         case SINGULARITY_MILESTONE_RESOURCE.MANUAL_TIME:
           thisSingularityTime = Math.clampMin(0, this.currentCondenseTime);
           extraTime = Math.ceil(condenseCount - 1) * this.baseCondenseTime;
-          return `In ${TimeSpan.fromSeconds(thisSingularityTime + extraTime).toStringShort()} (manual)`;
+          return `还需 ${TimeSpan.fromSeconds(thisSingularityTime + extraTime).toStringShort()}（手动）`;
         case SINGULARITY_MILESTONE_RESOURCE.AUTO_TIME:
           thisSingularityTime = Math.clampMin(0, this.currentCondenseTime + this.autoCondenseDelay);
           extraTime = Math.ceil(condenseCount - 1) * (this.baseCondenseTime + this.autoCondenseDelay);
-          timeText = `In ${TimeSpan.fromSeconds(thisSingularityTime + extraTime).toStringShort()}`;
-          return this.autoSingActive ? timeText : `Auto-Singularity is OFF`;
+          timeText = `还需 ${TimeSpan.fromSeconds(thisSingularityTime + extraTime).toStringShort()}`;
+          return this.autoSingActive ? timeText : "自动奇点：关闭";
         default:
           throw new Error("Unrecognized Singularity Milestone mode");
       }

@@ -70,23 +70,23 @@ export default {
       @click="purchaseUpgrade"
     >
       <div :class="{ 'o-pelle-disabled': isDoomed }">
-        Multiply Eternity Points from all sources by {{ formatX(5) }}
+        所有来源的永恒点数收益乘以 {{ formatX(5) }}
         <br>
-        Currently: {{ formatX(multiplier, 2, 0) }}
+        当前：{{ formatX(multiplier, 2, 0) }}
       </div>
       <br>
-      Cost: {{ quantify("Eternity Point", cost, 2, 0) }}
+      花费：{{ format(cost, 2, 0) }} 永恒点数
     </button>
     <PrimaryButton
       class="l--spoon-btn-group__little-spoon o-primary-btn--small-spoon"
       @click="upgrade.buyMax(false)"
     >
-      Max Eternity Point mult
+      购买最大永恒点数倍率
     </PrimaryButton>
     <PrimaryToggleButton
       v-if="isAutoUnlocked"
       v-model="isAutobuyerActive"
-      label="Autobuy EP mult"
+      label="自动购买永恒点数倍率"
       class="l--spoon-btn-group__little-spoon o-primary-btn--small-spoon"
     />
   </div>

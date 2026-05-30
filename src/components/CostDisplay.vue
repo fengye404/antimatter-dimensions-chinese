@@ -30,6 +30,31 @@ export default {
       cost: 0
     };
   },
+  computed: {
+    translatedName() {
+      return {
+        "Antimatter": "反物质",
+        "Infinity Point": "无限点数",
+        "Eternity Point": "永恒点数",
+        "Reality Machine": "现实机器",
+        "Time Theorem": "时间定理",
+        "Tachyon Particle": "快子粒子",
+        "Dilated Time": "膨胀时间",
+        "Memory": "记忆",
+        "Dark Matter": "暗物质",
+        "Dark Energy": "暗能量",
+        "Perk Point": "特权点数",
+        "Relic Shard": "遗物碎片",
+        "Reality Shard": "现实碎片",
+        "Galaxy": "星系",
+        "Imaginary Machine": "虚幻机器"
+      }[this.name];
+    },
+    costText() {
+      if (this.translatedName) return `${this.formatCost(this.cost)} ${this.translatedName}`;
+      return quantify(this.name, this.cost, 0, 0, this.formatCost);
+    }
+  },
   watch: {
     config: {
       immediate: true,
@@ -80,7 +105,6 @@ export default {
     update() {
       this.updateFunction();
     },
-    quantify
   }
 };
 </script>
@@ -88,6 +112,6 @@ export default {
 <template>
   <span v-if="isVisible">
     <br v-if="br">
-    {{ label }} {{ quantify(name, cost, 0, 0, formatCost) }}
+    {{ label }} {{ costText }}
   </span>
 </template>

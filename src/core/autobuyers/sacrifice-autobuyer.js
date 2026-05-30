@@ -6,7 +6,7 @@ export class SacrificeAutobuyerState extends AutobuyerState {
   }
 
   get name() {
-    return `Dimensional Sacrifice`;
+    return "维度牺牲";
   }
 
   get isUnlocked() {

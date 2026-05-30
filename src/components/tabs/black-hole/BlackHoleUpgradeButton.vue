@@ -86,7 +86,7 @@ export default {
     <PrimaryToggleButton
       v-if="isAutoUnlocked"
       v-model="isAutobuyerOn"
-      label="Auto:"
+      label="自动："
       class="l--spoon-btn-group__little-spoon-reality-btn o-primary-btn--reality-upgrade-toggle"
     />
   </div>

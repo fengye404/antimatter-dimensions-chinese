@@ -52,12 +52,12 @@ export default {
     },
     modeName(mode) {
       switch (mode) {
-        case AUTO_REALITY_MODE.RM: return "Reality Machines";
-        case AUTO_REALITY_MODE.GLYPH: return "Glyph level";
-        case AUTO_REALITY_MODE.EITHER: return "RM OR Level";
-        case AUTO_REALITY_MODE.BOTH: return "RM AND Level";
-        case AUTO_REALITY_MODE.TIME: return "Real-time seconds";
-        case AUTO_REALITY_MODE.RELIC_SHARD: return "Relic Shards";
+        case AUTO_REALITY_MODE.RM: return "现实机器";
+        case AUTO_REALITY_MODE.GLYPH: return "符文等级";
+        case AUTO_REALITY_MODE.EITHER: return "现实机器或符文等级";
+        case AUTO_REALITY_MODE.BOTH: return "现实机器和符文等级";
+        case AUTO_REALITY_MODE.TIME: return "现实时间秒数";
+        case AUTO_REALITY_MODE.RELIC_SHARD: return "遗物碎片";
       }
       throw new Error("Unknown Auto Reality mode");
     },
@@ -69,13 +69,13 @@ export default {
   <AutobuyerBox
     :autobuyer="autobuyer"
     :is-modal="isModal"
-    name="Automatic Reality"
+    name="自动现实"
   >
     <template #intervalSlot>
       <ExpandingControlBox :auto-close="true">
         <template #header>
           <div class="o-primary-btn c-autobuyer-box__mode-select c-autobuyer-box__mode-select-header">
-            ▼ Current Setting: ▼
+            ▼ 当前条件：▼
             <br>
             {{ modeName(mode) }}
           </div>
@@ -91,10 +91,10 @@ export default {
     </template>
     <template #toggleSlot>
       <div v-if="hasAlternateInputs">
-        Target Time (seconds):
+        目标时间（秒）：
       </div>
       <div v-else>
-        Target Reality Machines:
+        目标现实机器：
       </div>
       <AutobuyerInput
         :autobuyer="autobuyer"
@@ -104,10 +104,10 @@ export default {
     </template>
     <template #checkboxSlot>
       <div v-if="hasAlternateInputs && hasRelicMode">
-        Target Relic Shards:
+        目标遗物碎片：
       </div>
       <div v-else>
-        Target Glyph level:
+        目标符文等级：
       </div>
       <AutobuyerInput
         :autobuyer="autobuyer"
@@ -115,7 +115,7 @@ export default {
         :property="(hasAlternateInputs && hasRelicMode) ? 'shard' : 'glyph'"
       />
       <div v-if="isOverCap">
-        Autobuyer will trigger at the Glyph level cap of {{ formatInt(levelCap) }}.
+        自动购买器会在符文等级上限 {{ formatInt(levelCap) }} 处触发。
       </div>
     </template>
   </AutobuyerBox>

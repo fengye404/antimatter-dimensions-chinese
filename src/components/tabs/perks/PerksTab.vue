@@ -85,37 +85,37 @@ function positionNumToVector(num) {
 // Specification for different starting layouts
 export const PerkLayouts = [
   {
-    buttonText: "Default Untangled",
+    buttonText: "默认展开",
     position: config => positionNumToVector(config.layoutPosList[0]),
   },
   {
-    buttonText: "Random Positions",
+    buttonText: "随机布局",
     position: () => new Vector(2000 * Math.random() - 1000, 1200 * Math.random() - 600),
   },
   {
     // This is the perks laid out in the same way that they're laid out in the Android version
-    buttonText: "Android Layout",
+    buttonText: "Android 布局",
     position: config => globalScale(positionNumToVector(config.layoutPosList[1]), 20, 1.5),
     centerOffset: new Vector(0, 120),
     forcePhysics: false,
     straightEdges: true,
   },
   {
-    buttonText: "Square",
+    buttonText: "方形布局",
     position: config => globalScale(positionNumToVector(config.layoutPosList[2]), 27.5),
     centerOffset: new Vector(0, 0),
     forcePhysics: false,
     straightEdges: true,
   },
   {
-    buttonText: "Horizontal Grid",
+    buttonText: "横向网格",
     position: config => globalScale(positionNumToVector(config.layoutPosList[3]), 32.5),
     centerOffset: new Vector(-60, 0),
     forcePhysics: false,
     straightEdges: true,
   },
   {
-    buttonText: "Distance from START",
+    buttonText: "按距离排列",
     position: config => globalScale(positionNumToVector(config.layoutPosList[4]), 17.5),
     centerOffset: new Vector(0, 0),
     forcePhysics: false,

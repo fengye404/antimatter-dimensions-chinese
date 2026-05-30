@@ -11,8 +11,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 1,
     unlockedAt: 2,
-    description: "provides a power to Antimatter Dimensions",
-    formatEffect: value => `Antimatter Dimension multipliers ${formatPow(value, 4, 4)}`
+    description: "为反物质维度提供指数加成",
+    formatEffect: value => `反物质维度倍率 ${formatPow(value, 4, 4)}`
   },
   "infinity": {
     id: ALCHEMY_RESOURCE.INFINITY,
@@ -23,8 +23,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 2,
     unlockedAt: 3,
-    description: "provides a power to Infinity Dimensions",
-    formatEffect: value => `Infinity Dimension multipliers ${formatPow(value, 4, 4)}`
+    description: "为无限维度提供指数加成",
+    formatEffect: value => `无限维度倍率 ${formatPow(value, 4, 4)}`
   },
   "time": {
     id: ALCHEMY_RESOURCE.TIME,
@@ -35,8 +35,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 3,
     unlockedAt: 4,
-    description: "provides a power to Time Dimensions",
-    formatEffect: value => `Time Dimension multipliers ${formatPow(value, 4, 4)}`
+    description: "为时间维度提供指数加成",
+    formatEffect: value => `时间维度倍率 ${formatPow(value, 4, 4)}`
   },
   "replication": {
     id: ALCHEMY_RESOURCE.REPLICATION,
@@ -47,8 +47,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 4,
     unlockedAt: 5,
-    description: `increases Replication speed`,
-    formatEffect: value => `Replication speed is increased by ${formatX(value, 2, 2)}`
+    description: "提高复制器速度",
+    formatEffect: value => `复制器速度提高 ${formatX(value, 2, 2)}`
   },
   "dilation": {
     id: ALCHEMY_RESOURCE.DILATION,
@@ -59,8 +59,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 5,
     unlockedAt: 6,
-    description: "increases Dilated Time production",
-    formatEffect: value => `Dilated Time production is increased by ${formatX(value, 2, 2)}`
+    description: "提高膨胀时间产量",
+    formatEffect: value => `膨胀时间产量提高 ${formatX(value, 2, 2)}`
   },
 
   // T2 resources (combinations of pairs of T1 resources)
@@ -140,9 +140,8 @@ export const alchemyResources = {
     tier: 2,
     uiOrder: 5,
     unlockedAt: 11,
-    description: "provides an additional power for very large multipliers",
-    formatEffect: value => `All Antimatter Dimension multipliers are ${formatPow(1.05, 2, 2)}
-      if they are above ${format(value)} `,
+    description: "为极大的倍率提供额外指数加成",
+    formatEffect: value => `所有超过 ${format(value)} 的反物质维度倍率会获得 ${formatPow(1.05, 2, 2)} 加成`,
     reagents: [
       {
         resource: ALCHEMY_RESOURCE.POWER,
@@ -163,9 +162,8 @@ export const alchemyResources = {
     tier: 2,
     uiOrder: 4,
     unlockedAt: 12,
-    description: "increases the strength of Tachyon Galaxies based on Replicanti",
-    formatEffect: value => `Tachyon Galaxies are ${formatPercents(value, 2, 2)} stronger
-      per ${format(DC.E1E6)} Replicanti`,
+    description: "根据复制器数量增强快子星系",
+    formatEffect: value => `每 ${format(DC.E1E6)} 个复制器使快子星系增强 ${formatPercents(value, 2, 2)}`,
     reagents: [
       {
         resource: ALCHEMY_RESOURCE.REPLICATION,
@@ -188,8 +186,8 @@ export const alchemyResources = {
     tier: 1,
     uiOrder: 1.5,
     unlockedAt: 7,
-    description: "increases Relic Shard gain",
-    formatEffect: value => `Relic Shard gain is multiplied ${formatX(value, 2, 2)}`
+    description: "提高遗物碎片获取",
+    formatEffect: value => `遗物碎片获取变为 ${formatX(value, 2, 2)}`
   },
   "synergism": {
     id: ALCHEMY_RESOURCE.SYNERGISM,

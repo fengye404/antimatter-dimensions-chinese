@@ -19,7 +19,7 @@ export default {
       return this.unlock.pet.id;
     },
     petName() {
-      return this.unlock.pet.name;
+      return this.unlock.pet.id === "enslaved" ? "无名之辈" : this.unlock.pet.name;
     },
     icon() {
       return this.unlock.displayIcon;
@@ -53,7 +53,7 @@ export default {
     />
     <div class="c-ra-pet-upgrade__tooltip">
       <div class="c-ra-pet-upgrade__tooltip__name">
-        {{ petName }} Level {{ formatInt(level) }}
+        {{ petName }} 等级 {{ formatInt(level) }}
       </div>
       <div
         class="c-ra-pet-upgrade__tooltip__description"

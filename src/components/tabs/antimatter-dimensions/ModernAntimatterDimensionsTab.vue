@@ -120,7 +120,7 @@ export default {
         <span v-else-if="isFullyAutomated && disabledCondition !== ''">
           维度牺牲已自动化（成就 118）
         </span>
-        <span v-else>维度牺牲已禁用（{{ disabledCondition }}）</span>
+        <span v-else>维度牺牲已禁用（{{ disabledCondition.replace("Requires 5 Dimension Boosts", "需要 5 次维度提升") }}）</span>
       </PrimaryButton>
       <button
         class="o-primary-btn l-button-container"

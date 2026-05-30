@@ -195,8 +195,9 @@ window.TimeSpan = class TimeSpan {
    * @returns {String}
    */
   toString() {
+    if (!Number.isFinite(this.totalYears)) return "无限年";
     if (this.years > 1e6) {
-      return `${format(this.totalYears, 3, 0)} years`;
+      return `${format(this.totalYears, 3, 0)} 年`;
     }
     if (this.totalSeconds >= 10) {
       return this.toStringNoDecimals();
@@ -276,6 +277,7 @@ window.TimeSpan = class TimeSpan {
     if (this.totalDays < 500) {
       return `${isSpeedrun ? this.totalDays.toFixed(2) : format(this.totalDays, 0, 2)} 天`;
     }
+    if (!Number.isFinite(this.totalYears)) return "无限年";
     return `${isSpeedrun ? this.totalYears.toFixed(3) : format(this.totalYears, 3, 2)} 年`;
 
     function formatHMS(value) {

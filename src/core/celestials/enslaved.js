@@ -8,7 +8,7 @@ export const ENSLAVED_UNLOCKS = {
     id: 0,
     price: TimeSpan.fromYears(1e35).totalMilliseconds,
     secondaryRequirement: () => true,
-    description: () => `Increase the softcap to Tickspeed upgrades from Time Dimensions by ${formatInt(1e5)}`,
+    description: () => `将时间维度提供的时间间隔升级软上限提高 ${formatInt(1e5)}`,
   },
   RUN: {
     id: 1,
@@ -21,15 +21,15 @@ export const ENSLAVED_UNLOCKS = {
     description() {
       const hasLevelRequirement = player.records.bestReality.glyphLevel >= 5000;
       const hasRarityRequirement = strengthToRarity(player.records.bestReality.glyphStrength) >= 100;
-      return `Unlock The Nameless Ones' Reality (requires ${hasLevelRequirement ? "[✓]" : "[✗]"} a level
-      ${formatInt(5000)} Glyph and ${hasRarityRequirement ? "[✓]" : "[✗]"} a ${formatRarity(100)} rarity Glyph)`;
+      return `解锁无名之辈的现实（需要 ${hasLevelRequirement ? "[✓]" : "[✗]"} 一个等级
+      ${formatInt(5000)} 的符文，以及 ${hasRarityRequirement ? "[✓]" : "[✗]"} 一个稀有度为 ${formatRarity(100)} 的符文）`;
     }
   }
 };
 
 export const Enslaved = {
-  displayName: "The Nameless Ones",
-  possessiveName: "The Nameless Ones'",
+  displayName: "无名之辈",
+  possessiveName: "无名之辈的",
   boostReality: false,
   BROKEN_CHALLENGES: [2, 3, 4, 5, 7, 8, 10, 11, 12],
   nextTickDiff: 50,

@@ -21,28 +21,28 @@ export default {
     suggestions() {
       const arr = [];
       if (this.purchasableTS > 0) {
-        arr.push(`Purchase more Time Studies (${formatInt(this.purchasableTS)} available)`);
+        arr.push(`购买更多时间研究（可买 ${formatInt(this.purchasableTS)} 个）`);
       }
       if (this.missingAchievements > 0) {
-        arr.push(`Complete the rest of your Achievements (${formatInt(this.missingAchievements)} left)`);
+        arr.push(`补完成就（还差 ${formatInt(this.missingAchievements)} 个）`);
       }
       if (this.unpurchasedDilationUpgrades > 0) {
-        arr.push(`Purchase the remaining Dilation Upgrades (${formatInt(this.unpurchasedDilationUpgrades)} left)`);
+        arr.push(`购买剩余时间膨胀升级（还差 ${formatInt(this.unpurchasedDilationUpgrades)} 个）`);
       }
       if (this.currLog10EP > 1.3 * this.cheapestLog10TD) {
-        arr.push(`Purchase more TDs (cheapest: ${format(Decimal.pow10(this.cheapestLog10TD))} EP)`);
+        arr.push(`购买更多时间维度（最便宜：${format(Decimal.pow10(this.cheapestLog10TD))} EP）`);
       }
       if (this.currLog10EP > 1.3 * this.multEPLog10Cost) {
-        arr.push(`Purchase more ${formatX(5)} EP (cost: ${format(Decimal.pow10(this.multEPLog10Cost))} EP)`);
+        arr.push(`继续购买 ${formatX(5)} EP 升级（花费：${format(Decimal.pow10(this.multEPLog10Cost))} EP）`);
       }
       if (this.ecCount < 60) {
-        arr.push(`Finish the rest of your ECs (Done: ${formatInt(this.ecCount)}/${formatInt(60)})`);
+        arr.push(`完成剩余永恒挑战（已完成：${formatInt(this.ecCount)}/${formatInt(60)}）`);
       }
       if (!this.hasDilated) {
-        arr.push("Perform a Dilated Eternity");
+        arr.push("进行一次膨胀永恒");
       }
       if (this.availableCharges > 0) {
-        arr.push(`Charge more Infinity Upgrades (${formatInt(this.availableCharges)} available)`);
+        arr.push(`充能更多无限升级（可充能 ${formatInt(this.availableCharges)} 个）`);
       }
       return arr;
     },
@@ -59,7 +59,7 @@ export default {
       };
     },
     clickText() {
-      return `(click to ${this.isExpanded ? "collapse" : "expand"})`;
+      return `（点击${this.isExpanded ? "收起" : "展开"}）`;
     },
     realityReminderClass() {
       return {
@@ -108,15 +108,14 @@ export default {
     @click="clicked"
   >
     <span v-if="!canReality">
-      You still need to unlock Reality in the Time Study Tree.
+      你还需要在时间研究树中解锁现实。
     </span>
     <span v-else-if="suggestions.length === 0">
-      Ready to Reality! You have unlocked every available upgrade within this Reality.
+      已准备好现实！本次现实中可用的升级都已解锁。
     </span>
     <span v-else>
       <i :class="dropDownIconClass" />
-      You have {{ quantifyInt("thing", suggestions.length) }}
-      you may want to do before Reality. {{ clickText }}
+      现实之前，还有 {{ formatInt(suggestions.length) }} 件事可以考虑处理。{{ clickText }}
       <div
         v-if="isExpanded"
         class="l-suggestions"

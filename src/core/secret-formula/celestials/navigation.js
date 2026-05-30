@@ -670,13 +670,13 @@ export const celestialNavigation = {
       alwaysShowLegend: true,
       legend: {
         text: complete => {
-          if (complete >= 1) return "The Nameless Ones' Reality";
+          if (complete >= 1) return "无名之辈的现实";
           const ep = Enslaved.isRunning ? Currency.eternityPoints.value : 0;
           const goal = DC.E4000;
           return [
-            "The Nameless Ones' Reality",
-            `Reach ${format(ep, 2)} / ${format(goal, 2)}`,
-            "Eternity Points inside The Nameless Ones' Reality."
+            "无名之辈的现实",
+            `达到 ${format(ep, 2)} / ${format(goal, 2)}`,
+            "在无名之辈的现实中获得永恒点数。"
           ];
         },
         angle: 45,
@@ -1878,13 +1878,13 @@ export const celestialNavigation = {
       forceLegend: () => Pelle.isUnlocked && !Pelle.hasGalaxyGenerator,
       legend: {
         text: complete => {
-          if (complete >= 1) return Pelle.isDoomed ? "Doomed Reality" : "Doom your Reality";
+          if (complete >= 1) return Pelle.isDoomed ? "已毁灭的现实" : "毁灭你的现实";
           const achievements = [Achievements.prePelleRows.countWhere(r => r.every(a => a.isUnlocked)),
             Achievements.prePelleRows.length];
           const alchemy = [AlchemyResources.all.countWhere(r => r.capped), AlchemyResources.all.length];
           return [
-            `Complete ${formatInt(achievements[0])} / ${formatInt(achievements[1])} rows of Achievements`,
-            `Fill ${formatInt(alchemy[0])} / ${formatInt(alchemy[1])} Alchemy Resources`,
+            `完成 ${formatInt(achievements[0])} / ${formatInt(achievements[1])} 行成就`,
+            `填满 ${formatInt(alchemy[0])} / ${formatInt(alchemy[1])} 个炼金资源`,
           ];
         },
         angle: 290,
@@ -1920,8 +1920,8 @@ export const celestialNavigation = {
       alwaysShowLegend: true,
       legend: {
         text: () => [
-          "Galaxy Generator:",
-          `${format(GalaxyGenerator.generatedGalaxies, 2)} / ${format(GalaxyGenerator.generationCap, 2)} Galaxies`
+          "星系生成器：",
+          `${format(GalaxyGenerator.generatedGalaxies, 2)} / ${format(GalaxyGenerator.generationCap, 2)} 星系`
         ],
         angle: 290,
         diagonal: 40,

@@ -88,7 +88,7 @@ export default {
 
 <template>
   <div class="l-glyph-inventory">
-    Click and drag or double-click to equip Glyphs.
+    拖拽或双击符文即可装备。
     <div
       v-for="row in rowCount"
       :key="protectedRows + row"

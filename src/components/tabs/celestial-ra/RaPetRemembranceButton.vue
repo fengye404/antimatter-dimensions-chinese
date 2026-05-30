@@ -20,6 +20,9 @@ export default {
     name() {
       return this.pet.name;
     },
+    displayName() {
+      return this.pet.id === "enslaved" ? "无名之辈" : this.name;
+    },
     petStyle() {
       return {
         backgroundColor: this.hasRemembrance ? this.pet.color : "#555",
@@ -50,10 +53,10 @@ export default {
     @click="toggleRemembrance"
   >
     <span v-if="hasRemembrance">
-      Remembrance given to {{ name }}
+      已将追忆给予 {{ displayName }}
     </span>
     <span v-else>
-      Give Remembrance to {{ name }}
+      将追忆给予 {{ displayName }}
     </span>
   </button>
 </template>

@@ -22,7 +22,7 @@ export const perkShop = {
     id: 0,
     initialCost: 1,
     increment: 2,
-    description: () => `Increase pre-instability Glyph levels by ${formatPercents(0.05)}`,
+    description: () => `不稳定前的符文等级提高 ${formatPercents(0.05)}`,
     effect: bought => Math.pow(1.05, bought),
     formatEffect: value => formatX(value, 2, 2),
     formatCost: value => format(value, 2),
@@ -33,7 +33,7 @@ export const perkShop = {
     id: 1,
     initialCost: 1,
     increment: 2,
-    description: "Double Reality Machine gain",
+    description: "现实机器获取翻倍",
     effect: bought => Math.pow(2, bought),
     formatEffect: value => formatX(value, 2),
     formatCost: value => format(value, 2),
@@ -44,7 +44,7 @@ export const perkShop = {
     id: 2,
     initialCost: 100,
     increment: 2,
-    description: "Dilation autobuyers buy twice as many Dilation Upgrades at once.",
+    description: "时间膨胀自动购买器每次购买的升级数量翻倍。",
     effect: bought => Math.pow(2, bought),
     formatEffect: value => formatX(value, 2),
     formatCost: value => format(value, 2),
@@ -55,8 +55,7 @@ export const perkShop = {
     id: 3,
     initialCost: 1000,
     increment: 2,
-    description: () => `Infinity Dimension, Time Dimension, Dilation,
-      and Replicanti autobuyers are ${formatX(2)} faster.`,
+    description: () => `无限维度、时间维度、时间膨胀和复制品自动购买器速度提高 ${formatX(2)}。`,
     effect: bought => Math.pow(2, bought),
     formatEffect: value => formatX(value, 2),
     formatCost: value => format(value, 2),
@@ -65,8 +64,8 @@ export const perkShop = {
   }),
   musicGlyph: rebuyable({
     id: 4,
-    description: () => `Receive a Music Glyph of a random type that is ${formatPercents(0.8)} of your highest level.
-      (Try clicking it!)`,
+    description: () => `获得一个随机类型的音乐符文，等级为你最高符文等级的 ${formatPercents(0.8)}。
+      （试着点一下它！）`,
     cost: () => 1,
     formatCost: value => formatInt(value),
     costCap: () => Number.MAX_VALUE,
@@ -75,7 +74,7 @@ export const perkShop = {
   // Only appears with the perk shop increase upgrade
   fillMusicGlyph: rebuyable({
     id: 5,
-    description: () => `Fill all empty slots in your inventory with Music Glyphs`,
+    description: () => `用音乐符文填满背包中的所有空位`,
     cost: () => Math.clampMin(GameCache.glyphInventorySpace.value, 1),
     otherReq: () => GameCache.glyphInventorySpace.value > 0,
     formatCost: value => formatInt(value),

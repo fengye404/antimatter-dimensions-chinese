@@ -73,15 +73,15 @@ export default {
       };
     },
     pourText() {
-      return this.isPouredAmountCapped ? "Filled" : "Pour RM";
+      return this.isPouredAmountCapped ? "已注满" : "注入现实机器";
     },
     runDescription() {
       return GameDatabase.celestials.descriptions[0].effects();
     },
     lastMachinesString() {
       return this.lastMachines.lt(DC.E10000)
-        ? `${quantify("Reality Machine", this.lastMachines, 2)}`
-        : `${quantify("Imaginary Machine", this.lastMachines.dividedBy(DC.E10000), 2)}`;
+        ? `${format(this.lastMachines, 2)} 现实机器`
+        : `${format(this.lastMachines.dividedBy(DC.E10000), 2)} 虚幻机器`;
     },
     unlockInfoTooltipArrowStyle() {
       return {
@@ -121,7 +121,7 @@ export default {
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "Teresa's", number: 0 });
+      Modal.celestials.show({ name: "Teresa 的", number: 0 });
     },
     unlockDescriptionHeight(unlockInfo) {
       const maxPrice = TeresaUnlocks[Teresa.lastUnlock].price;
@@ -145,7 +145,7 @@ export default {
   <div class="l-teresa-celestial-tab">
     <CelestialQuoteHistory celestial="teresa" />
     <div>
-      You have {{ quantify("Reality Machine", rm, 2, 2) }}.
+      你有 {{ format(rm, 2, 2) }} 现实机器。
     </div>
     <div class="l-mechanics-container">
       <div
@@ -154,7 +154,7 @@ export default {
       >
         <div class="c-teresa-unlock c-teresa-run-button">
           <span :class="{ 'o-pelle-disabled': isDoomed }">
-            Start Teresa's Reality.
+            进入 Teresa 的现实。
           </span>
           <div
             :class="runButtonClassObject"
@@ -165,22 +165,22 @@ export default {
           {{ runDescription }}
           <br><br>
           <div>
-            This Reality can be repeated for a stronger reward based on the antimatter gained within it.
+            这个现实可以反复挑战；在其中获得的反物质越多，奖励越强。
             <br><br>
             <span v-if="showRunReward">
-              Your record antimatter in Teresa's Reality is {{ format(bestAM, 2) }},
-              achieved with {{ lastMachinesString }}.
+              你在 Teresa 现实中的反物质纪录为 {{ format(bestAM, 2) }}，
+              当时获得了 {{ lastMachinesString }}。
               <br><br>
-              Glyph Set used:
+              使用的符文组：
               <GlyphSetPreview
-                text="Teresa's Best Glyph Set"
+                text="Teresa 最佳符文组"
                 :text-hidden="true"
                 :force-name-color="false"
                 :glyphs="bestAMSet"
               />
             </span>
             <span v-else>
-              You have not completed Teresa's Reality yet.
+              你尚未完成 Teresa 的现实。
             </span>
           </div>
         </div>
@@ -188,14 +188,14 @@ export default {
           v-if="showRunReward"
           class="c-teresa-unlock"
         >
-          Teresa Reality reward: Glyph Sacrifice power {{ formatX(runReward, 2, 2) }}
+          Teresa 现实奖励：符文献祭强度 {{ formatX(runReward, 2, 2) }}
         </div>
         <div
           v-if="hasEPGen"
           class="c-teresa-unlock"
         >
           <span :class="{ 'o-pelle-disabled': isDoomed }">
-            Every second, you gain {{ formatPercents(0.01) }} of your peaked Eternity Points per minute this Reality.
+            每秒获得本次现实中峰值“永恒点数/分钟”的 {{ formatPercents(0.01) }}。
           </span>
         </div>
       </div>
@@ -220,7 +220,7 @@ export default {
             :style="{ height: percentage}"
           >
             <div class="c-rm-store-label">
-              {{ formatX(rmMult, 2, 2) }} RM gain
+              现实机器获取 {{ formatX(rmMult, 2, 2) }}
               <br>
               {{ format(pouredAmount, 2, 2) }}/{{ format(pouredAmountCap, 2, 2) }}
             </div>
@@ -255,14 +255,14 @@ export default {
         class="c-teresa-shop"
       >
         <span class="o-teresa-pp">
-          You have {{ quantify("Perk Point", perkPoints, 2, 0) }}.
+          你有 {{ format(perkPoints, 2, 0) }} 特权点数。
         </span>
         <PerkShopUpgradeButton
           v-for="upgrade in upgrades"
           :key="upgrade.id"
           :upgrade="upgrade"
         />
-        You can now modify the appearance of your Glyphs to look like Music Glyphs.
+        你现在可以把符文外观改成音乐符文。
       </div>
       <div
         v-else

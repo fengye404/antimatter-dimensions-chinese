@@ -196,19 +196,19 @@ class BlackHoleState {
 
   // The logic to determine what state the black hole is in for displaying is nontrivial and used in multiple places
   get displayState() {
-    if (Pelle.isDisabled("blackhole")) return `<i class="fas fa-ban"></i> Disabled`;
+    if (Pelle.isDisabled("blackhole")) return `<i class="fas fa-ban"></i> 已禁用`;
     if (Enslaved.isAutoReleasing) {
-      if (Enslaved.autoReleaseTick < 3) return `<i class="fas fa-compress-arrows-alt u-fa-padding"></i> Pulsing`;
-      return `<i class="fas fa-expand-arrows-alt u-fa-padding"></i> Pulsing`;
+      if (Enslaved.autoReleaseTick < 3) return `<i class="fas fa-compress-arrows-alt u-fa-padding"></i> 脉冲中`;
+      return `<i class="fas fa-expand-arrows-alt u-fa-padding"></i> 脉冲中`;
     }
-    if (Enslaved.isStoringGameTime) return `<i class="fas fa-compress-arrows-alt"></i> Charging`;
-    if (BlackHoles.areNegative) return `<i class="fas fa-caret-left"></i> Inverted`;
-    if (BlackHoles.arePaused) return `<i class="fas fa-pause"></i> Paused`;
-    if (this.isPermanent) return `<i class="fas fa-infinity"></i> Permanent`;
+    if (Enslaved.isStoringGameTime) return `<i class="fas fa-compress-arrows-alt"></i> 充能中`;
+    if (BlackHoles.areNegative) return `<i class="fas fa-caret-left"></i> 反向`;
+    if (BlackHoles.arePaused) return `<i class="fas fa-pause"></i> 已暂停`;
+    if (this.isPermanent) return `<i class="fas fa-infinity"></i> 永久激活`;
 
     const timeString = TimeSpan.fromSeconds(this.timeToNextStateChange).toStringShort(true);
-    if (this.isActive) return `<i class="fas fa-play"></i> Active (${timeString})`;
-    return `<i class="fas fa-redo"></i> Inactive (${timeString})`;
+    if (this.isActive) return `<i class="fas fa-play"></i> 激活中（${timeString}）`;
+    return `<i class="fas fa-redo"></i> 未激活（${timeString}）`;
   }
 
   get isActive() {
@@ -256,7 +256,7 @@ class BlackHoleState {
         this._data.phase -= this.duration;
         this._data.active = false;
         if (GameUI.notify.showBlackHoles) {
-          GameUI.notify.blackHole(`${this.description(true)} duration ended.`);
+          GameUI.notify.blackHole(`${this.description(true)}已结束。`);
         }
       }
     } else if (this.phase >= this.interval) {
@@ -264,7 +264,7 @@ class BlackHoleState {
       this._data.activations++;
       this._data.active = true;
       if (GameUI.notify.showBlackHoles) {
-        GameUI.notify.blackHole(`${this.description(true)} has activated!`);
+        GameUI.notify.blackHole(`${this.description(true)}已激活！`);
       }
     }
   }
@@ -309,9 +309,9 @@ class BlackHoleState {
 
   description(capitalized) {
     if (RealityUpgrade(20).isBought) {
-      return `Black Hole ${this.id}`;
+      return `黑洞 ${this.id}`;
     }
-    return capitalized ? "The Black Hole" : "the Black Hole";
+    return capitalized ? "黑洞" : "黑洞";
   }
 }
 

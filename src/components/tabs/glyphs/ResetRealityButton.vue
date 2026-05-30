@@ -11,10 +11,10 @@ export default {
   },
   computed: {
     resetText() {
-      if (this.isDoomed) return "Start this Armageddon over";
-      if (this.isInCelestialReality && !this.resetCelestial) return "Exit this Celestial early";
-      if (this.isInCelestialReality && this.resetCelestial) return "Restart this Celestial";
-      return "Start this Reality over";
+      if (this.isDoomed) return "重新开始本次末日";
+      if (this.isInCelestialReality && !this.resetCelestial) return "提前退出本次天神现实";
+      if (this.isInCelestialReality && this.resetCelestial) return "重开本次天神现实";
+      return "重新开始本次现实";
     },
   },
   methods: {
@@ -29,8 +29,8 @@ export default {
       if (GameEnd.creditsClosed) return;
       if (this.isInCelestialReality) {
         if (confirms.exitChallenge) Modal.exitChallenge.show({
-          challengeName: "a Celestial Reality",
-          normalName: "Reality",
+          challengeName: "一次天神现实",
+          normalName: "现实",
           hasHigherLayers: false,
           exitFn: () => beginProcessReality(getRealityProps(true))
         });

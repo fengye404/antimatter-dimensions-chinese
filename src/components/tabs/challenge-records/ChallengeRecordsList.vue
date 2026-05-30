@@ -16,6 +16,12 @@ export default {
     }
   },
   computed: {
+    displayName() {
+      return {
+        "Normal Challenge": "普通挑战",
+        "Infinity Challenge": "无限挑战",
+      }[this.name] || this.name;
+    },
     timeSum() {
       return this.times.sum();
     },
@@ -27,8 +33,8 @@ export default {
     timeDisplayShort,
     completionString(time) {
       return time < Number.MAX_VALUE
-        ? `record time: ${timeDisplayShort(time)}`
-        : "has not yet been completed";
+        ? `纪录用时：${timeDisplayShort(time)}`
+        : "尚未完成";
     }
   }
 };
@@ -41,14 +47,14 @@ export default {
       v-for="(time, i) in times"
       :key="i"
     >
-      <span>{{ name }} {{ start + i }} {{ completionString(time) }}</span>
+      <span>{{ displayName }} {{ start + i }}：{{ completionString(time) }}</span>
     </div>
     <br>
     <div v-if="completedAllChallenges">
-      Sum of {{ name }} record times: {{ timeDisplayShort(timeSum) }}
+      {{ displayName }}总纪录用时：{{ timeDisplayShort(timeSum) }}
     </div>
     <div v-else>
-      You have not completed all {{ name }}s yet.
+      你还没有完成全部{{ displayName }}。
     </div>
   </div>
 </template>

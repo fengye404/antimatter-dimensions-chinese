@@ -19,8 +19,8 @@ export default {
   },
   computed: {
     completionTime() {
-      if (this.tierNotCompleted) return "Not completed at this tier";
-      return `Fastest Completion: ${TimeSpan.fromSeconds(this.realityTime).toStringShort()}`;
+      if (this.tierNotCompleted) return "尚未在这一层完成";
+      return `最快完成时间：${TimeSpan.fromSeconds(this.realityTime).toStringShort()}`;
     },
     runEffects() {
       return GameDatabase.celestials.descriptions[5].effects().split("\n");
@@ -42,7 +42,7 @@ export default {
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "Lai'tela's", number: 5 });
+      Modal.celestials.show({ name: "Lai'tela 的", number: 5 });
     },
     classObject() {
       return {
@@ -65,7 +65,7 @@ export default {
 <template>
   <button :class="classObject()">
     <span :class="{ 'o-pelle-disabled': isDoomed }">
-      <b>Start Lai'tela's Reality</b>
+      <b>开始 Lai'tela 的现实</b>
     </span>
     <div
       :class="runButtonClassObject()"
@@ -73,17 +73,17 @@ export default {
     />
     <div v-if="realityReward > 1">
       <b>
-        All Dark Matter multipliers are {{ formatX(realityReward, 2, 2) }} higher.
+        所有暗物质倍率提高 {{ formatX(realityReward, 2, 2) }}。
       </b>
       <span v-if="maxDimTier > 0">
         <br><br>
         {{ completionTime }}
         <br>
         <span v-if="maxDimTier <= 7">
-          <b>Highest active dimension: {{ formatInt(maxDimTier) }}</b>
+          <b>最高可用维度：第 {{ formatInt(maxDimTier) }} 维度</b>
         </span>
         <br><br>
-        Glyph Set:
+        符文配置：
         <GlyphSetPreview
           text="Fastest Destabilization Glyph Set"
           :text-hidden="true"
@@ -94,10 +94,10 @@ export default {
       <span v-else>
         <br>
         <b>
-          You also gain an additional {{ formatX(8) }} Dark Energy.
+          你还会额外获得 {{ formatX(8) }} 暗能量。
         </b>
         <br><br>
-        Lai'tela's Reality has been fully destabilized and cannot have its reward further improved.
+        Lai'tela 的现实已经完全失稳，奖励无法继续提高。
       </span>
       <br>
     </div>

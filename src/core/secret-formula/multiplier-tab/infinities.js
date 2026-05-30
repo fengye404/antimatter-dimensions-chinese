@@ -5,7 +5,7 @@ import { MultiplierTabIcons } from "./icons";
 // See index.js for documentation
 export const infinities = {
   total: {
-    name: "Infinities gained per Crunch",
+    name: "每次大坍缩获得的无限次数",
     isBase: true,
     multValue: () => gainedInfinities(),
     // The earliest sources of infinity multipliers are ach87 and TS32, which may happen in either order
@@ -14,7 +14,7 @@ export const infinities = {
     overlay: ["∞", "<i class='fa-solid fa-arrows-rotate' />"],
   },
   achievement: {
-    name: "Achievements",
+    name: "成就",
     multValue: () => DC.D1.timesEffectsOf(
       Achievement(87),
       Achievement(131).effects.infinitiesGain,
@@ -24,37 +24,37 @@ export const infinities = {
     icon: MultiplierTabIcons.ACHIEVEMENT,
   },
   timeStudy: {
-    name: "Time Study 32",
+    name: "时间研究 32",
     multValue: () => TimeStudy(32).effectOrDefault(1),
     isActive: () => TimeStudy(32).isBought,
     icon: MultiplierTabIcons.TIME_STUDY,
   },
   amplifierInf: {
-    name: "Reality Upgrade - Boundless Amplifier",
+    name: "现实升级 - 无界放大器",
     multValue: () => DC.D1.timesEffectsOf(RealityUpgrade(5)),
     isActive: () => PlayerProgress.realityUnlocked() && !Pelle.isDoomed,
     icon: MultiplierTabIcons.UPGRADE("reality"),
   },
   realityUpgrades: {
-    name: "Reality Upgrade - Innumerably Construct",
+    name: "现实升级 - 难以计数的构造",
     multValue: () => DC.D1.timesEffectsOf(RealityUpgrade(7)),
     isActive: () => PlayerProgress.realityUnlocked(),
     icon: MultiplierTabIcons.UPGRADE("reality"),
   },
   glyph: {
-    name: "Equipped Glyphs",
+    name: "已装备符文",
     multValue: () => getAdjustedGlyphEffect("infinityinfmult"),
     isActive: () => PlayerProgress.realityUnlocked(),
     icon: MultiplierTabIcons.GENERIC_GLYPH,
   },
   ra: {
-    name: "Ra Upgrade - Multiplier based on TT",
+    name: "Ra 升级 - 基于时间定理的倍率",
     multValue: () => Ra.unlocks.continuousTTBoost.effects.infinity.effectOrDefault(1),
     isActive: () => Ra.unlocks.continuousTTBoost.isUnlocked,
     icon: MultiplierTabIcons.GENERIC_RA,
   },
   singularity: {
-    name: "Singularity Milestone - Power from Singularities",
+    name: "奇点里程碑 - 基于奇点的指数",
     powValue: () => SingularityMilestone.infinitiedPow.effectOrDefault(1),
     isActive: () => SingularityMilestone.infinitiedPow.canBeApplied,
     icon: MultiplierTabIcons.SINGULARITY,

@@ -60,11 +60,14 @@ export default {
       return this.pet.unlocks;
     },
     chunkTooltip() {
-      return `Based on ${this.pet.chunkGain}`;
+      return `基于${this.pet.chunkGain}`;
     },
     memoryGainTooltip() {
-      return `Based on ${this.pet.memoryGain}`;
+      return `基于${this.pet.memoryGain}`;
     },
+    displayName() {
+      return this.pet.id === "enslaved" ? "无名之辈" : this.name;
+    }
   },
   methods: {
     update() {
@@ -137,8 +140,7 @@ export default {
       :style="petStyle"
     >
       <div class="c-ra-pet-title">
-        <!-- The full name doesn't fit here, so we shorten it as a special case -->
-        {{ pet.id === "enslaved" ? "Nameless" : name }} Level {{ formatInt(level) }}/{{ formatInt(levelCap) }}
+        {{ displayName }} 等级 {{ formatInt(level) }}/{{ formatInt(levelCap) }}
       </div>
       <div
         v-if="showScalingUpgrade"
@@ -149,7 +151,7 @@ export default {
       <br v-else>
       <div v-if="!isCapped">
         <div>
-          {{ name }} {{ pet.id === "enslaved" ? "have" : "has" }} {{ quantify("Memory", memories, 2) }}
+          {{ displayName }} 拥有 {{ format(memories, 2) }} 点记忆
         </div>
       </div>
       <div
@@ -168,18 +170,18 @@ export default {
                 class="c-ra-pet-upgrade__tooltip"
               >
                 <div class="c-ra-pet-upgrade__tooltip__name">
-                  {{ name }}'s Recollection
+                  {{ displayName }}的回忆
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__description">
-                  Gain {{ formatPercents(0.3) }} more Memories
+                  记忆获取提高 {{ formatPercents(0.3) }}
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__footer">
-                  Cost: {{ quantify("Memory", memoryUpgradeCost, 2, 2) }}
+                  花费：{{ format(memoryUpgradeCost, 2, 2) }} 点记忆
                   <span v-if="memories <= memoryUpgradeCost">
                     {{ nextMemoryUpgradeEstimate }}
                   </span>
                   <br>
-                  Currently: {{ formatX(currentMemoryMult, 2, 2) }}
+                  当前：{{ formatX(currentMemoryMult, 2, 2) }}
                 </div>
               </div>
               <div
@@ -187,10 +189,10 @@ export default {
                 class="c-ra-pet-upgrade__tooltip"
               >
                 <div class="c-ra-pet-upgrade__tooltip__name">
-                  {{ name }}'s Recollection
+                  {{ displayName }}的回忆
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__description">
-                  Capped: {{ formatX(currentMemoryMult, 2, 2) }}
+                  已达上限：{{ formatX(currentMemoryMult, 2, 2) }}
                 </div>
               </div>
             </div>
@@ -212,18 +214,18 @@ export default {
                 class="c-ra-pet-upgrade__tooltip"
               >
                 <div class="c-ra-pet-upgrade__tooltip__name">
-                  {{ name }}'s Fragmentation
+                  {{ displayName }}的碎片化
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__description">
-                  Gain {{ formatPercents(0.5) }} more Memory Chunks
+                  记忆碎片获取提高 {{ formatPercents(0.5) }}
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__footer">
-                  Cost: {{ quantify("Memory", chunkUpgradeCost, 2, 2) }}
+                  花费：{{ format(chunkUpgradeCost, 2, 2) }} 点记忆
                   <span v-if="memories <= chunkUpgradeCost">
                     {{ nextMemoryChunkUpgradeEstimate }}
                   </span>
                   <br>
-                  Currently: {{ formatX(currentChunkMult, 2, 2) }}
+                  当前：{{ formatX(currentChunkMult, 2, 2) }}
                 </div>
               </div>
               <div
@@ -231,10 +233,10 @@ export default {
                 class="c-ra-pet-upgrade__tooltip"
               >
                 <div class="c-ra-pet-upgrade__tooltip__name">
-                  {{ name }}'s Fragmentation
+                  {{ displayName }}的碎片化
                 </div>
                 <div class="c-ra-pet-upgrade__tooltip__description">
-                  Capped: {{ formatX(currentChunkMult, 2, 2) }}
+                  已达上限：{{ formatX(currentChunkMult, 2, 2) }}
                 </div>
               </div>
             </div>
@@ -253,17 +255,17 @@ export default {
       </div>
       <div v-if="!isCapped">
         <div>
-          {{ quantify("Memory Chunk", memoryChunks, 2, 2) }}, {{ quantify("Memory", memoriesPerSecond, 2, 2) }}/sec
+          {{ format(memoryChunks, 2, 2) }} 个记忆碎片，{{ format(memoriesPerSecond, 2, 2) }} 记忆/秒
         </div>
         <div>
-          Gaining {{ quantify("Memory Chunk", memoryChunksPerSecond, 2, 2) }}/sec
+          每秒获得 {{ format(memoryChunksPerSecond, 2, 2) }} 个记忆碎片
           <span :ach-tooltip="chunkTooltip">
             <i class="fas fa-question-circle" />
           </span>
         </div>
       </div>
       <div v-if="memoryMultiplier > 1 && !isRaCapped">
-        Multiplying all Memory production by {{ format(memoryMultiplier, 2, 3) }}
+        所有记忆产量乘以 {{ format(memoryMultiplier, 2, 3) }}
         <span :ach-tooltip="memoryGainTooltip">
           <i class="fas fa-question-circle" />
         </span>

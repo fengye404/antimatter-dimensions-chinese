@@ -287,7 +287,7 @@ export default {
       <h3>GitHub 自动备份</h3>
       <p>
         将当前存档自动备份到你的 GitHub Gist。请使用只允许 Gist 读写的 Token；
-        secret Gist 适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
+        私密 Gist 适合个人备份，但拿到链接的人仍可能访问，请不要公开分享链接。
         如果 Token 过期或丢失，可以重新创建 Token；如果只是恢复已有备份，也可以只填 Gist ID 后点击恢复。
       </p>
       <div class="c-github-backup-panel__status">

@@ -17,7 +17,7 @@ export const MatterScale = {
     if (planckedMatter.gt(this.proton)) {
       const scale = this.macroScale(planckedMatter);
       const amount = format(planckedMatter.dividedBy(scale.amount), 2, 1);
-      return [`如果每个反物质都有一个普朗克体积，你就足够${scale.verb} ${amount} ${scale.name}。`];
+      return [`如果每个反物质都有一个普朗克体积，这些反物质总体积大约相当于${amount} ${scale.name}。`];
     }
     const scale = this.microScale(matter);
     return [`如果每个反物质都有 ${format(this.proton.div(scale.amount).div(matter), 2, 1)} ${scale.name}，
@@ -60,35 +60,35 @@ export const MatterScale = {
   ],
 
   macroObjects: [
-    { amount: new Decimal("2.82e-45"), name: "protons", verb: "make" },
-    { amount: new Decimal("1e-42"), name: "nuclei", verb: "make" },
-    { amount: new Decimal("7.23e-30"), name: "Hydrogen atoms", verb: "make" },
-    { amount: new Decimal("5e-21"), name: "viruses", verb: "make" },
-    { amount: new Decimal("9e-17"), name: "red blood cells", verb: "make" },
-    { amount: new Decimal("6.2e-11"), name: "grains of sand", verb: "make" },
-    { amount: new Decimal("5e-8"), name: "grains of rice", verb: "make" },
-    { amount: new Decimal("3.555e-6"), name: "teaspoons", verb: "fill" },
-    { amount: new Decimal("7.5e-4"), name: "wine bottles", verb: "fill" },
-    { amount: DC.D1, name: "fridge-freezers", verb: "fill" },
-    { amount: new Decimal("2.5e3"), name: "Olympic-sized swimming pools", verb: "fill" },
-    { amount: new Decimal("2.6006e6"), name: "Great Pyramids of Giza", verb: "make" },
-    { amount: new Decimal("3.3e8"), name: "Great Walls of China", verb: "make" },
-    { amount: new Decimal("5e12"), name: "large asteroids", verb: "make" },
-    { amount: new Decimal("4.5e17"), name: "dwarf planets", verb: "make" },
-    { amount: new Decimal("1.08e21"), name: "Earths", verb: "make" },
-    { amount: new Decimal("1.53e24"), name: "Jupiters", verb: "make" },
-    { amount: new Decimal("1.41e27"), name: "Suns", verb: "make" },
-    { amount: new Decimal("5e32"), name: "red giants", verb: "make" },
-    { amount: new Decimal("8e36"), name: "hypergiant stars", verb: "make" },
-    { amount: new Decimal("1.7e45"), name: "nebulas", verb: "make" },
-    { amount: new Decimal("1.7e48"), name: "Oort clouds", verb: "make" },
-    { amount: new Decimal("3.3e55"), name: "Local Bubbles", verb: "make" },
-    { amount: new Decimal("3.3e61"), name: "galaxies", verb: "make" },
-    { amount: new Decimal("5e68"), name: "Local Groups", verb: "make" },
-    { amount: new Decimal("1e73"), name: "Sculptor Voids", verb: "make" },
-    { amount: new Decimal("3.4e80"), name: "observable universes", verb: "make" },
-    { amount: new Decimal("1e113"), name: "Dimensions", verb: "make" },
-    { amount: DC.C2P1024, name: "Infinity Dimensions", verb: "make" },
-    { amount: new Decimal("1e65000"), name: "Time Dimensions", verb: "make" }
+    { amount: new Decimal("2.82e-45"), name: "个质子" },
+    { amount: new Decimal("1e-42"), name: "个原子核" },
+    { amount: new Decimal("7.23e-30"), name: "个氢原子" },
+    { amount: new Decimal("5e-21"), name: "个病毒" },
+    { amount: new Decimal("9e-17"), name: "个红细胞" },
+    { amount: new Decimal("6.2e-11"), name: "粒沙子" },
+    { amount: new Decimal("5e-8"), name: "粒米" },
+    { amount: new Decimal("3.555e-6"), name: "茶匙" },
+    { amount: new Decimal("7.5e-4"), name: "瓶葡萄酒" },
+    { amount: DC.D1, name: "台冰箱" },
+    { amount: new Decimal("2.5e3"), name: "座奥运泳池" },
+    { amount: new Decimal("2.6006e6"), name: "座吉萨大金字塔" },
+    { amount: new Decimal("3.3e8"), name: "座万里长城" },
+    { amount: new Decimal("5e12"), name: "颗大型小行星" },
+    { amount: new Decimal("4.5e17"), name: "颗矮行星" },
+    { amount: new Decimal("1.08e21"), name: "个地球" },
+    { amount: new Decimal("1.53e24"), name: "个木星" },
+    { amount: new Decimal("1.41e27"), name: "个太阳" },
+    { amount: new Decimal("5e32"), name: "颗红巨星" },
+    { amount: new Decimal("8e36"), name: "颗特超巨星" },
+    { amount: new Decimal("1.7e45"), name: "片星云" },
+    { amount: new Decimal("1.7e48"), name: "片奥尔特云" },
+    { amount: new Decimal("3.3e55"), name: "个本地泡" },
+    { amount: new Decimal("3.3e61"), name: "个星系" },
+    { amount: new Decimal("5e68"), name: "个本星系群" },
+    { amount: new Decimal("1e73"), name: "个玉夫座空洞" },
+    { amount: new Decimal("3.4e80"), name: "个可观测宇宙" },
+    { amount: new Decimal("1e113"), name: "个维度" },
+    { amount: DC.C2P1024, name: "个无限维度" },
+    { amount: new Decimal("1e65000"), name: "个时间维度" }
   ]
 };

@@ -279,14 +279,14 @@ export default {
           @click="infoPaneID = panelEnum.CONSTANTS"
         />
         <AutomatorButton
-          v-tooltip="'Template Creator List'"
+          v-tooltip="'模板生成器列表'"
           class="fa-file-code"
           :class="activePanelClass(panelEnum.TEMPLATES)"
           @click="infoPaneID = panelEnum.TEMPLATES"
         />
         <AutomatorButton
           v-if="isBlock"
-          v-tooltip="'Command menu for Block editor mode'"
+          v-tooltip="'积木编辑器命令菜单'"
           class="fa-cubes"
           :class="activePanelClass(panelEnum.BLOCKS)"
           @click="infoPaneID = panelEnum.BLOCKS"
@@ -296,7 +296,7 @@ export default {
           class="c-automator__status-text c-automator__status-text--small"
           :class="{ 'c-automator__status-text--error' : totalChars > maxTotalChars }"
         >
-          Across all scripts: {{ formatInt(totalChars) }}/{{ formatInt(maxTotalChars) }}
+          所有脚本：{{ formatInt(totalChars) }}/{{ formatInt(maxTotalChars) }}
         </span>
         <AutomatorButton
           v-tooltip="fullScreenTooltip"
@@ -325,7 +325,7 @@ export default {
             >
               <template #header>
                 <div class="c-automator-docs-script-select">
-                  ▼ Current Script: {{ currentEditorScriptName }}
+                  ▼ 当前脚本：{{ currentEditorScriptName }}
                 </div>
               </template>
               <template #dropdown>

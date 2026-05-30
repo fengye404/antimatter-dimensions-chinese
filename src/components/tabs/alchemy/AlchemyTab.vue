@@ -173,7 +173,7 @@ export default {
       };
     },
     showAlchemyHowTo() {
-      ui.view.h2pForcedTab = GameDatabase.h2p.tabs.filter(tab => tab.name === "Glyph Alchemy")[0];
+      ui.view.h2pForcedTab = GameDatabase.h2p.tabs.filter(tab => tab.name === "Glyph Alchemy" || tab.name === "符文炼金")[0];
       Modal.h2p.show();
     },
     toggleAllReactions() {
@@ -199,21 +199,21 @@ export default {
         class="o-primary-btn--subtab-option"
         @click="showAlchemyHowTo"
       >
-        Click for alchemy info
+        查看符文炼金说明
       </PrimaryButton>
       <PrimaryButton
         v-if="!isDoomed"
         class="o-primary-btn--subtab-option"
         @click="toggleAllReactions"
       >
-        {{ allReactionsDisabled ? "Enable" : "Disable" }} all reactions
+        {{ allReactionsDisabled ? "启用" : "禁用" }}全部反应
       </PrimaryButton>
       <PrimaryButton
         v-if="realityCreationVisible"
         :class="realityGlyphCreationClass"
         onclick="Modal.realityGlyph.show()"
       >
-        View Reality Glyph creation
+        查看现实符文创造
       </PrimaryButton>
     </div>
     <AlchemyResourceInfo
@@ -221,12 +221,11 @@ export default {
       :resource="infoResource"
     />
     <br>
-    Glyphs can now be refined using your Glyph filter in the Glyphs tab.
+    现在可以在“符文”页按符文筛选规则精炼符文。
     <br>
-    When refining a Glyph, it will only give you resources up to a cap
-    of {{ formatX(capFactor) }} its highest refinement value.
+    精炼符文时，每类资源最多只能获得到该符文最高精炼值的 {{ formatX(capFactor) }}。
     <span v-if="reactionsAvailable">
-      Reactions trigger once every time you Reality, unaffected by amplification from stored real time.
+      每次现实时，炼金反应会触发一次；储存真实时间带来的增幅不会影响这一次数。
     </span>
     <div
       class="l-alchemy-circle"

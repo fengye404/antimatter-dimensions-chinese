@@ -23,30 +23,30 @@ export default {
   },
   computed: {
     formatMachinesGained() {
-      if (this.machinesGained.gt(0)) return `Machines gained: ${format(this.machinesGained, 2)}`;
-      return "No Machines gained";
+      if (this.machinesGained.gt(0)) return `可获得现实机器：${format(this.machinesGained, 2)}`;
+      return "暂时无法获得现实机器";
     },
     formatMachineStats() {
       if (!PlayerProgress.realityUnlocked() && this.nextMachineEP.gt("1e8000")) {
-        return `(Capped this Reality!)`;
+        return "（本次现实已达上限！）";
       }
       if (this.machinesGained.gt(0) && this.machinesGained.lt(100)) {
-        return `(Next at ${format(this.nextMachineEP, 2)} EP)`;
+        return `（下一个需要 ${format(this.nextMachineEP, 2)} 永恒点数）`;
       }
       if (this.machinesGained.eq(0) && this.newIMCap === 0) {
-        return `(Projected: ${format(this.projectedRM, 2)} RM)`;
+        return `（预计：${format(this.projectedRM, 2)} 现实机器）`;
       }
       if (this.newIMCap !== 0) {
-        return `(iM Cap: ${formatMachines(0, this.newIMCap)})`;
+        return `（虚幻机器上限：${formatMachines(0, this.newIMCap)}）`;
       }
       if (this.machinesGained.lt(Number.MAX_VALUE)) {
-        return `(${format(this.machinesGained.divide(this.realityTime), 2, 2)} RM/min)`;
+        return `（${format(this.machinesGained.divide(this.realityTime), 2, 2)} 现实机器/分钟）`;
       }
       return "";
     },
     formatGlyphLevel() {
-      if (this.glyphLevel >= 10000) return `Glyph level: ${formatInt(this.glyphLevel)}`;
-      return `Glyph level: ${formatInt(this.glyphLevel)} (${this.nextGlyphPercent} to next)`;
+      if (this.glyphLevel >= 10000) return `符文等级：${formatInt(this.glyphLevel)}`;
+      return `符文等级：${formatInt(this.glyphLevel)}（距下一级 ${this.nextGlyphPercent}）`;
     },
     showShardsRate() {
       return this.currentShardsRate;
@@ -149,27 +149,27 @@ export default {
       <div class="l-reality-button__contents">
         <template v-if="canReality">
           <div class="c-reality-button__header">
-            Make a new Reality
+            开启新的现实
           </div>
           <div>{{ formatMachinesGained }} {{ formatMachineStats }}</div>
           <div>{{ formatGlyphLevel }}</div>
         </template>
         <template v-else-if="hasRealityStudy">
-          <div>Get {{ format("1e4000") }} Eternity Points to unlock a new Reality</div>
+          <div>达到 {{ format("1e4000") }} 永恒点数以解锁现实</div>
         </template>
         <template v-else>
-          <div>Purchase the study in the Eternity tab to unlock a new Reality</div>
+          <div>在永恒页购买对应时间研究以解锁现实</div>
         </template>
         <div
           v-if="canReality"
           class="infotooltiptext"
         >
-          <div>Other resources gained:</div>
-          <div>{{ quantifyInt("Perk Point", ppGained) }}</div>
+          <div>还会获得：</div>
+          <div>{{ formatInt(ppGained) }} 个增益点数</div>
           <div v-if="shardsGained !== 0">
             {{ shardsGainedText }} ({{ format(currentShardsRate, 2) }}/min)
             <br>
-            Peak: {{ format(bestShardRate, 2) }}/min at {{ format(bestShardRateVal, 2) }} RS
+            峰值：{{ format(bestShardRate, 2) }}/分钟，发生于 {{ format(bestShardRateVal, 2) }} 遗物碎片
           </div>
           <div
             v-for="(celestialInfo, i) in celestialRunText"
